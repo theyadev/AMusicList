@@ -17,4 +17,13 @@ def detail(request, songId):
     return render(request, 'main/detail.html', context)
 
 def staff(request, songId):
-    return HttpResponse("Staff de la musique: %s" % songId)
+    try:
+        song = Song.objects.get(id=songId)
+    except Song.DoesNotExist:
+        return render(request, "main/404.html")
+
+    staffs = song.staffs.all()
+
+    return render(request, 'main/staffs.html', {
+        'staffs': staffs
+    })
