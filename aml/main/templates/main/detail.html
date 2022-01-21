@@ -8,7 +8,7 @@
 <body>
     {% if song %}
         <div>
-            {% for staff in song.staffs.all %} {{ staff.name }} {% endfor %} {{ song.title }}
+            {% for staff in song.staffs.all %} {{ staff.name }} {% endfor %} - {{ song.title }}
         </div>
     {% else %}
         <p>Nothing to see</p>
