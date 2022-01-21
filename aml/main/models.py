@@ -20,8 +20,8 @@ class Genre(models.Model):
 
 class Song(models.Model):
     id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=50)
-    imageUrl = models.URLField()
+    title = models.CharField(max_length=100)
+    imageUrl = models.URLField(max_length=100)
     releaseDate = models.DateTimeField('date released')
     updatedDate = models.DateTimeField('date updated')
 
