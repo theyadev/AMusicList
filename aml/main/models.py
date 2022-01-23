@@ -22,8 +22,8 @@ class Song(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)
     imageUrl = models.URLField(max_length=100)
+    length = models.IntegerField()
     releaseDate = models.DateTimeField('date released')
-    updatedDate = models.DateTimeField('date updated')
 
     staffs = models.ManyToManyField(Staff)
     genres = models.ManyToManyField(Genre)
