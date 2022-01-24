@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Details d'une musique</title>
-</head>
-<body>
-    {% if song %}
-        <div>
-            {% for staff in song.staffs.all %} {{ staff.name }} {% endfor %} - {{ song.title }}
-        </div>
-    {% else %}
-        <p>Nothing to see</p>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/style.css' %}" />
+  </head>
+  <body>
+    {% if user.is_authenticated %}
+    <form action="/logout?to={{song.id}}" method="post">
+        {% csrf_token %}
+        <button type="submit">Deconnexion</button>
+    </form>
     {% endif %}
-</body>
+    <div>
+      <img src="{{ song.imageUrl }}" style="height: 100%; width: 10rem" />
+      <h1>
+        {% for staff in song.staffs.all %} {{ staff.name }} {% endfor %} - {{ song.title }} | {{ song.albumName }}
+      </h1>
+    </div>
+  </body>
 </html>
