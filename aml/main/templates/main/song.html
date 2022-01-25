@@ -10,15 +10,21 @@
   <body>
     {% if user.is_authenticated %}
     <form action="/logout?to={{song.id}}" method="post">
-        {% csrf_token %}
-        <button type="submit">Deconnexion</button>
+      {% csrf_token %}
+      <button type="submit">Deconnexion</button>
     </form>
     {% endif %}
     <div>
       <img src="{{ song.imageUrl }}" style="height: 100%; width: 10rem" />
       <h1>
-        {% for staff in song.staffs.all %} {{ staff.name }} {% endfor %} - {{ song.title }} | {{ song.albumName }}
+        {% for staff in song.staffs.all %} {{ staff.name }} {% endfor %} -
+        {{song.title }} | {{ song.albumName }}
       </h1>
+      {% if user.is_authenticated %} {% if in_list%}
+      <button>Remove from List</button>
+      {% else %}
+      <button>Add to list</button>
+      {% endif %} {{favourite}} {% endif %}
     </div>
   </body>
 </html>

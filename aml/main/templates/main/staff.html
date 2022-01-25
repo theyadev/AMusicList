@@ -10,12 +10,10 @@
   </head>
   <body>
     <div style="display: flex">
-      {% for staff in staffs %}
       <div>
         <img style="width: 10rem" src="{{staff.imageUrl}}" alt="" />
         <p style="text-align: center">{{ staff.name }}</p>
       </div>
-      {% endfor %}
     </div>
   </body>
 </html>
