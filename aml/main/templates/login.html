@@ -5,13 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% load static %}
-    <link rel="stylesheet" href="{% static 'main/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
     <title>Connexion</title>
   </head>
   <body>
-    <form action="/signup" method="post">
+    <form action="/login" method="post">
       {% csrf_token %} {{ form }}
-      <button type="submit">Inscription</button>
+      <button type="submit">Connexion</button>
     </form>
   </body>
 </html>
