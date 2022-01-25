@@ -4,7 +4,7 @@ from django.contrib.auth import logout, login, authenticate
 
 from .forms import LoginForm, SignupForm
 
-from .models import Song, User
+from .models import Song, Staff, User, Lists
 
 def index(request):
     return HttpResponse("Hello, world. You're at the main index.")
@@ -15,20 +15,26 @@ def detail(request, songId):
     except Song.DoesNotExist:
         return render(request, "main/404.html")
 
-    context = {'song': song}
-
-    return render(request, 'main/detail.html', context)
-
-def staff(request, songId):
+    context = {'song': song, 'in_list': False, 'favourite': False}
+    
     try:
-        song = Song.objects.get(id=songId)
-    except Song.DoesNotExist:
+        song_in_list = Lists.objects.get(user=request.user, song=song)
+
+        context['in_list'] = True
+        context['favourite'] = song_in_list.favourite
+    except:
+        pass
+
+    return render(request, 'main/song.html', context)
+
+def staff(request, staffId):
+    try:
+        staff = Staff.objects.get(id=staffId)
+    except Staff.DoesNotExist:
         return render(request, "main/404.html")
 
-    staffs = song.staffs.all()
-
-    return render(request, 'main/staffs.html', {
-        'staffs': staffs
+    return render(request, 'main/staff.html', {
+        'staff': staff
     })
 
 def logout_view(request):
@@ -65,10 +71,9 @@ def login_view(request):
 def signup_view(request):
     context = {'form': SignupForm()}
 
-    # if request.user.is_authenticated:
-    #     return redirect("/")
-    # el
-    if request.method == 'POST':
+    if request.user.is_authenticated:
+        return redirect("/")
+    elif request.method == 'POST':
         form = SignupForm(request.POST)
 
         if form.is_valid():
