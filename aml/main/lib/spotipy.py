@@ -17,13 +17,27 @@ client_credentials_manager = SpotifyClientCredentials(
 sp = Spotify(client_credentials_manager=client_credentials_manager)
 
 
-def importAlbumsFromPlaylist(playlist_id="5S8SJdl1BDc0ugpkEvFsIL"):
+def importAlbumsFromPlaylist(playlist_id: str = "5S8SJdl1BDc0ugpkEvFsIL"):
+    """
+    Import every track from every album present in the playlist
+
+    keyword arguments:
+    playlist_id - Spotify id of the playlist
+    """
+
     playlist = sp.playlist(playlist_id)
     for track in playlist["tracks"]["items"]:
         importTracksFromAlbum(track["track"]["album"]["id"])
 
 
-def importTracksFromAlbum(album_id):
+def importTracksFromAlbum(album_id: str):
+    """
+    Import every track from an album in the database
+
+    keyword arguments:
+    album_id - Spotify id of the album
+    """
+
     album = sp.album(album_id)
 
     album_name = album["name"]
@@ -33,6 +47,7 @@ def importTracksFromAlbum(album_id):
     album_tracks = sp.album_tracks(album_id)
 
     for track in album_tracks["items"]:
+        print(track["name"])
         length = track["duration_ms"] // 1000
 
         importTrack(
@@ -45,7 +60,26 @@ def importTracksFromAlbum(album_id):
         )
 
 
-def importTrack(title, length, artist_dicts, image_url, release_date, album_name):
+def importTrack(
+    title: str,
+    length: int,
+    artist_dicts: list[dict],
+    image_url: str,
+    release_date: str,
+    album_name: str,
+):
+    """
+    Import a track in the database.
+
+    keyword arguments:
+    title - Song title
+    length - Song length in seconds
+    artist_dicts - A list of artist dict from spotipy
+    image_url - Url to the song/album cover
+    release_date - Song release date
+    album_name - Album where we can find the song
+    """
+
     artists = []
 
     for artist in artist_dicts:
@@ -69,8 +103,6 @@ def importTrack(title, length, artist_dicts, image_url, release_date, album_name
 
     song.save()
 
-    print(song.title)
-
     for staff in artists:
         if not song.staffs.filter(pk=artist.pk).exists():
             song.staffs.add(staff)
@@ -78,7 +110,14 @@ def importTrack(title, length, artist_dicts, image_url, release_date, album_name
     song.save()
 
 
-def importArtistFromDict(artist_dict):
+def importArtistFromDict(artist_dict: dict):
+    """
+    Import an artist in the database based on a dict
+
+    keyword arguments:
+    artist_dict - An artist from spotipy
+    """
+
     id: str = artist_dict["id"]
     name: str = artist_dict["name"]
     spotify_link: str = artist_dict["external_urls"]["spotify"]
