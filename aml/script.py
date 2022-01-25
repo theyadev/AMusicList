@@ -52,7 +52,7 @@ def importTracksFromAlbum(album_id):
         song.title = song_name
         song.imageUrl = album_image
         song.release_date = album_release
-        song.album_name = album_name
+        song.albumName = album_name
         song.length = length
 
         song.save()
