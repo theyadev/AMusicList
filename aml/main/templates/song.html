@@ -3,16 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Details d'une musique</title>
+    <title>{{song.staffs.all.0.name}} - {{song.title}}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'style.css' %}" />
   </head>
   <body>
     {% if user.is_authenticated %}
-    <form action="/logout?to={{song.id}}" method="post">
-      {% csrf_token %}
-      <button type="submit">Deconnexion</button>
-    </form>
+    <a href="/api/logout?to=/song/{{song.id}}">Deconnexion</a>
     {% endif %}
     <div>
       <img src="{{ song.imageUrl }}" style="height: 100%; width: 10rem" />
@@ -20,11 +17,19 @@
         {% for staff in song.staffs.all %} {{ staff.name }} {% endfor %} -
         {{song.title }} | {{ song.albumName }}
       </h1>
-      {% if user.is_authenticated %} {% if in_list%}
-      <button>Remove from List</button>
-      {% else %}
-      <button>Add to list</button>
-      {% endif %} {{favourite}} {% endif %}
+      {% if user.is_authenticated %}
+      <form action="/api/add/{{ song.id }}" method="POST">
+        {% csrf_token %}
+        <button type="submit">
+          {% if in_list%}Remove from List {% else %}Add to list {% endif %}
+        </button>
+      </form>
+      {% if in_list%}
+      <form action="/api/add/favourite/{{ song.id }}" method="post">
+        {% csrf_token %}
+        <button type="submit">{{favourite}}</button>
+      </form>
+      {% endif %} {% endif %}
     </div>
   </body>
 </html>
