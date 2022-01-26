@@ -112,9 +112,14 @@ def add_to_favourite(request, songId):
             list_entry = Lists.objects.get(user=request.user, song=song)
             list_entry.favourite = not list_entry.favourite
 
+            if list_entry.favourite:
+                action = "ADDED FAVOURITE"
+            else:
+                action = "REMOVED FAVOURITE"
+
             list_entry.save()
 
-            action = "FAVOURITE"
+            
             activity = Activities(song=song, user=request.user, action=action)
             activity.save()
         except:

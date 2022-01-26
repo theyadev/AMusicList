@@ -11,8 +11,10 @@ Vous etes connecté en tant que {{ user.username }} !
       a ajouté <a href="/song/{{ activity.song.id }}">{{ activity.song.title }}</a> a sa liste !
       {% elif activity.action == 'REMOVED' %}
       a retiré <a href="/song/{{ activity.song.id }}">{{ activity.song.title }}</a> de sa liste !
-      {% elif activity.action == 'FAVOURITE' %}
+      {% elif activity.action == 'ADDED FAVOURITE' %}
       a ajouté <a href="/song/{{ activity.song.id }}">{{ activity.song.title }}</a> à ses favoris !
+      {% elif activity.action == 'REMOVED FAVOURITE' %}
+      a retiré <a href="/song/{{ activity.song.id }}">{{ activity.song.title }}</a> de ses favoris !
       {% endif %}
   </div>
   {% endfor %}
