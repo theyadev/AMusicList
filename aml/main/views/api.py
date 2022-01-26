@@ -3,7 +3,7 @@ from django.contrib.auth import logout, login, authenticate
 
 from ..forms import LoginForm, SignupForm
 
-from ..models import Song, Staff, User, Lists
+from ..models import Song, Action, User, Lists, Activities
 
 
 def logout_api(request):
@@ -71,6 +71,7 @@ def signup_api(request):
             print(user)
     return redirect("/signup")
 
+
 def add_to_list(request, songId):
     if request.method == "POST" and request.user.is_authenticated:
         try:
@@ -81,11 +82,17 @@ def add_to_list(request, songId):
         try:
             list_entry = Lists.objects.get(user=request.user, song=song)
             list_entry.delete()
+            action = Action.objects.get(name="REMOVED")
         except:
             list_entry = Lists(user=request.user, song=song, favourite=False)
             list_entry.save()
-        
+            action = Action.objects.get(name="ADDED")
+
+        activity = Activities(song=song, user=request.user, action=action)
+        activity.save()
+
     return redirect("/song/" + str(songId))
+
 
 def add_to_favourite(request, songId):
     if request.method == "POST" and request.user.is_authenticated:
@@ -99,7 +106,11 @@ def add_to_favourite(request, songId):
             list_entry.favourite = not list_entry.favourite
 
             list_entry.save()
+
+            action = Action.objects.get(name="FAVOURITE")
+            activity = Activities(song=song, user=request.user, action=action)
+            activity.save()
         except:
             return redirect("/song/" + str(songId))
-        
+
     return redirect("/song/" + str(songId))
