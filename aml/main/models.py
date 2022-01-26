@@ -44,16 +44,10 @@ class User(AbstractUser):
     follows = models.ManyToManyField("User")
 
 
-class Action(models.Model):
-    name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.name
-
 
 class Activities(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    action = models.ForeignKey(Action, on_delete=models.CASCADE)
+    action = models.CharField(max_length=50)
     song = models.ForeignKey(Song, on_delete=models.CASCADE)
 
     date = models.DateTimeField(blank=True)

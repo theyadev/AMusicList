@@ -4,7 +4,7 @@ from django.contrib.auth import logout, login, authenticate
 
 from ..forms import LoginForm, SignupForm
 
-from ..models import Song, Action, User, Lists, Activities
+from ..models import Song, User, Lists, Activities
 
 
 def logout_api(request):
@@ -89,11 +89,11 @@ def add_to_list(request, songId):
         try:
             list_entry = Lists.objects.get(user=request.user, song=song)
             list_entry.delete()
-            action = Action.objects.get(name="REMOVED")
+            action = "REMOVED"
         except:
             list_entry = Lists(user=request.user, song=song, favourite=False)
             list_entry.save()
-            action = Action.objects.get(name="ADDED")
+            action = "ADDED"
 
         activity = Activities(song=song, user=request.user, action=action)
         activity.save()
@@ -114,7 +114,7 @@ def add_to_favourite(request, songId):
 
             list_entry.save()
 
-            action = Action.objects.get(name="FAVOURITE")
+            action = "FAVOURITE"
             activity = Activities(song=song, user=request.user, action=action)
             activity.save()
         except:
