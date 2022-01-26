@@ -1,3 +1,4 @@
+from django.forms import Form
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout, login, authenticate
 
@@ -20,7 +21,10 @@ def logout_api(request):
 
 def login_api(request):
     if request.method == "POST":
-        redirect_url = request.GET["to"]
+        try:
+            redirect_url = request.GET["to"]
+        except:
+            redirect_url = "/"
 
         form = LoginForm(request.POST)
 
@@ -39,7 +43,10 @@ def login_api(request):
 
 def signup_api(request):
     if request.method == "POST":
-        redirect_url = request.GET["to"]
+        try:
+            redirect_url = request.GET["to"]
+        except:
+            redirect_url = "/"
 
         form = SignupForm(request.POST)
 
@@ -114,3 +121,25 @@ def add_to_favourite(request, songId):
             return redirect("/song/" + str(songId))
 
     return redirect("/song/" + str(songId))
+
+def add_friend(request):
+    if request.method == "POST" and request.user.is_authenticated:
+        try:
+            redirect_url = request.GET["to"]
+        except:
+            redirect_url = "/"
+        
+        form = Form(request.POST)
+
+        try:
+            id = form.data['id']
+            user = User.objects.get(id=id)
+
+            if request.user.follows.filter(id=user.id).exists():
+                request.user.follows.remove(user)
+            else:
+                request.user.follows.add(user)
+        except:
+            return redirect('/404')
+
+        return redirect(redirect_url)

@@ -5,13 +5,15 @@ Vous etes connecté !
 <div>
   {% for activity in activities %}
   <div>
-    {% if activity.action.name == 'ADDED' %}
-    <p>{{activity.user}} a ajouté {{ activity.song }} a sa liste !</p>
-    {% elif activity.action.name == 'REMOVED' %}
-    <p>{{activity.user}} a retiré {{ activity.song }} de sa liste !</p>
-    {% elif activity.action.name == 'FAVOURITE' %}
-    <p>{{activity.user}} a ajouté {{ activity.song }} à ses favoris !</p>
-    {% endif %}
+    <p>
+      <a href="/user/{{activity.user.id}}">{{activity.user.username}}</a>
+      {% if activity.action.name == 'ADDED' %}
+      a ajouté <a href="/song/{{ activity.song.id }}">{{ activity.song.title }}</a> a sa liste !
+      {% elif activity.action.name == 'REMOVED' %}
+      a retiré <a href="/song/{{ activity.song.id }}">{{ activity.song.title }}</a> de sa liste !
+      {% elif activity.action.name == 'FAVOURITE' %}
+      a ajouté <a href="/song/{{ activity.song.id }}">{{ activity.song.title }}</a> à ses favoris !
+      {% endif %}
   </div>
   {% endfor %}
 </div>

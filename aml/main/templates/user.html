@@ -4,7 +4,16 @@
 
 {% block content %}
 <div>
-  <h1>Liste de {{ aml_user.username }}</h1>
+  <h1>Liste de {{ aml_user.username }}</h1> 
+  {% if aml_user.username != user.username %}
+    {% if user.is_authenticated %}
+      <form action="/api/addfriend?to={{ request.get_full_path }}" method="post">
+        {% csrf_token %}
+        <input hidden type="text" value="{{aml_user.id}}" name="id" id="id">
+        <button>{% if following %}Unfollow{% else %}Follow{% endif %}</button>
+      </form>
+    {% endif %}
+  {% endif %}
   <div style="display: flex; flex-wrap: wrap">
     {% for list in aml_user_list.all %}
     <div>
@@ -22,5 +31,8 @@
     </div>
     {% endfor %}
   </div>
+  {% for user in aml_user.follows.all %}
+  {{user}}
+  {% endfor %}
 </div>
 {% endblock content %}

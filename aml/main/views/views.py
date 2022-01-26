@@ -8,7 +8,10 @@ from ..models import Activities, Song, Staff, Lists, User
 
 def index(request):
     if request.user.is_authenticated:
-        activites = Activities.objects.filter(user=request.user)
+        user_list = [request.user]
+        user_list.extend(request.user.follows.all())
+        
+        activites = Activities.objects.filter(user__in=user_list)
         activites = sorted(activites, key=lambda activity: activity.date, reverse=True)
         context = {"activities": activites}
         return render(request, "logged_index.html", context)
@@ -21,8 +24,13 @@ def user(request, userId):
         user = User.objects.get(id=userId)
     except User.DoesNotExist:
         return render(request, "404.html")
+    
+    if request.user.is_authenticated:
+        is_following = len(request.user.follows.filter(id=user.id)) > 0
+    else:
+        is_following = False
 
-    context = {"aml_user": user, "aml_user_list": Lists.objects.filter(user_id=userId)}
+    context = {"aml_user": user, "aml_user_list": Lists.objects.filter(user_id=userId), "following": is_following}
 
     return render(request, "user.html", context)
 

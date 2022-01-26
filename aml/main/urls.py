@@ -15,5 +15,6 @@ urlpatterns = [
     path("api/login", api.login_api, name="login"),
     path("api/add/<int:songId>", api.add_to_list, name="Add song to list"),
     path("api/add/favourite/<int:songId>", api.add_to_favourite, name="Add song to fav"),
+    path("api/addfriend", api.add_friend, name="Add a friend")
 
 ]

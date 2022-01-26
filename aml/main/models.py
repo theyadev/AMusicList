@@ -41,6 +41,7 @@ class User(AbstractUser):
     role = models.ForeignKey(UserRole, on_delete=models.CASCADE, null=True)
     list = models.ManyToManyField(Song, through="Lists")
     activity = models.ManyToManyField(Song, through="Activities", related_name="activity")
+    follows = models.ManyToManyField("User")
 
 
 class Action(models.Model):
