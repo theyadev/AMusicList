@@ -1,7 +1,7 @@
 {% extends '_base.html' %}
 {% block title %} Accueil{% endblock title %}
 {% block content %}
-Vous etes connecté !
+Vous etes connecté en tant que {{ user.username }} !
 <div>
   {% for activity in activities %}
   <div>
