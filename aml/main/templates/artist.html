@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{artist.name}}</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}" />
-  </head>
-  <body>
-    <div style="display: flex">
-      <div>
-        <img style="width: 10rem" src="{{artist.imageUrl}}" alt="" />
-        <p style="text-align: center">{{ artist.name }}</p>
-      </div>
-    </div>
-  </body>
-</html>
+{% extends '_base.html' %} {% block title %}{{artist.name}}{% endblock title %}
+{% block content %}
+<div style="display: flex">
+  <div>
+    <img style="width: 10rem" src="{{artist.imageUrl}}" alt="" />
+    <p style="text-align: center">{{ artist.name }}</p>
+  </div>
+</div>
+{% endblock content %}
