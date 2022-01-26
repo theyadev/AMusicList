@@ -3,11 +3,28 @@ from django.shortcuts import redirect, render
 
 from ..forms import LoginForm, SignupForm
 
-from ..models import Song, Staff, Lists
+from ..models import Activities, Song, Staff, Lists, User
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the main index.")
+    if request.user.is_authenticated:
+        activites = Activities.objects.filter(user=request.user)
+        activites = sorted(activites, key=lambda activity: activity.date, reverse=True)
+        context = {"activities": activites}
+        return render(request, "logged_index.html", context)
+
+    return render(request, "index.html")
+
+
+def user(request, userId):
+    try:
+        user = User.objects.get(id=userId)
+    except User.DoesNotExist:
+        return render(request, "404.html")
+
+    context = {"aml_user": user, "aml_user_list": Lists.objects.filter(user_id=userId)}
+
+    return render(request, "user.html", context)
 
 
 def song(request, songId):
@@ -39,8 +56,13 @@ def artist(request, staffId):
 
 
 def login(request):
+    try:
+        redirect_url = request.GET["to"]
+    except:
+        redirect_url = "/"
+
     if request.user.is_authenticated:
-        return redirect("/")
+        return redirect(redirect_url)
 
     context = {"form": LoginForm()}
 

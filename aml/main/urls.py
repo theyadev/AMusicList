@@ -5,6 +5,7 @@ from .views import api
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("user/<int:userId>", views.user, name="user"),
     path("song/<int:songId>", views.song, name="detail"),
     path("artist/<int:staffId>", views.artist, name="staff"),
     path("login", views.login, name="Login"),
