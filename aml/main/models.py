@@ -33,7 +33,7 @@ class User(AbstractUser):
     activity = models.ManyToManyField(
         Song, through="Activities", related_name="activity"
     )
-    follows = models.ManyToManyField("User")
+    follows = models.ManyToManyField("User", related_name="user_followers")
 
 
 class Activities(models.Model):
@@ -53,7 +53,7 @@ class Activities(models.Model):
 
 class Lists(models.Model):
     song = models.ForeignKey(Song, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_list")
     favourite = models.BooleanField()
 
 

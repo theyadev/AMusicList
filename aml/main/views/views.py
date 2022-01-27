@@ -5,6 +5,50 @@ from ..forms import LoginForm, SignupForm
 
 from ..models import Activities, Album, Song, Artist, Lists, User
 
+from django.views.generic import DetailView
+
+
+class UserView(DetailView):
+    template_name = "user.html"
+    model = User
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["user"] = self.request.user
+        context["is_following"] = (
+            self.get_object().user_followers.filter(id=self.request.user.id).exists()
+        )
+
+        return context
+
+
+class SongView(DetailView):
+    template_name = "song.html"
+    model = Song
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["list_entry"] = None
+        if Lists.objects.filter(
+            user=self.request.user, song=self.get_object()
+        ).exists():
+            context["list_entry"] = Lists.objects.get(
+                user=self.request.user, song=self.get_object()
+            )
+
+        return context
+
+class ArtistView(DetailView):
+    template_name = "artist.html"
+
+    model = Artist
+
+class AlbumView(DetailView):
+    template_name = "album.html"
+
+    model = Album
+
 
 def index(request):
     if request.user.is_authenticated:
@@ -42,63 +86,6 @@ def index(request):
         return render(request, "logged_index.html", context)
 
     return render(request, "index.html")
-
-
-def user(request, userId):
-    try:
-        user = User.objects.get(id=userId)
-    except User.DoesNotExist:
-        return render(request, "404.html")
-
-    if request.user.is_authenticated:
-        is_following = len(request.user.follows.filter(id=user.id)) > 0
-    else:
-        is_following = False
-
-    context = {
-        "aml_user": user,
-        "aml_user_list": Lists.objects.filter(user_id=userId),
-        "following": is_following,
-    }
-
-    return render(request, "user.html", context)
-
-
-def song(request, songId):
-    try:
-        song = Song.objects.get(id=songId)
-    except Song.DoesNotExist:
-        return render(request, "404.html")
-
-    context = {"song": song, "in_list": False, "favourite": False}
-
-    try:
-        song_in_list = Lists.objects.get(user=request.user, song=song)
-
-        context["in_list"] = True
-        context["favourite"] = song_in_list.favourite
-    except:
-        pass
-
-    return render(request, "song.html", context)
-
-
-def artist(request, artistId):
-    try:
-        artist = Artist.objects.get(id=artistId)
-    except Artist.DoesNotExist:
-        return render(request, "404.html")
-
-    return render(request, "artist.html", {"artist": artist})
-
-
-def album(request, albumId):
-    try:
-        album = Album.objects.get(id=albumId)
-    except Album.DoesNotExist:
-        return render(request, "404.html")
-
-    return render(request, "album.html", {"album": album})
 
 def login(request):
     try:

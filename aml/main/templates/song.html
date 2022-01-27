@@ -16,13 +16,13 @@
   <form action="/api/add/{{ song.id }}" method="POST">
     {% csrf_token %}
     <button type="submit">
-      {% if in_list%}Remove from List {% else %}Add to list {% endif %}
+      {% if list_entry %}Remove from List {% else %}Add to list {% endif %}
     </button>
   </form>
-  {% if in_list%}
+  {% if list_entry%}
   <form action="/api/add/favourite/{{ song.id }}" method="post">
     {% csrf_token %}
-    <button type="submit">{{favourite}}</button>
+    <button type="submit">{{list_entry.favourite}}</button>
   </form>
   {% endif %} {% endif %}
 </div>

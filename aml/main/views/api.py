@@ -38,7 +38,7 @@ def login_api(request):
                 login(request, user)
                 return redirect(redirect_url)
 
-    return redirect("/login")
+    return redirect("/login?to=" + redirect_url)
 
 
 def signup_api(request):
@@ -57,15 +57,15 @@ def signup_api(request):
             confirm_password = form.cleaned_data["confirm_password"]
 
             if password != confirm_password:
-                return redirect("/signup")
+                return redirect("/signup?to=" + redirect_url)
 
             if len(User.objects.filter(email=email)) > 0:
-                return redirect("/signup")
+                return redirect("/signup?to=" + redirect_url)
 
             try:
                 user = User.objects.create_user(username, email, password)
             except:
-                return redirect("/signup")
+                return redirect("/signup?to=" + redirect_url)
 
             user.save()
 
@@ -76,7 +76,7 @@ def signup_api(request):
                 return redirect(redirect_url)
 
             print(user)
-    return redirect("/signup")
+    return redirect("/signup?to=" + redirect_url)
 
 
 def add_to_list(request, songId):
@@ -119,7 +119,6 @@ def add_to_favourite(request, songId):
 
             list_entry.save()
 
-            
             activity = Activities(song=song, user=request.user, action=action)
             activity.save()
         except:
@@ -127,17 +126,18 @@ def add_to_favourite(request, songId):
 
     return redirect("/song/" + str(songId))
 
+
 def add_friend(request):
     if request.method == "POST" and request.user.is_authenticated:
         try:
             redirect_url = request.GET["to"]
         except:
             redirect_url = "/"
-        
+
         form = Form(request.POST)
 
         try:
-            id = form.data['id']
+            id = form.data["id"]
             user = User.objects.get(id=id)
 
             if request.user.follows.filter(id=user.id).exists():
@@ -145,6 +145,6 @@ def add_friend(request):
             else:
                 request.user.follows.add(user)
         except:
-            return redirect('/404')
+            return redirect("/404")
 
         return redirect(redirect_url)

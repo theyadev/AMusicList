@@ -1,21 +1,21 @@
 {% extends '_base.html' %}
 
-{% block title %}Profile de {{ aml_user.username }}{% endblock title %}
+{% block title %}Profile de {{ object.username }}{% endblock title %}
 
 {% block content %}
 <div>
-  {% if aml_user.username != user.username %}
+  {% if object.username != user.username %}
   {% if user.is_authenticated %}
   <form action="/api/addfriend?to={{ request.get_full_path }}" method="post">
     {% csrf_token %}
-    <input hidden type="text" value="{{aml_user.id}}" name="id" id="id">
-    <button>{% if following %}Unfollow{% else %}Follow{% endif %}</button>
+    <input hidden type="text" value="{{object.id}}" name="id" id="id">
+    <button>{% if is_following %}Unfollow{% else %}Follow{% endif %}</button>
   </form>
   {% endif %}
   {% endif %}
-  <h1><strong>Liste de {{ aml_user.username }}</strong></h1>
+  <h1><strong>Liste de {{ object.username }}</strong></h1>
   <div style="display: flex; flex-wrap: wrap">
-    {% for list in aml_user_list.all %}
+    {% for list in object.user_list.all %}
     <div style="margin: 5px 5px">
       <img style="width: 10rem" src="{{list.song.imageUrl}}" alt="{{list.song.title}}" />
       <a href="/song/{{list.song.id}}" target="_blank">
@@ -28,7 +28,7 @@
     {% endfor %}
   </div>
   <p><strong>Liste de follow</strong></p>
-  {% for user in aml_user.follows.all %}
+  {% for user in object.follows.all %}
   <a href="/user/{{user.id}}">{{user}}</a>
   {% endfor %}
 </div>
