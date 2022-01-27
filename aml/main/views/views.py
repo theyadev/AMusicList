@@ -87,6 +87,8 @@ def index(request):
 
     return render(request, "index.html")
 
+# https://docs.djangoproject.com/en/4.0/ref/class-based-views/generic-editing/#formview
+
 def login(request):
     try:
         redirect_url = request.GET["to"]
