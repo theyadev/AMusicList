@@ -40,7 +40,7 @@ def importTracksFromAlbum(album_id: str):
 
     album = sp.album(album_id)
 
-    album_spotify_id = album['id']
+    album_spotify_id = album["id"]
     album_name = album["name"]
     album_release = album["release_date"]
     album_image = album["images"][0]["url"]
@@ -48,22 +48,27 @@ def importTracksFromAlbum(album_id: str):
     if Album.objects.filter(spotifyId=album_spotify_id).exists():
         albumModel = Album.objects.get(spotifyId=album_spotify_id)
     else:
-        try:
-            albumModel = Album(name=album_name, releaseDate=album_release, spotifyId=album_spotify_id)
-            albumModel.save()
-        except:
-            return
+        albumModel = Album()
 
-        for artist in album['artists']:
-            try:
-                artist = Artist.objects.get(spotifyId=artist["id"])
-            except Artist.DoesNotExist:
-                artist = importArtistFromDict(artist)
-            
-            albumModel.artists.add(artist)
-        
+    albumModel.name = album_name
+    albumModel.releaseDate = album_release
+    albumModel.spotifyId = album_spotify_id
+    albumModel.imageUrl = album_image
+
+    try:
         albumModel.save()
+    except:
+        return
 
+    for artist in album["artists"]:
+        try:
+            artist = Artist.objects.get(spotifyId=artist["id"])
+        except Artist.DoesNotExist:
+            artist = importArtistFromDict(artist)
+
+        albumModel.artists.add(artist)
+
+    albumModel.save()
 
     album_tracks = sp.album_tracks(album_id)
 
@@ -72,16 +77,16 @@ def importTracksFromAlbum(album_id: str):
     for track in album_tracks["items"]:
         length = track["duration_ms"] // 1000
 
-        if Song.objects.filter(spotifyId=track['id']).exists():
-            song = Song.objects.get(spotifyId=track['id'])
+        if Song.objects.filter(spotifyId=track["id"]).exists():
+            song = Song.objects.get(spotifyId=track["id"])
         else:
             song = importTrack(
-                spotify_id=track['id'],
+                spotify_id=track["id"],
                 title=track["name"],
                 length=length,
                 artist_dicts=track["artists"],
                 image_url=album_image,
-                release_date=album_release
+                release_date=album_release,
             )
 
         albumModel.songs.add(song)
@@ -160,7 +165,9 @@ def importArtistFromDict(artist_dict: dict):
     else:
         image = ""
 
-    newArtist = Artist(spotifyId=id, name=name, imageUrl=image, description=spotify_link)
+    newArtist = Artist(
+        spotifyId=id, name=name, imageUrl=image, description=spotify_link
+    )
 
     newArtist.save()
 

@@ -8,6 +8,7 @@ urlpatterns = [
     path("user/<int:userId>", views.user, name="user"),
     path("song/<int:songId>", views.song, name="detail"),
     path("artist/<int:artistId>", views.artist, name="artist"),
+    path("album/<int:albumId>", views.album, name="album"),
     path("login", views.login, name="Login"),
     path("signup", views.signup, name="Sign Up"),
     path("api/logout", api.logout_api, name="logout"),

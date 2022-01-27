@@ -62,6 +62,7 @@ class Album(models.Model):
     spotifyId = models.CharField(max_length=250)
     name = models.CharField(max_length=150)
     releaseDate = models.DateTimeField(null=True)
+    imageUrl = models.URLField(max_length=100)
 
     artists = models.ManyToManyField(Artist, related_name="artist_albums")
     songs = models.ManyToManyField(Song, related_name="song_albums")

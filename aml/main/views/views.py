@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 
 from ..forms import LoginForm, SignupForm
 
-from ..models import Activities, Song, Artist, Lists, User
+from ..models import Activities, Album, Song, Artist, Lists, User
 
 
 def index(request):
@@ -91,6 +91,14 @@ def artist(request, artistId):
 
     return render(request, "artist.html", {"artist": artist})
 
+
+def album(request, albumId):
+    try:
+        album = Album.objects.get(id=albumId)
+    except Album.DoesNotExist:
+        return render(request, "404.html")
+
+    return render(request, "album.html", {"album": album})
 
 def login(request):
     try:

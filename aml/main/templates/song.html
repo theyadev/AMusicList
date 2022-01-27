@@ -9,7 +9,7 @@
   <img src="{{ song.imageUrl }}" style="height: 100%; width: 10rem" />
   <h1>
     {% for artist in song.artists.all %} {{ artist.name }} {% endfor %} -
-    {{song.title }} | {% for album in song.song_albums.all %} {{album.name}} {% endfor %}
+    {{song.title }} | {% for album in song.song_albums.all %} <a href="/album/{{album.id}}">{{album.name}}</a> {% endfor %}
   </h1>
   {% if user.is_authenticated %}
   <form action="/api/add/{{ song.id }}" method="POST">
