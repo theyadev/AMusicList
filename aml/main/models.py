@@ -3,8 +3,9 @@ from django.contrib.auth.models import AbstractUser
 from datetime import datetime
 
 
-class Staff(models.Model):
+class Artist(models.Model):
     id = models.AutoField(primary_key=True)
+    spotifyId = models.CharField(max_length=250)
     name = models.CharField(max_length=40)
     description = models.TextField()
     imageUrl = models.URLField()
@@ -15,34 +16,24 @@ class Staff(models.Model):
 
 class Song(models.Model):
     id = models.AutoField(primary_key=True)
+    spotifyId = models.CharField(max_length=250)
     title = models.CharField(max_length=100)
     imageUrl = models.URLField(max_length=100)
     length = models.IntegerField()
     releaseDate = models.DateTimeField("date released", null=True)
-    albumName = models.CharField(max_length=100, null=True)
 
-    staffs = models.ManyToManyField(Staff)
+    artists = models.ManyToManyField(Artist)
 
     def __str__(self) -> str:
         return f"{self.title}"
 
 
-class UserRole(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=25)
-    description = models.TextField()
-    privileges = models.IntegerField()
-
-    def __str__(self) -> str:
-        return self.name
-
-
 class User(AbstractUser):
-    role = models.ForeignKey(UserRole, on_delete=models.CASCADE, null=True)
     list = models.ManyToManyField(Song, through="Lists")
-    activity = models.ManyToManyField(Song, through="Activities", related_name="activity")
+    activity = models.ManyToManyField(
+        Song, through="Activities", related_name="activity"
+    )
     follows = models.ManyToManyField("User")
-
 
 
 class Activities(models.Model):
@@ -55,7 +46,7 @@ class Activities(models.Model):
     def save(self, *args, **kwargs):
         self.date = datetime.now()
         super().save(*args, **kwargs)
-    
+
     def __str__(self) -> str:
         return f"{self.user} {self.action} {self.song}"
 
@@ -64,3 +55,13 @@ class Lists(models.Model):
     song = models.ForeignKey(Song, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     favourite = models.BooleanField()
+
+
+class Album(models.Model):
+    id = models.AutoField(primary_key=True)
+    spotifyId = models.CharField(max_length=250)
+    name = models.CharField(max_length=150)
+    releaseDate = models.DateTimeField(null=True)
+
+    artists = models.ManyToManyField(Artist, related_name="artist_albums")
+    songs = models.ManyToManyField(Song, related_name="song_albums")

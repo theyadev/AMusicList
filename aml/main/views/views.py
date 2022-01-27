@@ -3,17 +3,42 @@ from django.shortcuts import redirect, render
 
 from ..forms import LoginForm, SignupForm
 
-from ..models import Activities, Song, Staff, Lists, User
+from ..models import Activities, Song, Artist, Lists, User
 
 
 def index(request):
     if request.user.is_authenticated:
         user_list = [request.user]
         user_list.extend(request.user.follows.all())
-        
+
         activites = Activities.objects.filter(user__in=user_list)
         activites = sorted(activites, key=lambda activity: activity.date, reverse=True)
-        context = {"activities": activites}
+
+        activites_html = ""
+
+        for activity in activites:
+            user_html = (
+                f'<a href="/user/{activity.user.id}">{activity.user.username}</a>'
+            )
+            song_html = (
+                f'<a href="/song/{ activity.song.id }">{ activity.song.title }</a>'
+            )
+
+            if activity.action == "ADDED":
+                text_html = f"{user_html} a ajouté {song_html} à sa liste !"
+            elif activity.action == "REMOVED":
+                text_html = f"{user_html} a retiré {song_html} de sa liste !"
+            elif activity.action == "ADDED FAVOURITE":
+                text_html = f"{user_html} a ajouté {song_html} à ses favoris !"
+            elif activity.action == "REMOVED FAVOURITE":
+                text_html = f"{user_html} a retiré {song_html} de ses favoris !"
+
+            html = f"<p>{text_html}</p>"
+
+            activites_html += html
+
+        context = {"activities": activites_html}
+
         return render(request, "logged_index.html", context)
 
     return render(request, "index.html")
@@ -24,13 +49,17 @@ def user(request, userId):
         user = User.objects.get(id=userId)
     except User.DoesNotExist:
         return render(request, "404.html")
-    
+
     if request.user.is_authenticated:
         is_following = len(request.user.follows.filter(id=user.id)) > 0
     else:
         is_following = False
 
-    context = {"aml_user": user, "aml_user_list": Lists.objects.filter(user_id=userId), "following": is_following}
+    context = {
+        "aml_user": user,
+        "aml_user_list": Lists.objects.filter(user_id=userId),
+        "following": is_following,
+    }
 
     return render(request, "user.html", context)
 
@@ -54,10 +83,10 @@ def song(request, songId):
     return render(request, "song.html", context)
 
 
-def artist(request, staffId):
+def artist(request, artistId):
     try:
-        artist = Staff.objects.get(id=staffId)
-    except Staff.DoesNotExist:
+        artist = Artist.objects.get(id=artistId)
+    except Artist.DoesNotExist:
         return render(request, "404.html")
 
     return render(request, "artist.html", {"artist": artist})

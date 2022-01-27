@@ -1,23 +1,9 @@
 {% extends '_base.html' %}
 {% block title %} Accueil{% endblock title %}
 {% block content %}
-Vous etes connecté en tant que {{ user.username }} !
+<p>Vous etes connecté en tant que {{ user.username }} !</p>
 <div>
-  {% for activity in activities %}
-  <div>
-    <p>
-      <a href="/user/{{activity.user.id}}">{{activity.user.username}}</a>
-      {% if activity.action == 'ADDED' %}
-      a ajouté <a href="/song/{{ activity.song.id }}">{{ activity.song.title }}</a> a sa liste !
-      {% elif activity.action == 'REMOVED' %}
-      a retiré <a href="/song/{{ activity.song.id }}">{{ activity.song.title }}</a> de sa liste !
-      {% elif activity.action == 'ADDED FAVOURITE' %}
-      a ajouté <a href="/song/{{ activity.song.id }}">{{ activity.song.title }}</a> à ses favoris !
-      {% elif activity.action == 'REMOVED FAVOURITE' %}
-      a retiré <a href="/song/{{ activity.song.id }}">{{ activity.song.title }}</a> de ses favoris !
-      {% endif %}
-  </div>
-  {% endfor %}
+    {{ activities | safe }}
 </div>
 {% endblock content %}
 
