@@ -4,26 +4,22 @@
 
 {% block content %}
 <div>
-  <h1>Liste de {{ aml_user.username }}</h1> 
   {% if aml_user.username != user.username %}
-    {% if user.is_authenticated %}
-      <form action="/api/addfriend?to={{ request.get_full_path }}" method="post">
-        {% csrf_token %}
-        <input hidden type="text" value="{{aml_user.id}}" name="id" id="id">
-        <button>{% if following %}Unfollow{% else %}Follow{% endif %}</button>
-      </form>
-    {% endif %}
+  {% if user.is_authenticated %}
+  <form action="/api/addfriend?to={{ request.get_full_path }}" method="post">
+    {% csrf_token %}
+    <input hidden type="text" value="{{aml_user.id}}" name="id" id="id">
+    <button>{% if following %}Unfollow{% else %}Follow{% endif %}</button>
+  </form>
   {% endif %}
+  {% endif %}
+  <h1><strong>Liste de {{ aml_user.username }}</strong></h1>
   <div style="display: flex; flex-wrap: wrap">
     {% for list in aml_user_list.all %}
-    <div>
-      <img
-        style="width: 10rem"
-        src="{{list.song.imageUrl}}"
-        alt="{{list.song.title}}"
-      />
+    <div style="margin: 5px 5px">
+      <img style="width: 10rem" src="{{list.song.imageUrl}}" alt="{{list.song.title}}" />
       <a href="/song/{{list.song.id}}" target="_blank">
-          <p style="text-align: center;">{{list.song.title}}</p>
+        <p style="text-align: center;">{{list.song.title}}</p>
       </a>
       {%if list.favourite %}
       <p style="text-align: center; color: red">Favourite !</p>
@@ -31,8 +27,9 @@
     </div>
     {% endfor %}
   </div>
+  <p><strong>Liste de follow</strong></p>
   {% for user in aml_user.follows.all %}
-  {{user}}
+  <a href="/user/{{user.id}}">{{user}}</a>
   {% endfor %}
 </div>
 {% endblock content %}
