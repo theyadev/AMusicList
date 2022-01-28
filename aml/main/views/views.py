@@ -1,15 +1,14 @@
 
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout, login, authenticate
-from django.views import View
-from django.db.models import Q,Count
+from django.db.models import Q
 
 from ..forms import LoginForm, SignupForm
 
 from ..models import Activities, Album, Song, Artist, Lists, User
 
+from django.views import View
 from django.views.generic import DetailView, FormView, ListView
-
 
 def getRedirect(request):
     try:
