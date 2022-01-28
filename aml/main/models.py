@@ -22,7 +22,7 @@ class Song(models.Model):
     length = models.IntegerField()
     releaseDate = models.DateTimeField("date released", null=True)
 
-    artists = models.ManyToManyField(Artist)
+    artists = models.ManyToManyField(Artist, related_name="artist_songs")
 
     def __str__(self) -> str:
         return f"{self.title}"
@@ -66,3 +66,6 @@ class Album(models.Model):
 
     artists = models.ManyToManyField(Artist, related_name="artist_albums")
     songs = models.ManyToManyField(Song, related_name="song_albums")
+
+    def __str__(self) -> str:
+        return self.name
