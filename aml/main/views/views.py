@@ -1,13 +1,21 @@
-from django.http import HttpResponse
+
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout, login, authenticate
 from django.views import View
+from django.db.models import Q,Count
 
 from ..forms import LoginForm, SignupForm
 
 from ..models import Activities, Album, Song, Artist, Lists, User
 
-from django.views.generic import DetailView, FormView
+from django.views.generic import DetailView, FormView, ListView
+
+
+def getRedirect(request):
+    try:
+        return request.GET["to"]
+    except:
+        return "/"
 
 
 class UserView(DetailView):
@@ -101,13 +109,6 @@ class MainView(View):
         return render(request, self.template_name)
 
 
-def getRedirect(request):
-    try:
-        return request.GET["to"]
-    except:
-        return "/"
-
-
 class LogoutView(View):
     def get(self, request, *args, **kwargs):
         redirect_url = getRedirect(request)
@@ -149,3 +150,63 @@ class LoginView(FormView):
 class SignupView(LoginView):
     template_name = "signup.html"
     form_class = SignupForm
+
+
+class SongsView(ListView):
+    model = Song
+    template_name = "songs.html"
+    paginate_by = 100
+
+    def get_queryset(self):
+        filter_val = self.request.GET.get("search", "")
+        order_val = self.request.GET.get("order", "title")
+
+        queryset = self.model.objects.filter(
+            Q(title__icontains=filter_val) | Q(artists__name__icontains=filter_val)
+        ).order_by(order_val).distinct(order_val)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search"] = self.request.GET.get("search", "")
+        context["order"] = self.request.GET.get("order", "title")
+
+        get_copy = self.request.GET.copy()
+
+        if get_copy.get("page"):
+            get_copy.pop("page")
+
+        context["get_copy"] = get_copy
+
+        return context
+
+
+class ArtistsView(SongsView):
+    model = Artist
+    template_name = "artists.html"
+
+    def get_queryset(self):
+        filter_val = self.request.GET.get("search", "")
+        order_val = self.request.GET.get("order", "name")
+
+        queryset = self.model.objects.filter(name__icontains=filter_val).order_by(
+            order_val
+        ).distinct(order_val)
+
+        return queryset
+
+
+class AlbumsView(ArtistsView):
+    model = Album
+    template_name = "albums.html"
+
+    def get_queryset(self):
+        filter_val = self.request.GET.get("search", "")
+        order_val = self.request.GET.get("order", "name")
+
+        queryset = self.model.objects.filter(
+            Q(name__icontains=filter_val) | Q(artists__name__icontains=filter_val)
+        ).order_by(order_val).distinct(order_val)
+
+        return queryset

@@ -1,8 +1,12 @@
 <div>
   <a href="/">Accueil</a>
+  <a href="{% url 'songs' %}">Musiques</a>
+  <a href="{% url 'artists' %}">Artistes</a>
+  <a href="{% url 'albums' %}">Albums</a>
   {% if user.is_authenticated %}
   <a href="/user/{{user.id}}">Profile</a>
   <a href="/logout?to={{ request.get_full_path }}">Deconnexion</a>
+  <span>Bonjour {{ user.username }}</span>
   {% else %}
   <a href="/login?to={{ request.get_full_path }}">Connexion</a>
   <a href="/signup?to={{ request.get_full_path }}">Inscription</a>

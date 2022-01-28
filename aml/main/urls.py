@@ -15,4 +15,7 @@ urlpatterns = [
     path("api/add/<int:songId>", api.add_to_list),
     path("api/add/favourite/<int:songId>", api.add_to_favourite),
     path("api/addfriend", api.add_friend),
+    path('songs', views.SongsView.as_view(), name="songs"),
+    path('artists', views.ArtistsView.as_view(), name="artists"),
+    path('albums', views.AlbumsView.as_view(), name="albums"),
 ]
