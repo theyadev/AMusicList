@@ -2,7 +2,7 @@
   <a href="/">Accueil</a>
   {% if user.is_authenticated %}
   <a href="/user/{{user.id}}">Profile</a>
-  <a href="/api/logout?to={{ request.get_full_path }}">Deconnexion</a>
+  <a href="/logout?to={{ request.get_full_path }}">Deconnexion</a>
   {% else %}
   <a href="/login?to={{ request.get_full_path }}">Connexion</a>
   <a href="/signup?to={{ request.get_full_path }}">Inscription</a>

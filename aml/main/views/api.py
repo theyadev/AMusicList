@@ -1,82 +1,11 @@
 from django.forms import Form
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout, login, authenticate
+from django.views import View
 
 from ..forms import LoginForm, SignupForm
 
 from ..models import Song, User, Lists, Activities
-
-
-def logout_api(request):
-    try:
-        redirect_url = request.GET["to"]
-    except:
-        redirect_url = "/"
-
-    if request.user.is_authenticated:
-        logout(request)
-
-    return redirect(redirect_url)
-
-
-def login_api(request):
-    if request.method == "POST":
-        try:
-            redirect_url = request.GET["to"]
-        except:
-            redirect_url = "/"
-
-        form = LoginForm(request.POST)
-
-        if form.is_valid():
-            email = form.cleaned_data["email"]
-            password = form.cleaned_data["password"]
-
-            user = authenticate(request, username=email, password=password)
-
-            if user is not None:
-                login(request, user)
-                return redirect(redirect_url)
-
-    return redirect("/login?to=" + redirect_url)
-
-
-def signup_api(request):
-    if request.method == "POST":
-        try:
-            redirect_url = request.GET["to"]
-        except:
-            redirect_url = "/"
-
-        form = SignupForm(request.POST)
-
-        if form.is_valid():
-            email = form.cleaned_data["email"]
-            username = form.cleaned_data["username"]
-            password = form.cleaned_data["password"]
-            confirm_password = form.cleaned_data["confirm_password"]
-
-            if password != confirm_password:
-                return redirect("/signup?to=" + redirect_url)
-
-            if len(User.objects.filter(email=email)) > 0:
-                return redirect("/signup?to=" + redirect_url)
-
-            try:
-                user = User.objects.create_user(username, email, password)
-            except:
-                return redirect("/signup?to=" + redirect_url)
-
-            user.save()
-
-            log = authenticate(request, username=email, password=password)
-
-            if log is not None:
-                login(request, log)
-                return redirect(redirect_url)
-
-            print(user)
-    return redirect("/signup?to=" + redirect_url)
 
 
 def add_to_list(request, songId):

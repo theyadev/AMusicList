@@ -5,7 +5,7 @@
 {% block nav %}{% endblock nav %}
 
 {% block content %}
-<form action="/api/login?to={{request.GET.to}}" method="post">
+<form action="?to={{request.GET.to}}" method="post">
   {% csrf_token %} {{ form }}
   <button type="submit">Connexion</button>
 </form>
