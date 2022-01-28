@@ -1,123 +1,211 @@
-from django.http import HttpResponse
+
 from django.shortcuts import redirect, render
+from django.contrib.auth import logout, login, authenticate
+from django.db.models import Q
 
 from ..forms import LoginForm, SignupForm
 
 from ..models import Activities, Album, Song, Artist, Lists, User
 
+from django.views import View
+from django.views.generic import DetailView, FormView, ListView
 
-def index(request):
-    if request.user.is_authenticated:
-        user_list = [request.user]
-        user_list.extend(request.user.follows.all())
-
-        activites = Activities.objects.filter(user__in=user_list)
-        activites = sorted(activites, key=lambda activity: activity.date, reverse=True)
-
-        activites_html = ""
-
-        for activity in activites:
-            user_html = (
-                f'<a href="/user/{activity.user.id}">{activity.user.username}</a>'
-            )
-            song_html = (
-                f'<a href="/song/{ activity.song.id }">{ activity.song.title }</a>'
-            )
-
-            if activity.action == "ADDED":
-                text_html = f"{user_html} a ajouté {song_html} à sa liste !"
-            elif activity.action == "REMOVED":
-                text_html = f"{user_html} a retiré {song_html} de sa liste !"
-            elif activity.action == "ADDED FAVOURITE":
-                text_html = f"{user_html} a ajouté {song_html} à ses favoris !"
-            elif activity.action == "REMOVED FAVOURITE":
-                text_html = f"{user_html} a retiré {song_html} de ses favoris !"
-
-            html = f"<p>{text_html}</p>"
-
-            activites_html += html
-
-        context = {"activities": activites_html}
-
-        return render(request, "logged_index.html", context)
-
-    return render(request, "index.html")
-
-
-def user(request, userId):
+def getRedirect(request):
     try:
-        user = User.objects.get(id=userId)
-    except User.DoesNotExist:
-        return render(request, "404.html")
-
-    if request.user.is_authenticated:
-        is_following = len(request.user.follows.filter(id=user.id)) > 0
-    else:
-        is_following = False
-
-    context = {
-        "aml_user": user,
-        "aml_user_list": Lists.objects.filter(user_id=userId),
-        "following": is_following,
-    }
-
-    return render(request, "user.html", context)
-
-
-def song(request, songId):
-    try:
-        song = Song.objects.get(id=songId)
-    except Song.DoesNotExist:
-        return render(request, "404.html")
-
-    context = {"song": song, "in_list": False, "favourite": False}
-
-    try:
-        song_in_list = Lists.objects.get(user=request.user, song=song)
-
-        context["in_list"] = True
-        context["favourite"] = song_in_list.favourite
+        return request.GET["to"]
     except:
-        pass
-
-    return render(request, "song.html", context)
+        return "/"
 
 
-def artist(request, artistId):
-    try:
-        artist = Artist.objects.get(id=artistId)
-    except Artist.DoesNotExist:
-        return render(request, "404.html")
+class UserView(DetailView):
+    template_name = "user.html"
+    model = User
 
-    return render(request, "artist.html", {"artist": artist})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["user"] = self.request.user
+        context["is_following"] = (
+            self.get_object().user_followers.filter(id=self.request.user.id).exists()
+        )
+
+        return context
 
 
-def album(request, albumId):
-    try:
-        album = Album.objects.get(id=albumId)
-    except Album.DoesNotExist:
-        return render(request, "404.html")
+class SongView(DetailView):
+    template_name = "song.html"
+    model = Song
 
-    return render(request, "album.html", {"album": album})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["list_entry"] = None
+        if (
+            self.request.user.is_authenticated
+            and Lists.objects.filter(
+                user=self.request.user, song=self.get_object()
+            ).exists()
+        ):
+            context["list_entry"] = Lists.objects.get(
+                user=self.request.user, song=self.get_object()
+            )
 
-def login(request):
-    try:
-        redirect_url = request.GET["to"]
-    except:
-        redirect_url = "/"
+        return context
 
-    if request.user.is_authenticated:
+
+class ArtistView(DetailView):
+    template_name = "artist.html"
+
+    model = Artist
+
+
+class AlbumView(DetailView):
+    template_name = "album.html"
+
+    model = Album
+
+
+class MainView(View):
+    template_name = "index.html"
+    template_name_logged = "logged_index.html"
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            user_list = [request.user]
+            user_list.extend(request.user.follows.all())
+
+            activites = Activities.objects.filter(user__in=user_list)
+            activites = sorted(
+                activites, key=lambda activity: activity.date, reverse=True
+            )
+
+            activites_html = ""
+
+            for activity in activites:
+                user_html = (
+                    f'<a href="/user/{activity.user.id}">{activity.user.username}</a>'
+                )
+                song_html = (
+                    f'<a href="/song/{ activity.song.id }">{ activity.song.title }</a>'
+                )
+
+                if activity.action == "ADDED":
+                    text_html = f"{user_html} a ajouté {song_html} à sa liste !"
+                elif activity.action == "REMOVED":
+                    text_html = f"{user_html} a retiré {song_html} de sa liste !"
+                elif activity.action == "ADDED FAVOURITE":
+                    text_html = f"{user_html} a ajouté {song_html} à ses favoris !"
+                elif activity.action == "REMOVED FAVOURITE":
+                    text_html = f"{user_html} a retiré {song_html} de ses favoris !"
+
+                html = f"<p>{text_html}</p>"
+
+                activites_html += html
+
+            context = {"activities": activites_html}
+
+            return render(request, self.template_name_logged, context)
+
+        return render(request, self.template_name)
+
+
+class LogoutView(View):
+    def get(self, request, *args, **kwargs):
+        redirect_url = getRedirect(request)
+
+        if request.user.is_authenticated:
+            logout(request)
+
         return redirect(redirect_url)
 
-    context = {"form": LoginForm()}
 
-    return render(request, "login.html", context)
+class LoginView(FormView):
+    template_name = "login.html"
+    form_class = LoginForm
+
+    def get(self, request, *args, **kwargs):
+        redirect_url = getRedirect(self.request)
+
+        if request.user.is_authenticated:
+            return redirect(redirect_url)
+
+        context = {"form": self.form_class()}
+
+        return render(request, self.template_name, context)
+
+    def form_valid(self, form):
+        redirect_url = getRedirect(self.request)
+
+        user = form.get_user(self.request)
+
+        if user is not None:
+            login(self.request, user)
+            return redirect(redirect_url)
+
+        context = {"form": self.form_class()}
+
+        return render(self.request, self.template_name, context)
 
 
-def signup(request):
-    context = {"form": SignupForm()}
+class SignupView(LoginView):
+    template_name = "signup.html"
+    form_class = SignupForm
 
-    if request.user.is_authenticated:
-        return redirect("/")
 
-    return render(request, "signup.html", context)
+class SongsView(ListView):
+    model = Song
+    template_name = "songs.html"
+    paginate_by = 100
+
+    def get_queryset(self):
+        filter_val = self.request.GET.get("search", "")
+        order_val = self.request.GET.get("order", "title")
+
+        queryset = self.model.objects.filter(
+            Q(title__icontains=filter_val) | Q(artists__name__icontains=filter_val)
+        ).order_by(order_val).distinct(order_val)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search"] = self.request.GET.get("search", "")
+        context["order"] = self.request.GET.get("order", "title")
+
+        get_copy = self.request.GET.copy()
+
+        if get_copy.get("page"):
+            get_copy.pop("page")
+
+        context["get_copy"] = get_copy
+
+        return context
+
+
+class ArtistsView(SongsView):
+    model = Artist
+    template_name = "artists.html"
+
+    def get_queryset(self):
+        filter_val = self.request.GET.get("search", "")
+        order_val = self.request.GET.get("order", "name")
+
+        queryset = self.model.objects.filter(name__icontains=filter_val).order_by(
+            order_val
+        ).distinct(order_val)
+
+        return queryset
+
+
+class AlbumsView(ArtistsView):
+    model = Album
+    template_name = "albums.html"
+
+    def get_queryset(self):
+        filter_val = self.request.GET.get("search", "")
+        order_val = self.request.GET.get("order", "name")
+
+        queryset = self.model.objects.filter(
+            Q(name__icontains=filter_val) | Q(artists__name__icontains=filter_val)
+        ).order_by(order_val).distinct(order_val)
+
+        return queryset

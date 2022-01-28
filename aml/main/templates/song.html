@@ -8,7 +8,7 @@
 <div>
   <img src="{{ song.imageUrl }}" style="height: 100%; width: 10rem" />
   <h1>
-    {% for artist in song.artists.all %} {{ artist.name }} {% endfor %} -
+    {% for artist in song.artists.all %} <a href="/artist/{{ artist.id }}">{{ artist.name }}</a>{% endfor %} -
     {{song.title }} | {% for album in song.song_albums.all %} <a href="/album/{{album.id}}">{{album.name}}</a>
     {% endfor %}
   </h1>
@@ -16,13 +16,13 @@
   <form action="/api/add/{{ song.id }}" method="POST">
     {% csrf_token %}
     <button type="submit">
-      {% if in_list%}Remove from List {% else %}Add to list {% endif %}
+      {% if list_entry %}Remove from List {% else %}Add to list {% endif %}
     </button>
   </form>
-  {% if in_list%}
+  {% if list_entry%}
   <form action="/api/add/favourite/{{ song.id }}" method="post">
     {% csrf_token %}
-    <button type="submit">{{favourite}}</button>
+    <button type="submit">{{list_entry.favourite}}</button>
   </form>
   {% endif %} {% endif %}
 </div>

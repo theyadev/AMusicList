@@ -6,4 +6,26 @@
     <p style="text-align: center">{{ artist.name }}</p>
   </div>
 </div>
+
+<div>
+  <h1><strong>Albums</strong></h1>
+  {% for album in artist.artist_albums.all %}
+  <a href="/album/{{album.id}}">
+    <p>{{album.name}}</p>
+  </a>
+  {% empty %}
+  Aucuns
+  {% endfor %}
+</div>
+
+<div>
+  <h1><strong>Musiques</strong></h1>
+  {% for song in artist.artist_songs.all %}
+  <a href="/song/{{song.id}}">
+    <p>{{song.title}}</p>
+  </a>
+  {% empty %}
+  Aucunes
+  {% endfor %}
+</div>
 {% endblock content %}

@@ -22,7 +22,7 @@ class Song(models.Model):
     length = models.IntegerField()
     releaseDate = models.DateTimeField("date released", null=True)
 
-    artists = models.ManyToManyField(Artist)
+    artists = models.ManyToManyField(Artist, related_name="artist_songs")
 
     def __str__(self) -> str:
         return f"{self.title}"
@@ -33,7 +33,7 @@ class User(AbstractUser):
     activity = models.ManyToManyField(
         Song, through="Activities", related_name="activity"
     )
-    follows = models.ManyToManyField("User")
+    follows = models.ManyToManyField("User", related_name="user_followers")
 
 
 class Activities(models.Model):
@@ -53,7 +53,7 @@ class Activities(models.Model):
 
 class Lists(models.Model):
     song = models.ForeignKey(Song, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_list")
     favourite = models.BooleanField()
 
 
@@ -66,3 +66,6 @@ class Album(models.Model):
 
     artists = models.ManyToManyField(Artist, related_name="artist_albums")
     songs = models.ManyToManyField(Song, related_name="song_albums")
+
+    def __str__(self) -> str:
+        return self.name
