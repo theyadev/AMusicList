@@ -35,7 +35,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-AUTHENTICATION_BACKENDS = ['main.lib.auth.EmailBackend']
+AUTHENTICATION_BACKENDS = ['users.lib.auth.EmailBackend']
 
 INSTALLED_APPS = [
     'main.apps.MainConfig',
