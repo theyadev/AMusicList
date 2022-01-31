@@ -6,9 +6,9 @@ from datetime import datetime
 class Artist(models.Model):
     id = models.AutoField(primary_key=True)
     spotifyId = models.CharField(max_length=250)
-    name = models.CharField(max_length=40)
+    name = models.CharField(max_length=100)
     description = models.TextField()
-    imageUrl = models.URLField()
+    imageUrl = models.URLField(max_length=250)
 
     def __str__(self) -> str:
         return self.name
@@ -17,8 +17,8 @@ class Artist(models.Model):
 class Song(models.Model):
     id = models.AutoField(primary_key=True)
     spotifyId = models.CharField(max_length=250)
-    title = models.CharField(max_length=100)
-    imageUrl = models.URLField(max_length=100)
+    title = models.CharField(max_length=200)
+    imageUrl = models.URLField(max_length=200)
     length = models.IntegerField()
     releaseDate = models.DateTimeField("date released", null=True)
 
@@ -30,6 +30,7 @@ class Song(models.Model):
 
 class User(AbstractUser):
     list = models.ManyToManyField(Song, through="Lists")
+    favourite_artists = models.ManyToManyField(Artist, related_name="user_favourites")
     activity = models.ManyToManyField(
         Song, through="Activities", related_name="activity"
     )
@@ -62,7 +63,7 @@ class Album(models.Model):
     spotifyId = models.CharField(max_length=250)
     name = models.CharField(max_length=150)
     releaseDate = models.DateTimeField(null=True)
-    imageUrl = models.URLField(max_length=100)
+    imageUrl = models.URLField(max_length=250)
 
     artists = models.ManyToManyField(Artist, related_name="artist_albums")
     songs = models.ManyToManyField(Song, related_name="song_albums")
