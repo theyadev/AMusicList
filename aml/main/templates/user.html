@@ -6,9 +6,8 @@
 <div>
   {% if object.username != user.username %}
   {% if user.is_authenticated %}
-  <form action="/api/addfriend?to={{ request.get_full_path }}" method="post">
+  <form method="post">
     {% csrf_token %}
-    <input hidden type="text" value="{{object.id}}" name="id" id="id">
     <button>{% if is_following %}Unfollow{% else %}Follow{% endif %}</button>
   </form>
   {% endif %}
@@ -24,6 +23,15 @@
       {%if list.favourite %}
       <p style="text-align: center; color: red">Favourite !</p>
       {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  <h1><strong>Artistes favoris</strong></h1>
+  <div style="display: flex; flex-wrap: wrap">
+    {% for artist in object.favourite_artists.all %}
+    <div>
+      <img style="width: 10rem" src="{{artist.imageUrl}}" alt="">
+      <p>{{artist.name}}</p>
     </div>
     {% endfor %}
   </div>
