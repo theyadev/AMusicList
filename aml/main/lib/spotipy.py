@@ -1,5 +1,5 @@
 from spotipy import Spotify
-from spotipy.oauth2 import SpotifyClientCredentials
+from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 
 from dotenv import load_dotenv
 from os import getenv
@@ -15,6 +15,23 @@ client_credentials_manager = SpotifyClientCredentials(
     client_id=CLIENT_ID, client_secret=CLIENT_SECRET
 )
 sp = Spotify(client_credentials_manager=client_credentials_manager)
+
+
+def importAlbumsFromLoved():
+    sp = Spotify(
+        auth_manager=SpotifyOAuth(
+            client_id=CLIENT_ID,
+            client_secret=CLIENT_SECRET,
+            redirect_uri="http://localhost:8080/",
+            scope="user-library-read",
+        )
+    )
+
+    for i in range(1, 21):
+        results = sp.current_user_saved_tracks(limit=50, offset=50 * i - 50)
+        for item in results["items"]:
+            print(item["track"]["album"]["id"])
+            importTracksFromAlbum(item["track"]["album"]["id"])
 
 
 def importAlbumsFromPlaylist(playlist_id: str = "5S8SJdl1BDc0ugpkEvFsIL"):
