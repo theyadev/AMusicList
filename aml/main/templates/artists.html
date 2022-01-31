@@ -3,7 +3,7 @@
 
 {% block content %}
 <h1>Artistes !</h1>
-<form method="get" action="{% url 'albums' %}">
+<form method="get" action="{% url 'artists' %}">
     <input type="text" placeholder="Recherche" value="{{search}}" name="search">
     <select name="order">
         <option value="name">Nom</option>
