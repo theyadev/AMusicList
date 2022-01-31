@@ -5,20 +5,9 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import DetailView, FormView, ListView
 
-from ..forms import LoginForm, SignupForm
-from ..models import Album, Song, Artist
+from .models import Album, Song, Artist
 
 from users.models import Activities, Lists
-
-
-def getRedirect(request):
-    """
-    Return the "to" parameter from a request, return "/" if no parameter
-    """
-    try:
-        return request.GET["to"]
-    except:
-        return "/"
 
 
 class SongView(DetailView):
@@ -117,49 +106,6 @@ class MainView(View):
             return render(request, self.template_name_logged, context)
 
         return render(request, self.template_name)
-
-
-class LogoutView(View):
-    def get(self, request, *args, **kwargs):
-        redirect_url = getRedirect(request)
-
-        if request.user.is_authenticated:
-            logout(request)
-
-        return redirect(redirect_url)
-
-
-class LoginView(FormView):
-    template_name = "login.html"
-    form_class = LoginForm
-
-    def get(self, request, *args, **kwargs):
-        redirect_url = getRedirect(self.request)
-
-        if request.user.is_authenticated:
-            return redirect(redirect_url)
-
-        context = {"form": self.form_class()}
-
-        return render(request, self.template_name, context)
-
-    def form_valid(self, form):
-        redirect_url = getRedirect(self.request)
-
-        user = form.get_user(self.request)
-
-        if user is not None:
-            login(self.request, user)
-            return redirect(redirect_url)
-
-        context = {"form": self.form_class()}
-
-        return render(self.request, self.template_name, context)
-
-
-class SignupView(LoginView):
-    template_name = "signup.html"
-    form_class = SignupForm
 
 
 class SongsView(ListView):
