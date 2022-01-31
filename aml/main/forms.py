@@ -11,7 +11,7 @@ class LoginForm(forms.Form):
         email = self.cleaned_data["email"]
         password = self.cleaned_data["password"]
 
-        return authenticate(request, username=email, password=password)
+        return authenticate(request, email=email, password=password)
 
 
 class SignupForm(forms.Form):
@@ -45,4 +45,4 @@ class SignupForm(forms.Form):
 
         user.save()
 
-        return authenticate(request, username=email, password=password)
+        return authenticate(request, email=email, password=password)
