@@ -6,7 +6,9 @@ from django.views import View
 from django.views.generic import DetailView, FormView, ListView
 
 from ..forms import LoginForm, SignupForm
-from ..models import Activities, Album, Song, Artist, Lists, User
+from ..models import Album, Song, Artist
+
+from users.models import Activities, Lists
 
 
 def getRedirect(request):
@@ -17,35 +19,6 @@ def getRedirect(request):
         return request.GET["to"]
     except:
         return "/"
-
-
-class UserView(DetailView):
-    template_name = "user.html"
-    model = User
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        context["user"] = self.request.user
-        context["is_following"] = (
-            self.get_object().user_followers.filter(id=self.request.user.id).exists()
-        )
-
-        return context
-
-    def post(self, request, pk):
-        if request.user.is_authenticated:
-            try:
-                user = User.objects.get(pk=pk)
-
-                if request.user.follows.filter(pk=pk).exists():
-                    request.user.follows.remove(user)
-                else:
-                    request.user.follows.add(user)
-            except:
-                pass
-
-        return redirect(reverse("user", args=[pk]))
 
 
 class SongView(DetailView):

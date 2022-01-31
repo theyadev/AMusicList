@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render
 from django.views import View
 
-from ..models import Song, User, Lists, Activities
+from ..models import Song
+from users.models import Lists, Activities
 
 
 class AddToListView(View):
