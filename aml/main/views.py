@@ -17,15 +17,13 @@ class SongView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["list_entry"] = None
-        if (
-            self.request.user.is_authenticated
-            and Lists.objects.filter(
-                user=self.request.user, song=self.get_object()
-            ).exists()
-        ):
-            context["list_entry"] = Lists.objects.get(
-                user=self.request.user, song=self.get_object()
-            )
+        if self.request.user.is_authenticated:
+            try:
+                context["list_entry"] = Lists.objects.get(
+                    user=self.request.user, song=self.get_object()
+                )
+            except Lists.DoesNotExist:
+                pass
 
         return context
 
@@ -44,6 +42,9 @@ class ArtistView(DetailView):
         return context
 
     def post(self, request, pk):
+        """
+        Add an artist to the favourite of a user
+        """
         if request.user.is_authenticated:
             try:
                 artist = Artist.objects.get(pk=pk)
@@ -52,7 +53,7 @@ class ArtistView(DetailView):
                     request.user.favourite_artists.remove(artist)
                 else:
                     request.user.favourite_artists.add(artist)
-            except:
+            except Artist.DoesNotExist:
                 pass
 
         return redirect(reverse("artist", args=[pk]))
