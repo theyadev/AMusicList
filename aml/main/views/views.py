@@ -1,16 +1,18 @@
-
 from django.shortcuts import redirect, render
-from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth import logout, login
 from django.db.models import Q
-
-from ..forms import LoginForm, SignupForm
-
-from ..models import Activities, Album, Song, Artist, Lists, User
-
+from django.urls import reverse
 from django.views import View
 from django.views.generic import DetailView, FormView, ListView
 
+from ..forms import LoginForm, SignupForm
+from ..models import Activities, Album, Song, Artist, Lists, User
+
+
 def getRedirect(request):
+    """
+    Return the "to" parameter from a request, return "/" if no parameter
+    """
     try:
         return request.GET["to"]
     except:
@@ -30,6 +32,20 @@ class UserView(DetailView):
         )
 
         return context
+
+    def post(self, request, pk):
+        if request.user.is_authenticated:
+            try:
+                user = User.objects.get(pk=pk)
+
+                if request.user.follows.filter(pk=pk).exists():
+                    request.user.follows.remove(user)
+                else:
+                    request.user.follows.add(user)
+            except:
+                pass
+
+        return redirect(reverse("user", args=[pk]))
 
 
 class SongView(DetailView):
@@ -56,6 +72,28 @@ class ArtistView(DetailView):
     template_name = "artist.html"
 
     model = Artist
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["favourite"] = (
+            kwargs["object"].user_favourites.filter(pk=self.request.user.pk).exists()
+        )
+
+        return context
+
+    def post(self, request, pk):
+        if request.user.is_authenticated:
+            try:
+                artist = Artist.objects.get(pk=pk)
+
+                if request.user.favourite_artists.filter(pk=pk).exists():
+                    request.user.favourite_artists.remove(artist)
+                else:
+                    request.user.favourite_artists.add(artist)
+            except:
+                pass
+
+        return redirect(reverse("artist", args=[pk]))
 
 
 class AlbumView(DetailView):
@@ -160,9 +198,13 @@ class SongsView(ListView):
         filter_val = self.request.GET.get("search", "")
         order_val = self.request.GET.get("order", "title")
 
-        queryset = self.model.objects.filter(
-            Q(title__icontains=filter_val) | Q(artists__name__icontains=filter_val)
-        ).order_by(order_val).distinct(order_val)
+        queryset = (
+            self.model.objects.filter(
+                Q(title__icontains=filter_val) | Q(artists__name__icontains=filter_val)
+            )
+            .order_by(order_val)
+            .distinct(order_val)
+        )
 
         return queryset
 
@@ -189,9 +231,11 @@ class ArtistsView(SongsView):
         filter_val = self.request.GET.get("search", "")
         order_val = self.request.GET.get("order", "name")
 
-        queryset = self.model.objects.filter(name__icontains=filter_val).order_by(
-            order_val
-        ).distinct(order_val)
+        queryset = (
+            self.model.objects.filter(name__icontains=filter_val)
+            .order_by(order_val)
+            .distinct(order_val)
+        )
 
         return queryset
 
@@ -204,8 +248,12 @@ class AlbumsView(ArtistsView):
         filter_val = self.request.GET.get("search", "")
         order_val = self.request.GET.get("order", "name")
 
-        queryset = self.model.objects.filter(
-            Q(name__icontains=filter_val) | Q(artists__name__icontains=filter_val)
-        ).order_by(order_val).distinct(order_val)
+        queryset = (
+            self.model.objects.filter(
+                Q(name__icontains=filter_val) | Q(artists__name__icontains=filter_val)
+            )
+            .order_by(order_val)
+            .distinct(order_val)
+        )
 
         return queryset
