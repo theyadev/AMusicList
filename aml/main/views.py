@@ -83,22 +83,31 @@ class MainView(View):
 
             for activity in activites:
                 user_html = (
-                    f'<a href="/user/{activity.user.id}">{activity.user.username}</a>'
+                    f'<a class="user" href="/user/{activity.user.id}">{activity.user.username}</a>'
                 )
                 song_html = (
-                    f'<a href="/song/{ activity.song.id }">{ activity.song.title }</a>'
+                    f'<a class="song" href="/song/{ activity.song.id }">{ activity.song.title }</a>'
                 )
 
                 if activity.action == "ADDED":
-                    text_html = f"{user_html} a ajouté {song_html} à sa liste !"
+                    text_html = f"a ajouté {song_html} à sa liste !"
                 elif activity.action == "REMOVED":
-                    text_html = f"{user_html} a retiré {song_html} de sa liste !"
+                    text_html = f"a retiré {song_html} de sa liste !"
                 elif activity.action == "ADDED FAVOURITE":
-                    text_html = f"{user_html} a ajouté {song_html} à ses favoris !"
+                    text_html = f"a ajouté {song_html} à ses favoris !"
                 elif activity.action == "REMOVED FAVOURITE":
-                    text_html = f"{user_html} a retiré {song_html} de ses favoris !"
+                    text_html = f"a retiré {song_html} de ses favoris !"
 
-                html = f"<p>{text_html}</p>"
+                html = f"""
+                <div class="card">
+                    <img src="{activity.song.imageUrl}" alt="">
+                    <div class="content">
+                        {user_html}
+                        <p class="text">{text_html}</p>
+                        <img class="avatar" src="" alt="">
+                    </div>
+                
+                </div>"""
 
                 activites_html += html
 

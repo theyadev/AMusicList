@@ -1,8 +1,47 @@
 {% extends '_base.html' %}
 {% block title %} Accueil{% endblock title %}
+{% load static %}
+{% block meta %}
+<link rel="stylesheet" href="{% static '_index.css' %}" />{% endblock meta %}
 {% block content %}
-<p>Vous etes connecté en tant que {{ user.username }} !</p>
-<div>
-    {{ activities | safe }}
+<div class="container">
+    <div class="activity">
+        <h1>Activité</h1>
+        <div class="activities">
+            {{ activities | safe }}
+        </div>
+    </div>
+    <div class="list">
+        <h1 class="right">Votre Liste</h1>
+        <div class="songs">
+            <div class="grid">
+                <div class="card">
+                    <img src="img.jpg" alt="">
+                    <p class="title">Ussewa</p>
+                    <p class="artist">Ado</p>
+                </div>
+                <div class="card">
+                    <img src="img.jpg" alt="">
+                    <p class="title">Ussewa</p>
+                    <p class="artist">Ado</p>
+                </div>
+                <div class="card">
+                    <img src="img.jpg" alt="">
+                    <p class="title">Ussewa</p>
+                    <p class="artist">Ado</p>
+                </div>
+                <div class="card">
+                    <img src="img.jpg" alt="">
+                    <p class="title">Ussewa</p>
+                    <p class="artist">Ado</p>
+                </div>
+            </div>
+            <div class="btn">Voir plus</div>
+        </div>
+    </div>
+    <div class="follows">
+        <h1>Abonnements</h1>
+    </div>
 </div>
+
 {% endblock content %}
