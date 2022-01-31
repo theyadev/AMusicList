@@ -15,7 +15,7 @@
 <div style="display:flex;flex-wrap:wrap">
     {% for song in object_list %}
     <div style="margin: 0 5px">
-        <a href="/song/{{song.id}}"><img style="width:10rem" src="{{song.imageUrl}}" alt="{{song.title}}'s Cover">
+        <a href="{% url 'song' song.id %}"><img style="width:10rem" src="{{song.imageUrl}}" alt="{{song.title}}'s Cover">
             <p style="text-align:center;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;width:17ch">
                 {{song.title}}</p>
         </a>

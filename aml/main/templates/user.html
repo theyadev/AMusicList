@@ -17,7 +17,7 @@
     {% for list in object.user_list.all %}
     <div style="margin: 5px 5px">
       <img style="width: 10rem" src="{{list.song.imageUrl}}" alt="{{list.song.title}}" />
-      <a href="/song/{{list.song.id}}" target="_blank">
+      <a href="{% url 'song' list.song.id %}" target="_blank">
         <p style="text-align: center;">{{list.song.title}}</p>
       </a>
       {%if list.favourite %}
@@ -31,17 +31,19 @@
     {% for artist in object.favourite_artists.all %}
     <div>
       <img style="width: 10rem" src="{{artist.imageUrl}}" alt="">
-      <p>{{artist.name}}</p>
+      <a href="{% url 'artist' artist.id %}">
+        <p>{{artist.name}}</p>
+      </a>
     </div>
     {% endfor %}
   </div>
   <p><strong>Liste de follow</strong></p>
   {% for user in object.follows.all %}
-  <a href="/user/{{user.id}}">{{user}}</a>
+  <a href="{% url 'user' user.id %}">{{user}}</a>
   {% endfor %}
   <p><strong>Liste de follower</strong></p>
   {% for user in object.user_followers.all   %}
-  <a href="/user/{{user.id}}">{{user}}</a>
+  <a href="{% url 'user' user.id %}">{{user}}</a>
   {% endfor %}
 </div>
 {% endblock content %}

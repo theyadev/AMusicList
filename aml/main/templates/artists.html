@@ -14,7 +14,7 @@
 <div style="display:flex;flex-wrap:wrap">
     {% for artist in object_list %}
     <div style="margin: 0 5px">
-        <a href="/artist/{{artist.id}}"><img style="width:10rem" src="{{artist.imageUrl}}"
+        <a href="{% url 'artist' artist.id %}"><img style="width:10rem" src="{{artist.imageUrl}}"
                 alt="{{artist.name}}'s Cover">
             <p style="text-align:center;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;width:17ch">
                 {{artist.name}}</p>

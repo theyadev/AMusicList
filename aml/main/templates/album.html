@@ -12,7 +12,7 @@
     <div style="display:flex;flex-direction: column;flex-wrap:wrap ">
         {% for song in album.songs.all %}
         <div>
-            <a href="/song/{{song.id}}">{{song.title}}</a>
+            <a href="{% url 'song' song.id %}">{{song.title}}</a>
         </div>
         {% endfor %}
     </div>

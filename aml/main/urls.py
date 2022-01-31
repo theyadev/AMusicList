@@ -10,7 +10,7 @@ urlpatterns = [
     path("user/<int:pk>/", views.UserView.as_view(), name="user"),
     path("song/<int:pk>/", views.SongView.as_view(), name="song"),
     path("artist/<int:pk>/", views.ArtistView.as_view(), name="artist"),
-    path("album/<int:pk>/", views.AlbumView.as_view()),
+    path("album/<int:pk>/", views.AlbumView.as_view(), name="album"),
     path("logout", views.LogoutView.as_view()),
     path("api/add/<int:songId>", api.AddToListView.as_view()),
     path("api/add/favourite/<int:songId>", api.AddToFavourite.as_view()),
