@@ -4,12 +4,14 @@
   <div>
     <img style="width: 10rem" src="{{artist.imageUrl}}" alt="" />
     <p style="text-align: center">{{ artist.name }}</p>
+    {% if user.is_authenticated %}
     <form method="POST">
       {% csrf_token %}
       <button type="submit">
         {% if favourite %}Retirer des favoris {% else %}Ajouter aux favoris {% endif %}
       </button>
     </form>
+    {% endif %}
   </div>
 </div>
 
