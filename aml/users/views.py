@@ -7,7 +7,9 @@ from .forms import LoginForm, SignupForm
 
 from django.views import View
 
-from main.models import Song
+from main.models import Song, Artist
+
+from random import choice
 
 
 def getRedirect(request):
@@ -40,7 +42,7 @@ class LoginView(FormView):
         if request.user.is_authenticated:
             return redirect(redirect_url)
 
-        context = {"form": self.form_class()}
+        context = {"form": self.form_class(), "artist": choice(Artist.objects.all())}
 
         return render(request, self.template_name, context)
 
@@ -53,7 +55,7 @@ class LoginView(FormView):
             login(self.request, user)
             return redirect(redirect_url)
 
-        context = {"form": self.form_class()}
+        context = {"form": self.form_class(), "artist": choice(Artist.objects.all())}
 
         return render(self.request, self.template_name, context)
 
