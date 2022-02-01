@@ -4,8 +4,8 @@ from users.models import User
 
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(label="Addresse Email", max_length=150)
-    password = forms.CharField(label="Mot de Passe", widget=forms.PasswordInput())
+    email = forms.EmailField(label="Addresse Email", max_length=150, label_suffix="")
+    password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput(), label_suffix="")
 
     def get_user(self, request):
         email = self.cleaned_data["email"]
@@ -15,9 +15,9 @@ class LoginForm(forms.Form):
 
 
 class SignupForm(forms.Form):
-    email = forms.EmailField(label="Addresse Email", max_length=150)
-    username = forms.CharField(label="Pseudonyme", max_length=150)
-    password = forms.CharField(label="Mot de Passe", widget=forms.PasswordInput())
+    email = forms.EmailField(label="Addresse Email", max_length=150, label_suffix="")
+    username = forms.CharField(label="Pseudonyme", max_length=150, label_suffix="")
+    password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput(), label_suffix="")
     confirm_password = forms.CharField(
         label="Confirmer le Mot de Passe", widget=forms.PasswordInput()
     )
