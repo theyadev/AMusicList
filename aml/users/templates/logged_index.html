@@ -15,28 +15,15 @@
         <h1 class="right">Votre Liste</h1>
         <div class="songs">
             <div class="grid">
+                {% for song in list %}
                 <div class="card">
-                    <img src="img.jpg" alt="">
-                    <p class="title">Ussewa</p>
-                    <p class="artist">Ado</p>
+                    <img src="{{song.imageUrl}}" alt="">
+                    <a href="{% url 'song' song.id %}" class="title">{{song.title}}</a>
+                    <a href="{% url 'song' song.id %}" class="artist">{{song.artists.all.0.name}}</a>
                 </div>
-                <div class="card">
-                    <img src="img.jpg" alt="">
-                    <p class="title">Ussewa</p>
-                    <p class="artist">Ado</p>
-                </div>
-                <div class="card">
-                    <img src="img.jpg" alt="">
-                    <p class="title">Ussewa</p>
-                    <p class="artist">Ado</p>
-                </div>
-                <div class="card">
-                    <img src="img.jpg" alt="">
-                    <p class="title">Ussewa</p>
-                    <p class="artist">Ado</p>
-                </div>
+                {% endfor %}
             </div>
-            <div class="btn">Voir plus</div>
+            <a href="{% url 'user' user.id %}" class="btn">Voir plus</a>
         </div>
     </div>
     <div class="follows">
