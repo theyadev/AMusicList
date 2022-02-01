@@ -113,6 +113,14 @@
     border-radius: 16px;
 }
 
+.list a {
+    color: black
+}
+
+.list a:hover {
+    color: rgba(0, 0, 0, 0.7);
+}
+
 .list .songs .card>.title {
     font-size: small;
     color: rgba(0, 0, 0, 0.8);

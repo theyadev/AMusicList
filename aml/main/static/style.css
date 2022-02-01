@@ -52,6 +52,7 @@ object {
   border-width: 0;
   border-style: solid;
   border-color: black;
+  text-decoration: none;
 }
 
 /* END PREFLIGHT */
