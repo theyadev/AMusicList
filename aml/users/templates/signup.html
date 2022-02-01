@@ -1,12 +1,25 @@
 {% extends '_base.html' %}
 
 {% block title %}Inscription{% endblock title %}
-
+{% load static %}
+{% block meta %}
+<link rel="stylesheet" href="{% static '_login.css' %}" />{% endblock meta %}
 {% block nav %}{% endblock nav %}
 
 {% block content %}
-<form action="?to={{request.GET.to}}" method="post">
-  {% csrf_token %} {{ form }}
-  <button type="submit">Inscription</button>
-</form>
+<div class="grid">
+  <img src="{{ artist.imageUrl}}" alt="" />
+  <div class="grid-right">
+    <h2>A Music List</h2>
+    <p>Création d'un compte</p>
+    <form class="login" action="?to={{request.GET.to}}" method="post">
+      {% csrf_token %} {{ form }}
+      <div class="conditions">
+        <input id="id_conditions" type="checkbox" />
+        <label for="id_conditions">J'accepte les <a href="#">conditions d'utilisation</a></label>
+      </div>
+      <div class="button-container"><button class="button blue" type="submit">Inscription</button></div>
+    </form>
+  </div>
+</div>
 {% endblock content %}

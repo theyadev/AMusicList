@@ -1,12 +1,24 @@
-{% extends '_base.html' %}
+{% extends '_base.html' %} {% block title %}Connexion{% endblock title %}
+{%block nav %}{% endblock nav %} {% load static %} {% block meta %}
+<link rel="stylesheet" href="{% static '_login.css' %}" />{% endblock meta %} {% block content %}
+<div class="grid">
+  <img src="{{ artist.imageUrl}}" alt="" />
+  <div class="grid-right">
+    <h2>A Music List</h2>
+    <p>Connectez vous ou créez un compte !</p>
+    <form class="login" action="?to={{request.GET.to}}" method="post">
+      {% csrf_token %} {{ form }}
+      <div class="remember">
+        <input id="id_remember" type="checkbox" />
+        <label for="id_remember">Se souvenir de moi</label>
+      </div>
 
-{% block title %}Connexion{% endblock title %}
-
-{% block nav %}{% endblock nav %}
-
-{% block content %}
-<form action="?to={{request.GET.to}}" method="post">
-  {% csrf_token %} {{ form }}
-  <button type="submit">Connexion</button>
-</form>
+      <a class="forgot_password" href="#">Mot de passe oubliée</a>
+      <div class="buttons">
+        <button class="button blue" type="submit">Connexion</button>
+        <a href="/signup?to={{request.GET.to}}" class="button gray" type="submit">Inscription</a>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock content %}
