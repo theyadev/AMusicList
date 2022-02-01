@@ -1,9 +1,9 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth import logout, login
 from django.db.models import Q
 from django.urls import reverse
 from django.views import View
-from django.views.generic import DetailView, FormView, ListView
+from django.views.generic import DetailView, ListView
+from django.templatetags.static import static
 
 from .models import Album, Song, Artist
 
@@ -82,12 +82,8 @@ class MainView(View):
             activites_html = ""
 
             for activity in activites:
-                user_html = (
-                    f'<a class="user" href="/user/{activity.user.id}">{activity.user.username}</a>'
-                )
-                song_html = (
-                    f'<a class="song" href="/song/{ activity.song.id }">{ activity.song.title }</a>'
-                )
+                user_html = f'<a class="user" href="/user/{activity.user.id}">{activity.user.username}</a>'
+                song_html = f'<a class="song" href="/song/{ activity.song.id }">{ activity.song.title }</a>'
 
                 if activity.action == "ADDED":
                     text_html = f"a ajouté {song_html} à sa liste !"
@@ -104,14 +100,17 @@ class MainView(View):
                     <div class="content">
                         {user_html}
                         <p class="text">{text_html}</p>
-                        <img class="avatar" src="" alt="">
+                        <img class="avatar" src="{static('avatar.png')}" alt="">
                     </div>
                 
                 </div>"""
 
                 activites_html += html
 
-            context = {"activities": activites_html}
+            context = {
+                "activities": activites_html,
+                "list": request.user.list.all()[:4],
+            }
 
             return render(request, self.template_name_logged, context)
 
