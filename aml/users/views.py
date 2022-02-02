@@ -7,7 +7,7 @@ from .forms import LoginForm, SignupForm
 
 from django.views import View
 
-from main.models import Song, Artist
+from songs.models import Song, Artist
 
 from random import choice
 

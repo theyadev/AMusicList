@@ -39,6 +39,7 @@ AUTHENTICATION_BACKENDS = ['users.lib.auth.EmailBackend']
 
 INSTALLED_APPS = [
     'main.apps.MainConfig',
+    'songs.apps.SongsConfig',
     'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',

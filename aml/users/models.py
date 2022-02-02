@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from datetime import datetime
 
-from main.models import Song, Artist
+from songs.models import Song, Artist
 
 
 class User(AbstractUser):
