@@ -36,28 +36,30 @@ class LoginView(FormView):
     template_name = "login.html"
     form_class = LoginForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        artists = Artist.objects.exclude(imageUrl="")
+
+        context = {"form": self.form_class(), "artist": choice(artists.all())}
+
+        return context
+
     def get(self, request, *args, **kwargs):
         redirect_url = getRedirect(self.request)
 
         if request.user.is_authenticated:
             return redirect(redirect_url)
 
-        context = {"form": self.form_class(), "artist": choice(Artist.objects.all())}
-
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, self.get_context_data())
 
     def form_valid(self, form):
-        redirect_url = getRedirect(self.request)
-
         user = form.get_user(self.request)
 
         if user is not None:
             login(self.request, user)
-            return redirect(redirect_url)
 
-        context = {"form": self.form_class(), "artist": choice(Artist.objects.all())}
-
-        return render(self.request, self.template_name, context)
+        return self.get(self.request)
 
 
 class SignupView(LoginView):
