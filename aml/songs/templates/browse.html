@@ -1,0 +1,17 @@
+{% extends '_base.html' %}
+{% block title %}{{ name }}{% endblock title %}
+
+{% block content %}
+<h1>{{ name }} !</h1>
+<form method="get">
+    <input type="text" placeholder="Recherche" value="{{search}}" name="search">
+    <select name="order">
+        {{ options | safe}}
+    </select>
+    <button type="submit">Rechercher !</button>
+</form>
+<div style="display:flex;flex-wrap:wrap">
+    {{ cards | safe }}
+</div>
+{% include  '_pagination.html' %}
+{% endblock content %}
