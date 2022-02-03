@@ -23,8 +23,7 @@ class MainView(View):
             activites_html = ""
 
             for activity in activites:
-                user_html = f'<a class="user" href="/user/{activity.user.id}">{activity.user.username}</a>'
-                song_html = f'<a class="song" href="/song/{ activity.song.id }">{ activity.song.title }</a>'
+                song_html = f'<a href="/song/{ activity.song.id }">{ activity.song.title }</a>'
 
                 if activity.action == "ADDED":
                     text_html = f"a ajouté {song_html} à sa liste !"
@@ -38,12 +37,11 @@ class MainView(View):
                 html = f"""
                 <div class="card">
                     <img src="{activity.song.imageUrl}" alt="">
-                    <div class="content">
-                        {user_html}
-                        <p class="text">{text_html}</p>
-                        <img class="avatar" src="{static('avatar.png')}" alt="">
-                    </div>
-                
+                    <div class="card-content">
+                        <a href="/user/{activity.user.id}">{activity.user.username}</a>
+                        <p class="card-text">{text_html}</p>
+                        <img class="card-avatar" src="{static('avatar.png')}" alt="{activity.user.username}">
+                    </div> 
                 </div>"""
 
                 activites_html += html

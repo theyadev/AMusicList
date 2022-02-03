@@ -4,16 +4,16 @@
 {% block meta %}
 <link rel="stylesheet" href="{% static 'users/_index.css' %}" />{% endblock meta %}
 {% block content %}
-<div class="container">
-    <div class="activity">
+<div class="_index-container">
+    <div class="_index-activity">
         <h1>Activité</h1>
-        <div class="activities">
+        <div>
             {{ activities | safe }}
         </div>
     </div>
-    <div class="list">
+    <div class="_index-list">
         <h1 class="right">Votre Liste</h1>
-        <div class="songs">
+        <div>
             <div class="grid">
                 {% for song in list %}
                 <div class="card">
@@ -26,7 +26,7 @@
             <a href="{% url 'user' user.id %}" class="btn">Voir plus</a>
         </div>
     </div>
-    <div class="follows">
+    <div class="_index-follows">
         <h1>Abonnements</h1>
     </div>
 </div>

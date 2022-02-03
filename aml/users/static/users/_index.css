@@ -1,148 +1,137 @@
 /* START Home page */
 
-.container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    padding: 0 2.5rem;
+._index-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 2.5rem;
 }
 
-.container>div {
-    margin-left: 2rem;
-    display: flex;
-    flex-direction: column;
+._index-container > div {
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.container div h1 {
-    font-weight: bold;
-    font-size: larger;
+._index-container div h1 {
+  font-weight: bold;
+  font-size: larger;
 }
 
-.activity {
-    width: calc(30% - 2rem);
-    height: 20rem;
+._index-activity {
+  width: calc(30% - 2rem);
+  height: 20rem;
 }
 
-.activities {
-    margin-top: 1rem;
+._index-activity > div {
+  margin-top: 1rem;
 }
 
-.activities .card {
-    margin-top: 1rem;
-    display: flex;
-    padding: 0.5rem;
-    border-radius: 10px;
-    align-items: center;
-    background-color: #FAFAFB;
+._index-activity .card {
+  margin-top: 1rem;
+  display: flex;
+  padding: 0.5rem;
+  border-radius: 10px;
+  align-items: center;
+  background-color: #fafafb;
 }
 
-.activities .card>img {
-    height: 100%;
-    width: 6.5rem;
-    border-radius: 16px;
+._index-activity .card > img {
+  height: 100%;
+  width: 6.5rem;
+  border-radius: 16px;
 }
 
-.activities .card .content {
-    padding: 0 0.5rem;
+._index-activity .card .card-content {
+  padding: 0 0.5rem;
 }
 
-.activities .card .content * {
-    margin-top: 0.5rem;
+._index-activity .card .card-content * {
+  margin-top: 0.5rem;
 }
 
-.activities .card .content .user {
-    color: black;
-    font-weight: bold;
-    text-decoration: none;
+._index-activity .card .card-content a {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
 }
 
-.activities .card .content .user:hover {
-    color: rgba(0, 0, 0, 0.7);
+._index-activity .card .card-content a:hover {
+  color: rgba(0, 0, 0, 0.7);
 }
 
-.activities .card .content .text {
-    color: rgba(0, 0, 0, 0.8);
+._index-activity .card .card-content .card-text {
+  color: rgba(0, 0, 0, 0.8);
 }
 
-.activities .card .content .text .song {
-    color: black;
-    font-weight: bold;
-    text-decoration: none;
+._index-activity .card .card-content .card-avatar {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+  border-radius: 6666rem;
 }
 
-.activities .card .content .text .song:hover {
-    color: rgba(0, 0, 0, 0.7);
+._index-list {
+  width: calc(40% - 2rem);
 }
 
-.activities .card .content .avatar {
-    width: 2rem;
-    height: 2rem;
-    object-fit: cover;
-    border-radius: 6666rem;
+._index-list > div {
+  display: flex;
+  flex-direction: column;
+  background-color: #f2f2f2;
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 10px;
 }
 
-.list {
-    width: calc(40% - 2rem);
+._index-list .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
-.list .songs {
-    display: flex;
-    flex-direction: column;
-    background-color: #F2F2F2;
-    margin-top: 2rem;
-    padding: 2rem;
-    border-radius: 10px;
+._index-list .card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
 }
 
-.list .songs .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+._index-list .card > img {
+  width: 100%;
+  height: 75%;
+  object-fit: cover;
+  border-radius: 16px;
 }
 
-.list .songs .card {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-self: center;
+._index-list a {
+  color: black;
 }
 
-.list .songs .card>img {
-    width: 100%;
-    height: 75%;
-    object-fit: cover;
-    border-radius: 16px;
+._index-list a:hover {
+  color: rgba(0, 0, 0, 0.7);
 }
 
-.list a {
-    color: black
+._index-list .card > .title {
+  font-size: small;
+  color: rgba(0, 0, 0, 0.8);
 }
 
-.list a:hover {
-    color: rgba(0, 0, 0, 0.7);
+._index-list .card > .artist {
+  font-weight: bold;
+  font-size: larger;
 }
 
-.list .songs .card>.title {
-    font-size: small;
-    color: rgba(0, 0, 0, 0.8);
+._index-list .btn {
+  margin: 0 auto;
+  display: flex;
+  color: white;
+  background-color: #1b1c1d;
+  padding: 0.5rem 1.5rem;
+  border-radius: 3px;
+  width: max-content;
 }
 
-.list .songs .card>.artist {
-    font-weight: bold;
-    font-size: larger;
-}
-
-.list .songs .btn {
-    margin: 0 auto;
-    display: flex;
-    color: white;
-    background-color: #1B1C1D;
-    padding: 0.5rem 1.5rem;
-    border-radius: 3px;
-    width: max-content;
-}
-
-.follows {
-    width: calc(30% - 2rem);
-    height: 20rem;
-
+._index-follows {
+  width: calc(30% - 2rem);
+  height: 20rem;
 }
