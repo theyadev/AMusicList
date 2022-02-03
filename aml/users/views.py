@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.views.generic import DetailView, FormView
 from django.urls import reverse
 from .models import User, Lists, Activities
+from django.templatetags.static import static
 from django.contrib.auth import logout, login
 from .forms import LoginForm, SignupForm
 
@@ -16,10 +17,11 @@ def getRedirect(request):
     """
     Return the "to" parameter from a request, return "/" if no parameter
     """
-    try:
-        return request.GET["to"]
-    except:
-        return "/"
+
+    value_to = request.GET.get("to", "/")
+    value_to = "/" if value_to == "" else value_to
+
+    return value_to
 
 
 class LogoutView(View):
@@ -59,7 +61,10 @@ class LoginView(FormView):
         if user is not None:
             login(self.request, user)
 
-        return self.get(self.request)
+            redirect_url = getRedirect(self.request)
+            return redirect(redirect_url)
+
+        return redirect(self.request.get_full_path())
 
 
 class SignupView(LoginView):
@@ -87,7 +92,7 @@ class AddToListView(View):
             activity = Activities(song=song, user=request.user, action=action)
             activity.save()
 
-        return redirect("/song/" + str(songId))
+        return redirect(reverse("song", args=[songId]))
 
 
 class AddToFavourite(View):
@@ -112,9 +117,61 @@ class AddToFavourite(View):
                 activity = Activities(song=song, user=request.user, action=action)
                 activity.save()
             except:
-                return redirect("/song/" + str(songId))
+                return redirect(reverse("song", args=[songId]))
 
-        return redirect("/song/" + str(songId))
+        return redirect(reverse("song", args=[songId]))
+
+
+class HomeView(View):
+    template_name = "users/home.html"
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            user_list = [request.user]
+            user_list.extend(request.user.follows.all())
+
+            activites = Activities.objects.filter(user__in=user_list)
+            activites = sorted(
+                activites, key=lambda activity: activity.date, reverse=True
+            )
+
+            activites_html = ""
+
+            for activity in activites:
+                song_html = (
+                    f'<a href="/song/{ activity.song.id }">{ activity.song.title }</a>'
+                )
+
+                if activity.action == "ADDED":
+                    text_html = f"a ajouté {song_html} à sa liste !"
+                elif activity.action == "REMOVED":
+                    text_html = f"a retiré {song_html} de sa liste !"
+                elif activity.action == "ADDED FAVOURITE":
+                    text_html = f"a ajouté {song_html} à ses favoris !"
+                elif activity.action == "REMOVED FAVOURITE":
+                    text_html = f"a retiré {song_html} de ses favoris !"
+
+                html = f"""
+                <div class="card">
+                    <img src="{activity.song.imageUrl}" alt="">
+                    <div class="card-content">
+                        <a href="/user/{activity.user.id}">{activity.user.username}</a>
+                        <p class="card-text">{text_html}</p>
+                        <img class="card-avatar" src="{static('users/avatar.png')}" alt="{activity.user.username}">
+                    </div> 
+                </div>"""
+
+                activites_html += html
+
+            context = {
+                "activities": activites_html,
+                "list": request.user.list.all()[:4],
+                "active": "home"
+            }
+
+            return render(request, self.template_name, context)
+
+        return redirect("login")
 
 
 class UserView(DetailView):
@@ -128,6 +185,9 @@ class UserView(DetailView):
         context["is_following"] = (
             self.get_object().user_followers.filter(id=self.request.user.id).exists()
         )
+
+        if context['object'].id == self.request.user.id:
+            context['active'] = "user"
 
         return context
 
