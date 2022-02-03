@@ -1,4 +1,4 @@
-{% extends '_base.html' %}
+{% extends 'main/_base.html' %}
 {% block title %}{{ name }}{% endblock title %}
 
 {% block content %}
@@ -13,5 +13,5 @@
 <div style="display:flex;flex-wrap:wrap">
     {{ cards | safe }}
 </div>
-{% include  '_pagination.html' %}
+{% include  'songs/_pagination.html' %}
 {% endblock content %}

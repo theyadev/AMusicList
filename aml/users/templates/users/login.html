@@ -1,6 +1,6 @@
-{% extends '_base.html' %} {% block title %}Connexion{% endblock title %}
+{% extends 'main/_base.html' %} {% block title %}Connexion{% endblock title %}
 {%block nav %}{% endblock nav %} {% load static %} {% block meta %}
-<link rel="stylesheet" href="{% static '_login.css' %}" />{% endblock meta %} {% block content %}
+<link rel="stylesheet" href="{% static 'users/_login.css' %}" />{% endblock meta %} {% block content %}
 <div class="grid">
   <img src="{{ artist.imageUrl}}" alt="" />
   <div class="grid-right">

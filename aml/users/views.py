@@ -33,7 +33,7 @@ class LogoutView(View):
 
 
 class LoginView(FormView):
-    template_name = "login.html"
+    template_name = "users/login.html"
     form_class = LoginForm
 
     def get_context_data(self, **kwargs):
@@ -63,7 +63,7 @@ class LoginView(FormView):
 
 
 class SignupView(LoginView):
-    template_name = "signup.html"
+    template_name = "users/signup.html"
     form_class = SignupForm
 
 
@@ -118,7 +118,7 @@ class AddToFavourite(View):
 
 
 class UserView(DetailView):
-    template_name = "user.html"
+    template_name = "users/user.html"
     model = User
 
     def get_context_data(self, **kwargs):

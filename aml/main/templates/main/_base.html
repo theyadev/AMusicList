@@ -6,13 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   {% load static %}
-  <link rel="stylesheet" href="{% static 'style.css' %}" />
+  <link rel="stylesheet" href="{% static 'main/style.css' %}" />
   <title>{% block title%}{% endblock title %}</title>
   {% block meta %}{% endblock meta %}
 </head>
 
 <body>
-  {% block nav %}{% include './navbar.html' %}{% endblock nav %}
+  {% block nav %}{% include 'main/_navbar.html' %}{% endblock nav %}
   {% block content%}{% endblock content %}
 </body>
 

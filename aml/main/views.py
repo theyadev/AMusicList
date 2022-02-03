@@ -7,8 +7,8 @@ from users.models import Activities
 
 
 class MainView(View):
-    template_name = "index.html"
-    template_name_logged = "logged_index.html"
+    template_name = "main/index.html"
+    template_name_logged = "users/logged_index.html"
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
