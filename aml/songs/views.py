@@ -16,6 +16,7 @@ class BrowseView(ListView):
     template_name = "songs/browse.html"
     paginate_by = 100
     name = None
+    active = None
     options = """
         <option value="name">Nom</option>
         <option value="id">id</option>
@@ -63,6 +64,7 @@ class BrowseView(ListView):
         context["order"] = self.request.GET.get("order", "title")
         context["cards"] = self.get_cards()
         context["name"] = self.name
+        context['active'] = self.active
 
         get_copy = self.request.GET.copy()
 
@@ -138,6 +140,7 @@ class SongsView(BrowseView):
         <option value="id">id</option>
         <option value="artists__name">Artiste</option>
     """
+    active = "songs"
 
     def filter_queryset(self):
         filter_val = self.request.GET.get("search", "")
@@ -155,6 +158,7 @@ class SongsView(BrowseView):
 class ArtistsView(BrowseView):
     model = Artist
     name = "Artistes"
+    active = "artists"
 
     def filter_queryset(self):
         filter_val = self.request.GET.get("search", "")
@@ -167,6 +171,7 @@ class ArtistsView(BrowseView):
 class AlbumsView(BrowseView):
     model = Album
     name = "Albums"
+    active = "albums"
 
     def filter_queryset(self):
         filter_val = self.request.GET.get("search", "")
