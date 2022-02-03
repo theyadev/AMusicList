@@ -6,9 +6,77 @@ from .models import Album, Song, Artist
 
 from users.models import Activities, Lists
 
+
+class BrowseView(ListView):
+    """
+    Render the browse page with desired model
+    """
+
+    model = None
+    template_name = "songs/browse.html"
+    paginate_by = 100
+    name = None
+    options = """
+        <option value="name">Nom</option>
+        <option value="id">id</option>
+    """
+
+    def filter_queryset(self):
+        return self.model.objects
+
+    def get_queryset(self):
+        order_val = self.request.GET.get("order", "id")
+
+        queryset = self.filter_queryset().order_by(order_val).distinct(order_val)
+
+        return queryset
+
+    def get_data(self, item):
+        """
+        Returns data to fill the card.
+
+        Needs to return id, image_link and a name
+        """
+
+        return item.id, item.imageUrl, item.name
+
+    def get_cards(self):
+        cards = ""
+        for item in self.paginate_queryset(self.get_queryset(), self.paginate_by)[2]:
+            id, image_url, name = self.get_data(item)
+            card = f"""
+            <div style="margin: 0 5px">
+                <a href="{reverse(self.model.__name__.lower(), args=[id])}">
+                    <img style="width:10rem" src="{image_url}" alt="{name}">
+                    <p style="text-align:center;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;width:17ch">
+                        {name}</p>
+                </a>
+            </div>
+            """
+
+            cards += card
+        return cards
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search"] = self.request.GET.get("search", "")
+        context["order"] = self.request.GET.get("order", "title")
+        context["cards"] = self.get_cards()
+        context["name"] = self.name
+
+        get_copy = self.request.GET.copy()
+
+        if get_copy.get("page"):
+            get_copy.pop("page")
+
+        context["get_copy"] = get_copy
+
+        return context
+
+
 # Create your views here.
 class SongView(DetailView):
-    template_name = "song.html"
+    template_name = "songs/song.html"
     model = Song
 
     def get_context_data(self, **kwargs):
@@ -26,7 +94,7 @@ class SongView(DetailView):
 
 
 class ArtistView(DetailView):
-    template_name = "artist.html"
+    template_name = "songs/artist.html"
 
     model = Artist
 
@@ -57,48 +125,10 @@ class ArtistView(DetailView):
 
 
 class AlbumView(DetailView):
-    template_name = "album.html"
+    template_name = "songs/album.html"
 
     model = Album
 
-class BrowseView(ListView):
-    model = None
-    template_name = "browse.html"
-    paginate_by = 100
-    name = None
-    options = """
-        <option value="name">Nom</option>
-        <option value="id">id</option>
-    """
-
-    def filter_queryset(self):
-        return self.model.objects
-
-    def get_queryset(self):
-        order_val = self.request.GET.get("order", "id")
-
-        queryset = self.filter_queryset().order_by(order_val).distinct(order_val)
-
-        return queryset
-
-    def get_cards(self):
-        return ""
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["search"] = self.request.GET.get("search", "")
-        context["order"] = self.request.GET.get("order", "title")
-        context['cards'] = self.get_cards()
-        context['name'] = self.name
-
-        get_copy = self.request.GET.copy()
-
-        if get_copy.get("page"):
-            get_copy.pop("page")
-
-        context["get_copy"] = get_copy
-
-        return context
 
 class SongsView(BrowseView):
     model = Song
@@ -113,27 +143,14 @@ class SongsView(BrowseView):
         filter_val = self.request.GET.get("search", "")
 
         queryset = self.model.objects.filter(
-                Q(title__icontains=filter_val) | Q(artists__name__icontains=filter_val)
-            )
+            Q(title__icontains=filter_val) | Q(artists__name__icontains=filter_val)
+        )
 
         return queryset
 
-    def get_cards(self):
-        cards = ""
+    def get_data(self, item):
+        return item.id, item.imageUrl, item.title
 
-        for song in self.paginate_queryset(self.get_queryset(), self.paginate_by)[2]:
-            card = f"""
-            <div style="margin: 0 5px">
-                <a href="/song/{song.id}">
-                    <img style="width:10rem" src="{song.imageUrl}" alt="{song.title}'s Cover">
-                    <p style="text-align:center;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;width:17ch">
-                        {song.title}</p>
-                </a>
-            </div>
-            """
-
-            cards += card
-        return cards
 
 class ArtistsView(BrowseView):
     model = Artist
@@ -142,27 +159,11 @@ class ArtistsView(BrowseView):
     def filter_queryset(self):
         filter_val = self.request.GET.get("search", "")
 
-        queryset = self.model.objects.filter( name__icontains=filter_val )
+        queryset = self.model.objects.filter(name__icontains=filter_val)
 
         return queryset
 
-    def get_cards(self):
-        cards = ""
 
-        for artist in self.paginate_queryset(self.get_queryset(), self.paginate_by)[2]:
-            card = f"""
-                <div style="margin: 0 5px">
-                    <a href="/artist/{artist.id}"><img style="width:10rem" src="{artist.imageUrl}"
-                            alt="{artist.name}'s Cover">
-                        <p style="text-align:center;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;width:17ch">
-                            {artist.name}</p>
-                    </a>
-                </div>
-            """
-
-            cards += card
-        return cards
-    
 class AlbumsView(BrowseView):
     model = Album
     name = "Albums"
@@ -170,25 +171,8 @@ class AlbumsView(BrowseView):
     def filter_queryset(self):
         filter_val = self.request.GET.get("search", "")
 
-        queryset = self.model.objects.filter(Q(name__icontains=filter_val) | Q(artists__name__icontains=filter_val))
+        queryset = self.model.objects.filter(
+            Q(name__icontains=filter_val) | Q(artists__name__icontains=filter_val)
+        )
 
         return queryset
-
-    def get_cards(self):
-        cards = ""
-
-        for album in self.paginate_queryset(self.get_queryset(), self.paginate_by)[2]:
-            card = f"""
-                <div style="margin: 0 5px">
-                    <a href="/album/{album.id}"><img style="width:10rem" src="{album.imageUrl}"
-                            alt="{album.name}'s Cover">
-                        <p style="text-align:center;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;width:17ch">
-                            {album.name}</p>
-                    </a>
-                </div>
-            """
-
-
-            cards += card
-        return cards
-    
