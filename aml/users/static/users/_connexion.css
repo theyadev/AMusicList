@@ -1,0 +1,129 @@
+._connexion-grid {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+._connexion-grid > *:nth-child(1) {
+    position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+._connexion-grid > *:nth-child(1) > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.name {
+    font-weight: bold;
+    font-size: xx-large;
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+}
+
+._connexion-grid > *:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  place-self: center;
+}
+
+._connexion-grid > *:nth-child(2) > h2 {
+  font-weight: bold;
+  font-size: x-large;
+  text-align: center;
+  padding-bottom: 1rem;
+}
+
+._connexion-grid > *:nth-child(2) > p {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.8);
+  padding-bottom: 2rem;
+}
+
+._connexion-form {
+  display: flex;
+  flex-direction: column;
+}
+
+._connexion-form > label {
+  font-size: small;
+  font-weight: bold;
+  padding-bottom: 0.5rem;
+  padding-top: 1rem;
+}
+
+._connexion-form input {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+}
+
+._connexion-form > .checkbox {
+  padding-top: 1rem;
+  padding-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+._connexion-form > .checkbox > label {
+  padding: 0;
+  margin: 0;
+  margin-left: 0.25rem;
+  font-size: small;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+._connexion-form > .forgot_password {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  padding-bottom: 1rem;
+  color: #2185d0;
+  font-size: small;
+}
+
+._connexion-form > .buttons {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.8);
+  background-color: #e0e1e2;
+  font-size: small;
+  font-weight: bold;
+}
+
+.button.blue {
+  color: white;
+  background-color: #2185d0;
+}
+
+.button-container {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+._connexion-form .already {
+    margin-top: 1rem;
+    color: #2185d0;
+    font-size: smaller;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
