@@ -46,6 +46,10 @@ object {
   display: block;
 }
 
+* {
+  font-family: "Lato", sans-serif;
+}
+
 *,
 ::before,
 ::after {
@@ -59,7 +63,6 @@ object {
 
 body {
   margin: 0;
-  font-family: "Lato", sans-serif;
   width: 100vw;
   overflow-x: hidden;
 }
