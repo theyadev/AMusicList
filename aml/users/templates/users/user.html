@@ -4,15 +4,18 @@
 
 {% block content %}
 <div>
-  {% if object.username != user.username %}
-  {% if user.is_authenticated %}
-  <form method="post">
-    {% csrf_token %}
-    <button>{% if is_following %}Unfollow{% else %}Follow{% endif %}</button>
-  </form>
-  {% endif %}
+  {% if object.id != user.id %}
+    {% if user.is_authenticated %}
+    <form method="post">
+      {% csrf_token %}
+      <button>{% if is_following %}Unfollow{% else %}Follow{% endif %}</button>
+    </form>
+    {% endif %}
   {% endif %}
   <h1><strong>Liste de {{ object.username }}</strong></h1>
+  {% if object.id == user.id %}
+    <a href="{% url 'settings' user.id %}">Settings</a>
+  {% endif %}
   <div style="display: flex; flex-wrap: wrap">
     {% for list in object.user_list.all %}
     <div style="margin: 5px 5px">

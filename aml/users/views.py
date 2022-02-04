@@ -1,10 +1,11 @@
 from django.shortcuts import redirect, render
 from django.views.generic import DetailView, FormView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.urls import reverse
 from .models import User, Lists, Activities
 from django.templatetags.static import static
-from django.contrib.auth import logout, login
-from .forms import LoginForm, SignupForm
+from django.contrib.auth import logout, login, update_session_auth_hash
+from .forms import LoginForm, SettingsForm, SignupForm
 
 from django.views import View
 
@@ -70,6 +71,37 @@ class LoginView(FormView):
 class SignupView(LoginView):
     template_name = "users/signup.html"
     form_class = SignupForm
+
+
+class SettingsView(View):
+    template_name = "users/settings.html"
+
+    def get_context_data(self, **kwargs):
+        context = {}
+
+        context["form"] = SettingsForm(instance=self.request.user)
+
+        return context
+
+    def get(self, request, *args, **kwargs):
+        if request.user.id != kwargs["pk"]:
+            return redirect("/")
+
+        return render(request, self.template_name, self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
+        if request.user.id != kwargs["pk"]:
+            return redirect("/")
+
+        form = SettingsForm(request.POST, instance=self.request.user)
+
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+
+            return redirect(reverse("user", args=[user.id]))
+
+        return render(request, self.template_name, self.get_context_data())
 
 
 class AddToListView(View):
@@ -166,7 +198,7 @@ class HomeView(View):
             context = {
                 "activities": activites_html,
                 "list": request.user.list.all()[:4],
-                "active": "home"
+                "active": "home",
             }
 
             return render(request, self.template_name, context)
@@ -186,8 +218,8 @@ class UserView(DetailView):
             self.get_object().user_followers.filter(id=self.request.user.id).exists()
         )
 
-        if context['object'].id == self.request.user.id:
-            context['active'] = "user"
+        if context["object"].id == self.request.user.id:
+            context["active"] = "user"
 
         return context
 

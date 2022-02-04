@@ -5,7 +5,9 @@ from users.models import User
 
 class LoginForm(forms.Form):
     email = forms.EmailField(label="Addresse Email", max_length=150, label_suffix="")
-    password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput(), label_suffix="")
+    password = forms.CharField(
+        label="Mot de passe", widget=forms.PasswordInput(), label_suffix=""
+    )
 
     def get_user(self, request):
         email = self.cleaned_data["email"]
@@ -17,7 +19,9 @@ class LoginForm(forms.Form):
 class SignupForm(forms.Form):
     email = forms.EmailField(label="Addresse Email", max_length=150, label_suffix="")
     username = forms.CharField(label="Pseudonyme", max_length=150, label_suffix="")
-    password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput(), label_suffix="")
+    password = forms.CharField(
+        label="Mot de passe", widget=forms.PasswordInput(), label_suffix=""
+    )
     confirm_password = forms.CharField(
         label="Confirmer le Mot de Passe", widget=forms.PasswordInput()
     )
@@ -46,3 +50,41 @@ class SignupForm(forms.Form):
         user.save()
 
         return authenticate(request, email=email, password=password)
+
+
+class SettingsForm(forms.ModelForm):
+    class Meta:
+        model = User
+        help_texts = {
+            "username": None,
+        }
+        fields = ["username", "email"]
+
+    old_password = forms.CharField(
+        label="Ancien mot de passe", widget=forms.PasswordInput(), label_suffix=""
+    )
+    password = forms.CharField(
+        label="Nouveau mot de passe", widget=forms.PasswordInput(), label_suffix=""
+    )
+    confirm_password = forms.CharField(
+        label="Confirmer le mot de passe", widget=forms.PasswordInput()
+    )
+
+    def is_valid(self) -> bool:
+        if not super().is_valid():
+            return False
+
+        if self.cleaned_data['password'] != self.cleaned_data['confirm_password']:
+            return False
+        
+        if not self.instance.check_password(self.cleaned_data['old_password']):
+            return False
+
+        return True
+
+    def save(self):
+        user = super(SettingsForm, self).save(commit=False)
+        user.set_password(self.cleaned_data['password'])
+        user.save()
+        
+        return user
