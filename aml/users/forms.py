@@ -59,7 +59,7 @@ class SettingsForm(forms.ModelForm):
             "username": None,
         }
         fields = ["username", "email"]
-
+class SettingsPasswordForm(forms.Form):
     old_password = forms.CharField(
         label="Ancien mot de passe", widget=forms.PasswordInput(), label_suffix=""
     )
@@ -70,20 +70,19 @@ class SettingsForm(forms.ModelForm):
         label="Confirmer le mot de passe", widget=forms.PasswordInput()
     )
 
-    def is_valid(self) -> bool:
+    def is_valid(self, user) -> bool:
         if not super().is_valid():
             return False
 
         if self.cleaned_data['password'] != self.cleaned_data['confirm_password']:
             return False
         
-        if not self.instance.check_password(self.cleaned_data['old_password']):
+        if not user.check_password(self.cleaned_data['old_password']):
             return False
 
         return True
 
-    def save(self):
-        user = super(SettingsForm, self).save(commit=False)
+    def save(self, user):
         user.set_password(self.cleaned_data['password'])
         user.save()
         

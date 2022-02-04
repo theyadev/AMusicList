@@ -13,13 +13,13 @@
   flex-direction: column;
 }
 
-._index-container div h1 {
+._index-container div h2 {
   font-weight: bold;
   font-size: larger;
 }
 
 ._index-activity {
-  width: calc(30% - 2rem);
+  width: calc(35% - 2rem);
   height: 20rem;
 }
 
@@ -72,7 +72,7 @@
 }
 
 ._index-list {
-  width: calc(40% - 2rem);
+  width: calc(50% - 2rem);
 }
 
 ._index-list > div {
@@ -132,6 +132,41 @@
 }
 
 ._index-follows {
-  width: calc(30% - 2rem);
+  width: calc(15% - 2rem);
   height: 20rem;
+}
+
+._index-follows > div {
+  background-color: #f2f2f2;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1rem 2rem 2rem 2rem;
+  border-radius: 10px;
+}
+
+.follow-card {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.follow-card > img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 666rem;
+}
+
+.follow-card > a:hover {
+  color: rgba(0, 0, 0, 0.7);
+}
+  .follow-card > a {
+  color: rgba(0, 0, 0);
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.center {
+  margin: 0 auto;
 }

@@ -9,5 +9,10 @@
         {{ form }}
         <button>sdhoqs</button>
     </form>
+    <form style="display:flex;flex-direction:column;" method="post">
+        {% csrf_token %} 
+        {{ password_form }}
+        <button>sdhoqs</button>
+    </form>
 </div>
 {% endblock content %}

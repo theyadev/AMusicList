@@ -5,7 +5,7 @@ from django.urls import reverse
 from .models import User, Lists, Activities
 from django.templatetags.static import static
 from django.contrib.auth import logout, login, update_session_auth_hash
-from .forms import LoginForm, SettingsForm, SignupForm
+from .forms import LoginForm, SettingsForm, SettingsPasswordForm, SignupForm
 
 from django.views import View
 
@@ -80,6 +80,7 @@ class SettingsView(View):
         context = {}
 
         context["form"] = SettingsForm(instance=self.request.user)
+        context["password_form"] = SettingsPasswordForm
 
         return context
 
@@ -94,9 +95,15 @@ class SettingsView(View):
             return redirect("/")
 
         form = SettingsForm(request.POST, instance=self.request.user)
+        password_form = SettingsPasswordForm(request.POST)
 
         if form.is_valid():
             user = form.save()
+
+            return redirect(reverse("user", args=[user.id]))
+
+        if password_form.is_valid(request.user):
+            user = password_form.save(request.user)
             update_session_auth_hash(request, user)
 
             return redirect(reverse("user", args=[user.id]))
@@ -198,6 +205,7 @@ class HomeView(View):
             context = {
                 "activities": activites_html,
                 "list": request.user.list.all()[:4],
+                "follows": request.user.follows.all()[:4],
                 "active": "home",
             }
 
