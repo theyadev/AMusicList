@@ -9,4 +9,5 @@ urlpatterns = [
     path("songs", views.SongsView.as_view(), name="songs"),
     path("artists", views.ArtistsView.as_view(), name="artists"),
     path("albums", views.AlbumsView.as_view(), name="albums"),
+    path("add", views.AddView.as_view(), name="add"),
 ]

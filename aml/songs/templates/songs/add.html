@@ -1,0 +1,17 @@
+{% extends 'main/_base.html' %}
+
+{% block title %}
+Add songs
+{% endblock title %}
+
+{% block content %}
+<div>
+<form method="get">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button>Submit</button>
+</form>
+
+{{cards |safe}}
+</div>
+{% endblock content%}

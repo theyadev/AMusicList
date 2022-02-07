@@ -110,6 +110,11 @@ def importTracksFromAlbum(album_id: str):
 
         albumModel.save()
 
+def importAlbumFromTrack(track_id: str):
+    track = sp.track(track_id)
+
+    importTracksFromAlbum(track["album"]['id'])
+
 
 def importTrack(
     spotify_id: str,
