@@ -127,6 +127,12 @@ class AddView(FormView):
         return cards
 
     def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('/')
+
+        if not request.user.groups.all().filter(name="Modérateur").exists():
+            return redirect('/')
+
         context = self.get_context_data()
 
         query_list, query_type, csrf = self.handle_form(request.GET)
