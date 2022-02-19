@@ -4,17 +4,47 @@
 {{ album.name }}
 {% endblock title %}
 
+{% load static %}
+{% block meta %}
+<link rel="stylesheet" href="{% static 'songs/_song.css' %}" />
+<link rel="stylesheet" href="{% static 'songs/_artist.css' %}" />
+{% endblock meta %}
+
 {% block content %}
-<div>
-    <img style="width:10rem" src="{{album.imageUrl}}" alt="">
-    <h1><b>Album Name</b>: {{album.name}}</h1>
-    <h3><b>Songs:</b></h3>
-    <div style="display:flex;flex-direction: column;flex-wrap:wrap ">
+<div class="_songs-image-title _songs-grid">
+    <img src="{{album.imageUrl}}" alt="">
+    <div>
+      <h1>{{album.name}}</h1>
+    </div>
+  </div>
+  
+  <div class="_songs-albums-artists _songs-grid">
+    <div>
+      <p class="_songs-cards-name">Artistes</p>
+      <div class="_songs-albums-cards">
+        {% for artist in album.artists.all %}
+        <a href="{% url 'artist' artist.id %}" class="card">
+          <div class="card-text-container">
+            <span>{{ artist.name }}</span>
+          </div>
+          <img src="{{artist.imageUrl}}" alt="">
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    <div>
+      <h3 class="_artist-songs">Musiques</h3>
+      <div class="_artist-songs-cards">
         {% for song in album.songs.all %}
-        <div>
-            <a href="{% url 'song' song.id %}">{{song.title}}</a>
+        <div class="card">
+          <div class="card-img">
+            <img src="{{song.imageUrl}}" alt="">
+          </div>
+          <div class="card-content">
+            <a href="{% url 'song' song.id %}" class="card-name">{{song.title}}</a>
+          </div>
         </div>
         {% endfor %}
+      </div>
     </div>
-</div>
 {% endblock content%}
