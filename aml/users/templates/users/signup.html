@@ -17,7 +17,7 @@
   <div>
     <h2>A Music List</h2>
     <p>Création d'un compte</p>
-    <form class="_connexion-form" action="?to={{request.GET.to}}" method="post">
+    <form class="_connexion-form" action="?to={{request.GET.to}}" method="post" enctype="multipart/form-data">
       {% csrf_token %} {{ form }}
       <div class="checkbox">
         <input id="id_conditions" type="checkbox" />

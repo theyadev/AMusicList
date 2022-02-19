@@ -1,5 +1,5 @@
 {% extends 'main/_base.html' %}
-
+{% load static %}
 {% block title %}Profile de {{ object.username }}{% endblock title %}
 
 {% block content %}
@@ -12,6 +12,7 @@
     </form>
     {% endif %}
   {% endif %}
+  <img src="/{{ object.avatar }}" alt="">
   <h1><strong>Liste de {{ object.username }}</strong></h1>
   {% if object.id == user.id %}
     <a href="{% url 'settings' user.id %}">Settings</a>

@@ -37,7 +37,8 @@
         <div>
             {% for follow_user in follows %}
             <div class="follow-card">
-                <img src="{% static 'users/avatar.png' %}" alt="">
+                <img src="{% if follow_user.avatar %}/{{follow_user.avatar}}{% else %}{% static 'users/avatar.png' %}{% endif %}"
+                    alt="{{follow_user.username}}">
                 <a href="{% url 'user' follow_user.id %}">{{follow_user.username}}</a>
             </div>
             {% empty %}

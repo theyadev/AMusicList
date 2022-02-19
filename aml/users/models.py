@@ -9,6 +9,7 @@ from songs.models import Song, Artist
 class User(AbstractUser):
     list = models.ManyToManyField(Song, through="Lists")
     email = models.EmailField('Addresse Email', unique=True)
+    avatar = models.ImageField(upload_to="avatars/", blank=True)
     favourite_artists = models.ManyToManyField(Artist, related_name="user_favourites")
     activity = models.ManyToManyField(
         Song, through="Activities", related_name="activity"

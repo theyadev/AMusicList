@@ -25,10 +25,12 @@ class SignupForm(forms.Form):
     confirm_password = forms.CharField(
         label="Confirmer le Mot de Passe", widget=forms.PasswordInput()
     )
+    avatar = forms.ImageField()
 
     def get_user(self, request):
         email = self.cleaned_data["email"]
         username = self.cleaned_data["username"]
+        avatar = self.cleaned_data["avatar"]
         password = self.cleaned_data["password"]
         confirm_password = self.cleaned_data["confirm_password"]
 
@@ -42,6 +44,8 @@ class SignupForm(forms.Form):
 
         try:
             user = User.objects.create_user(username, email, password)
+            user.avatar = avatar
+            user.save()
         except Exception as error:
             print(error)
             print("Impossible de creer")

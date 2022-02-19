@@ -45,7 +45,7 @@ class LoginView(FormView):
         artists = Artist.objects.exclude(imageUrl="")
 
         context = {"form": self.form_class(), "artist": choice(artists.all())}
-
+        print(context)
         return context
 
     def get(self, request, *args, **kwargs):
@@ -59,6 +59,8 @@ class LoginView(FormView):
     def form_valid(self, form):
         user = form.get_user(self.request)
 
+        print(user)
+
         if user is not None:
             login(self.request, user)
 
@@ -67,6 +69,10 @@ class LoginView(FormView):
 
         return redirect(self.request.get_full_path())
 
+    def form_invalid(self, form):
+        print(form.errors)
+        print(self.request.FILES)
+        return super().form_invalid(form)
 
 class SignupView(LoginView):
     template_name = "users/signup.html"
@@ -190,13 +196,15 @@ class HomeView(View):
                 elif activity.action == "REMOVED FAVOURITE":
                     text_html = f"a retiré {song_html} de ses favoris !"
 
+                avatar = activity.user.avatar if activity.user.avatar else static('users/avatar.png')
+                
                 html = f"""
                 <div class="card">
                     <img src="{activity.song.imageUrl}" alt="">
                     <div class="card-content">
                         <a href="/user/{activity.user.id}">{activity.user.username}</a>
                         <p class="card-text">{text_html}</p>
-                        <img class="card-avatar" src="{static('users/avatar.png')}" alt="{activity.user.username}">
+                        <img class="card-avatar" src="{avatar}" alt="{activity.user.username}">
                     </div> 
                 </div>"""
 
