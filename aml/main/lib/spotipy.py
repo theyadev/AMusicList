@@ -4,7 +4,7 @@ from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 from dotenv import load_dotenv
 from os import getenv
 
-from main.models import Song, Artist, Album
+from songs.models import Song, Artist, Album
 
 load_dotenv()
 
@@ -109,6 +109,11 @@ def importTracksFromAlbum(album_id: str):
         albumModel.songs.add(song)
 
         albumModel.save()
+
+def importAlbumFromTrack(track_id: str):
+    track = sp.track(track_id)
+
+    importTracksFromAlbum(track["album"]['id'])
 
 
 def importTrack(

@@ -1,0 +1,20 @@
+{% extends 'main/_base.html' %}
+
+{% block title %}
+{{ album.name }}
+{% endblock title %}
+
+{% block content %}
+<div>
+    <img style="width:10rem" src="{{album.imageUrl}}" alt="">
+    <h1><b>Album Name</b>: {{album.name}}</h1>
+    <h3><b>Songs:</b></h3>
+    <div style="display:flex;flex-direction: column;flex-wrap:wrap ">
+        {% for song in album.songs.all %}
+        <div>
+            <a href="{% url 'song' song.id %}">{{song.title}}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content%}

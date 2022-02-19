@@ -35,10 +35,12 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-AUTHENTICATION_BACKENDS = ['main.lib.auth.EmailBackend']
+AUTHENTICATION_BACKENDS = ['users.lib.auth.EmailBackend']
 
 INSTALLED_APPS = [
     'main.apps.MainConfig',
+    'songs.apps.SongsConfig',
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,7 +83,7 @@ WSGI_APPLICATION = 'aml.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-AUTH_USER_MODEL = 'main.User'
+AUTH_USER_MODEL = 'users.User'
 
 DATABASES = {
     'default': {

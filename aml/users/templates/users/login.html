@@ -1,0 +1,30 @@
+{% extends 'main/_base.html' %} {% block title %}Connexion{% endblock title %}
+{%block nav %}{% endblock nav %} {% load static %} {% block meta %}
+<link rel="stylesheet" href="{% static 'users/_connexion.css' %}" />{% endblock meta %} {% block content %}
+<div class="_connexion-grid">
+  <div>
+    <a href="{% url 'artist' artist.id %}" target="_blank" class="name">
+      {{artist.name}}
+    </a>
+    <img src="{{ artist.imageUrl}}" alt="" />
+  </div>
+  <div>
+    <h2>A Music List</h2>
+    <p>Connectez vous ou créez un compte !</p>
+    <form class="_connexion-form" action="?to={{request.GET.to}}" method="post">
+      {% csrf_token %} {{ form }}
+      <div class="checkbox">
+        <input id="id_remember" type="checkbox" />
+        <label for="id_remember">Se souvenir de moi</label>
+      </div>
+
+      <a class="forgot_password" href="#">Mot de passe oubliée</a>
+      <div class="buttons">
+        <button class="button blue" type="submit">Connexion</button>
+        <a href="/signup?to={{request.GET.to}}" class="button" type="submit">Inscription</a>
+      </div>
+      <a class="already" href="{% url 'songs' %}">Continuer sans me connecter !</a>
+    </form>
+  </div>
+</div>
+{% endblock content %}

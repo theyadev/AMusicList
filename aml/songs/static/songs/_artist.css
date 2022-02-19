@@ -1,0 +1,68 @@
+._songs-list-buttons {
+  display: flex;
+  height: 2rem;
+}
+
+._songs-list-buttons .add-button-form {
+  display: flex;
+  width: 100%;
+
+}
+
+._songs-list-buttons .add-button-form>button {
+  cursor: pointer;
+  background-color: #FBBD08;
+  border-radius: 4px;
+  color: white;
+  width: 100%;
+  font-weight: bold;
+}
+
+
+._artist-songs {
+  font-weight: bold;
+  color: black;
+}
+
+._artist-songs-cards {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+._artist-songs-cards>.card {
+  margin-top: 0.5rem;
+  margin-left: 1.5rem;
+  width: 16rem;
+  height: 8rem;
+  outline: 1px solid #d4d4d5;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+._artist-songs-cards>.card>.card-img {
+  height: 5rem;
+  width: 100%;
+}
+
+._artist-songs-cards>.card>.card-img>img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+._artist-songs-cards>.card>.card-content {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+._artist-songs-cards>.card>.card-content .card-name {
+  color: black;
+  font-weight: bold;
+  font-size: larger;
+  text-align: center;
+}

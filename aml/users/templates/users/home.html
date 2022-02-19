@@ -1,0 +1,50 @@
+{% extends 'main/_base.html' %}
+{% block title %} Accueil{% endblock title %}
+{% load static %}
+{% block meta %}
+<link rel="stylesheet" href="{% static 'users/_index.css' %}" />{% endblock meta %}
+{% block content %}
+<div class="_index-container">
+    <div class="_index-activity">
+        <h2>Activité</h2>
+        <div>
+            {{ activities | safe }}
+        </div>
+    </div>
+    <div class="_index-list">
+        <h2 class="right">Votre Liste</h2>
+        <div>
+            <div class="grid">
+                {% for song in list %}
+                <div class="card">
+                    <img src="{{song.imageUrl}}" alt="">
+                    <a href="{% url 'song' song.id %}" class="title">{{song.title}}</a>
+                    <a href="{% url 'song' song.id %}" class="artist">{{song.artists.all.0.name}}</a>
+                </div>
+                {% empty %}
+                <div>
+                    Aucune musique dans votre liste :(
+                </div>
+                {% endfor %}
+            </div>
+            {% if list %}
+            <a href="{% url 'user' user.id %}" class="btn">Voir plus</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="_index-follows">
+        <h2 class="center">Abonnements</h2>
+        <div>
+            {% for follow_user in follows %}
+            <div class="follow-card">
+                <img src="{% static 'users/avatar.png' %}" alt="">
+                <a href="{% url 'user' follow_user.id %}">{{follow_user.username}}</a>
+            </div>
+            {% empty %}
+            Vous avez suivis personne :(
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

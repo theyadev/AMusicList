@@ -1,0 +1,61 @@
+{% extends 'main/_base.html' %} 
+
+{% block title %}{{artist.name}}{% endblock title %}
+
+{% load static %}
+{% block meta %}
+<link rel="stylesheet" href="{% static 'songs/_song.css' %}" />
+<link rel="stylesheet" href="{% static 'songs/_artist.css' %}" />
+{% endblock meta %}
+
+{% block content %}
+<div class="_songs-image-title _songs-grid">
+  <img src="{{artist.imageUrl}}" alt="">
+  <div>
+    <h1>{{artist.name}}</h1>
+    <div>
+      <p class="name">{{artist.description}}</p>
+    </div>
+  </div>
+</div>
+
+<div class="_songs-albums-artists _songs-grid">
+  <div>
+    {% if user.is_authenticated %}
+    <div class="_songs-list-buttons">
+      <form class="add-button-form" method="POST">
+        {% csrf_token %}
+        <button type="submit">
+          {% if favourite %}Retirer des favoris {% else %}Ajouter aux favoris {% endif %}
+        </button>
+      </form>
+    </div>
+    {% endif %} 
+    <p class="_songs-cards-name">Albums</p>
+    <div class="_songs-albums-cards">
+      {% for album in artist.artist_albums.all %}
+      <a href="{% url 'album' album.id %}" class="card">
+        <div class="card-text-container">
+          <span>{{ album.name }}</span>
+        </div>
+        <img src="{{album.imageUrl}}" alt="">
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  <div>
+    <h3 class="_artist-songs">Musiques</h3>
+    <div class="_artist-songs-cards">
+      {% for song in artist.artist_songs.all %}
+      <div class="card">
+        <div class="card-img">
+          <img src="{{song.imageUrl}}" alt="">
+        </div>
+        <div class="card-content">
+          <a href="{% url 'song' song.id %}" class="card-name">{{song.title}}</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock content %}

@@ -1,0 +1,31 @@
+{% extends 'main/_base.html' %}
+
+{% block title %}Inscription{% endblock title %}
+{% load static %}
+{% block meta %}
+<link rel="stylesheet" href="{% static 'users/_connexion.css' %}" />{% endblock meta %}
+{% block nav %}{% endblock nav %}
+
+{% block content %}
+<div class="_connexion-grid">
+  <div>
+    <a href="{% url 'artist' artist.id %}" target="_blank" class="name">
+      {{artist.name}}
+    </a>
+    <img src="{{ artist.imageUrl}}" alt="" />
+  </div>
+  <div>
+    <h2>A Music List</h2>
+    <p>Création d'un compte</p>
+    <form class="_connexion-form" action="?to={{request.GET.to}}" method="post">
+      {% csrf_token %} {{ form }}
+      <div class="checkbox">
+        <input id="id_conditions" type="checkbox" />
+        <label for="id_conditions">J'accepte les <a href="#">conditions d'utilisation</a></label>
+      </div>
+      <div class="button-container"><button class="button blue" type="submit">Inscription</button></div>
+      <a class="already" href="{% url 'login' %}">J'ai deja un compte !</a>
+    </form>
+  </div>
+</div>
+{% endblock content %}
