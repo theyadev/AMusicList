@@ -1,39 +1,61 @@
-{% extends 'main/_base.html' %} {% block title %}{{artist.name}}{% endblock title %}
+{% extends 'main/_base.html' %} 
+
+{% block title %}{{artist.name}}{% endblock title %}
+
+{% load static %}
+{% block meta %}
+<link rel="stylesheet" href="{% static 'songs/_song.css' %}" />
+<link rel="stylesheet" href="{% static 'songs/_artist.css' %}" />
+{% endblock meta %}
+
 {% block content %}
-<div style="display: flex">
+<div class="_songs-image-title _songs-grid">
+  <img src="{{artist.imageUrl}}" alt="">
   <div>
-    <img style="width: 10rem" src="{{artist.imageUrl}}" alt="" />
-    <p style="text-align: center">{{ artist.name }}</p>
-    {% if user.is_authenticated %}
-    <form method="POST">
-      {% csrf_token %}
-      <button type="submit">
-        {% if favourite %}Retirer des favoris {% else %}Ajouter aux favoris {% endif %}
-      </button>
-    </form>
-    {% endif %}
+    <h1>{{artist.name}}</h1>
+    <div>
+      <p class="name">{{artist.description}}</p>
+    </div>
   </div>
 </div>
 
-<div>
-  <h1><strong>Albums</strong></h1>
-  {% for album in artist.artist_albums.all %}
-  <a href="{% url 'album' album.id %}">
-    <p>{{album.name}}</p>
-  </a>
-  {% empty %}
-  Aucuns
-  {% endfor %}
-</div>
-
-<div>
-  <h1><strong>Musiques</strong></h1>
-  {% for song in artist.artist_songs.all %}
-  <a href="{% url 'song' song.id %}">
-    <p>{{song.title}}</p>
-  </a>
-  {% empty %}
-  Aucunes
-  {% endfor %}
-</div>
+<div class="_songs-albums-artists _songs-grid">
+  <div>
+    {% if user.is_authenticated %}
+    <div class="_songs-list-buttons">
+      <form class="add-button-form" method="POST">
+        {% csrf_token %}
+        <button type="submit">
+          {% if favourite %}Retirer des favoris {% else %}Ajouter aux favoris {% endif %}
+        </button>
+      </form>
+    </div>
+    {% endif %} 
+    <p class="_songs-cards-name">Albums</p>
+    <div class="_songs-albums-cards">
+      {% for album in artist.artist_albums.all %}
+      <a href="{% url 'album' album.id %}" class="card">
+        <div class="card-text-container">
+          <span>{{ album.name }}</span>
+        </div>
+        <img src="{{album.imageUrl}}" alt="">
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  <div>
+    <h3 class="_artist-songs">Musiques</h3>
+    <div class="_artist-songs-cards">
+      {% for song in artist.artist_songs.all %}
+      <div class="card">
+        <div class="card-img">
+          <img src="{{song.imageUrl}}" alt="">
+        </div>
+        <div class="card-content">
+          <a href="{% url 'song' song.id %}" class="card-name">{{song.title}}</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock content %}
