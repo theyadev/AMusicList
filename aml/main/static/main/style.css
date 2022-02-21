@@ -69,29 +69,29 @@ body {
 
 /* START Navbar */
 
-nav {
+.navbar {
   padding: 0 5rem;
   padding-top: 1.5rem;
   height: 5rem;
 }
 
-nav .items {
+.navbar__items {
   display: flex;
   padding-bottom: 1rem;
 }
 
-nav .items a {
+.navbar__items__item {
   color: rgba(0, 0, 0, 0.8);
   text-decoration: none;
   padding: 0 1rem;
 }
 
-nav .items a.active {
+.navbar__items__item--active {
   position: relative;
   font-weight: bold;
 }
 
-nav .items a.active::after {
+.navbar__items__item--active::after {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -102,11 +102,11 @@ nav .items a.active::after {
   transform: translateY(calc(100% + 1rem));
 }
 
-.right {
+.navbar__items__right {
   margin-left: auto;
 }
 
-.divider {
+.navbar__divider {
   background-color: #e2e2e3;
   width: 100%;
   height: 2px;
