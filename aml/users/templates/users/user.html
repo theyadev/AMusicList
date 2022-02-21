@@ -12,7 +12,7 @@
     </form>
     {% endif %}
   {% endif %}
-  <img src="/{{ object.avatar }}" alt="">
+  <img style="width:8rem;height:100%" src="/media/{{ object.avatar }}" alt="">
   <h1><strong>Liste de {{ object.username }}</strong></h1>
   {% if object.id == user.id %}
     <a href="{% url 'settings' user.id %}">Settings</a>

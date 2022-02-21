@@ -4,7 +4,7 @@
 
 {% block content %}
 <div>
-    <form style="display:flex;flex-direction:column;" method="post">
+    <form style="display:flex;flex-direction:column;" method="post" enctype="multipart/form-data">
         {% csrf_token %} 
         {{ form }}
         <button>sdhoqs</button>

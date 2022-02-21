@@ -129,7 +129,7 @@ USE_TZ = False
 
 
 
-MEDIA_ROOT = path.join(BASE_DIR, 'avatars/')
+MEDIA_ROOT = path.join(BASE_DIR, 'media/')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/

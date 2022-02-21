@@ -100,7 +100,7 @@ class SettingsView(View):
         if request.user.id != kwargs["pk"]:
             return redirect("/")
 
-        form = SettingsForm(request.POST, instance=self.request.user)
+        form = SettingsForm(request.POST, request.FILES, instance=self.request.user)
         password_form = SettingsPasswordForm(request.POST)
 
         if form.is_valid():
@@ -204,7 +204,7 @@ class HomeView(View):
                     <div class="card-content">
                         <a href="/user/{activity.user.id}">{activity.user.username}</a>
                         <p class="card-text">{text_html}</p>
-                        <img class="card-avatar" src="{avatar}" alt="{activity.user.username}">
+                        <img class="card-avatar" src="/media/{avatar}" alt="{activity.user.username}">
                     </div> 
                 </div>"""
 
