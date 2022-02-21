@@ -130,7 +130,8 @@ class AddView(FormView):
         if not request.user.is_authenticated:
             return redirect('/')
 
-        if not request.user.groups.all().filter(name="Modérateur").exists():
+        if (request.user.is_superuser == False and 
+            not request.user.user_permissions.all().filter(name="Can add song").exists()):
             return redirect('/')
 
         context = self.get_context_data()
