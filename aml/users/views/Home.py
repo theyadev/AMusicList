@@ -43,12 +43,12 @@ class HomeView(View):
                 )
 
                 html = f"""
-                <div class="card">
-                    <img src="{activity.song.imageUrl}" alt="">
-                    <div class="card-content">
-                        <a href="/user/{activity.user.id}">{activity.user.username}</a>
-                        <p class="card-text">{text_html}</p>
-                        <img class="card-avatar" src="/media/{avatar}" alt="{activity.user.username}">
+                <div class="body__activity__cards__card">
+                    <img class="body__activity__cards__card__image" src="{activity.song.imageUrl}" alt="">
+                    <div class="body__activity__cards__card__content">
+                        <a class="body__activity__cards__card__content__title" href="/user/{activity.user.id}">{activity.user.username}</a>
+                        <p class="body__activity__cards__card__content__text">{text_html}</p>
+                        <img class="body__activity__cards__card__content__avatar" src="/media/{avatar}" alt="{activity.user.username}">
                     </div> 
                 </div>"""
 

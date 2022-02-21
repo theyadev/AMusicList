@@ -2,24 +2,26 @@
 {% block title %} Accueil{% endblock title %}
 {% load static %}
 {% block meta %}
-<link rel="stylesheet" href="{% static 'users/_index.css' %}" />{% endblock meta %}
+<link rel="stylesheet" href="{% static 'users/_home.css' %}" />{% endblock meta %}
 {% block content %}
-<div class="_index-container">
-    <div class="_index-activity">
-        <h2>Activité</h2>
-        <div>
+<div class="body">
+    <div class="body__container body__activity">
+        <h2 class="body__container__title">Activité</h2>
+        <div class="body__activity__cards">
             {{ activities | safe }}
         </div>
     </div>
-    <div class="_index-list">
-        <h2 class="right">Votre Liste</h2>
-        <div>
-            <div class="grid">
+    <div class="body__container body__list">
+        <h2 class="body__container__title body__container__title--center">Votre Liste</h2>
+        <div class="body__list__container">
+            <div class="body__list__container__grid">
                 {% for song in list %}
-                <div class="card">
-                    <img src="{{song.imageUrl}}" alt="">
-                    <a href="{% url 'song' song.id %}" class="title">{{song.title}}</a>
-                    <a href="{% url 'song' song.id %}" class="artist">{{song.artists.all.0.name}}</a>
+                <div class="body__list__container__grid__card">
+                    <img class="body__list__container__grid__card__image" src="{{song.imageUrl}}" alt="">
+                    <a href="{% url 'song' song.id %}"
+                        class="body__list__container__grid__card__title">{{song.title}}</a>
+                    <a href="{% url 'song' song.id %}"
+                        class="body__list__container__grid__card__artist">{{song.artists.all.0.name}}</a>
                 </div>
                 {% empty %}
                 <div>
@@ -28,18 +30,20 @@
                 {% endfor %}
             </div>
             {% if list %}
-            <a href="{% url 'user' user.id %}" class="btn">Voir plus</a>
+            <a href="{% url 'user' user.id %}" class="body__list__container__button">Voir plus</a>
             {% endif %}
         </div>
     </div>
-    <div class="_index-follows">
-        <h2 class="center">Abonnements</h2>
-        <div>
+    <div class="body__container body__follows">
+        <h2 class="body__container__title body__container__title--right">Abonnements</h2>
+        <div class="body__follows__cards">
             {% for follow_user in follows %}
-            <div class="follow-card">
-                <img src="{% if follow_user.avatar %}/media/{{follow_user.avatar}}{% else %}{% static 'users/avatar.png' %}{% endif %}"
+            <div class="body__follows__cards__card">
+                <img class="body__follows__cards__card__image"
+                    src="{% if follow_user.avatar %}/media/{{follow_user.avatar}}{% else %}{% static 'users/avatar.png' %}{% endif %}"
                     alt="{{follow_user.username}}">
-                <a href="{% url 'user' follow_user.id %}">{{follow_user.username}}</a>
+                <a class="body__follows__cards__card__name"
+                    href="{% url 'user' follow_user.id %}">{{follow_user.username}}</a>
             </div>
             {% empty %}
             Vous avez suivis personne :(
