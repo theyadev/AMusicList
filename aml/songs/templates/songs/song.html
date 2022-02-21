@@ -10,61 +10,63 @@
 {% endblock meta %}
 
 {% block content %}
-<div class="_songs-image-title _songs-grid">
-  <img src="{{song.imageUrl}}" alt="">
-  <div>
-    <h1>{{song.title}}</h1>
-    <div>
-      <p class="name">Durée</p>
-      <p class="value" id="length">{{song.length}}</p>
+<div class="header grid">
+  <img class="header__image" src="{{song.imageUrl}}" alt="">
+  <div class="header__content">
+    <h1 class="header__content__title">{{song.title}}</h1>
+    <div class="header__content__infos">
+      <p class="header__content__infos__name">Durée</p>
+      <p class="header__content__infos__value" id="length">{{song.length}}</p>
     </div>
   </div>
 </div>
-<div class="_songs-albums-artists _songs-grid">
-  <div>
+<div class="body grid">
+  <div class="body__left">
     {% if user.is_authenticated %}
-    <div class="_songs-list-buttons">
-      <form class="add-button-form" action="/api/add/{{ song.id }}" method="POST">
+    <div class="body__left__song-buttons">
+      <form class="body__left__song-buttons__add-button-container" action="/api/add/{{ song.id }}" method="POST">
         {% csrf_token %}
-        <button type="submit">
+        <button class="body__left__song-buttons__add-button-container__button" type="submit">
           {% if list_entry %}Retirer de ma liste{% else %}Ajouter a ma liste{% endif %}
         </button>
       </form>
       {% if list_entry%}
-      <form class="fav-button-form" action="/api/add/favourite/{{ song.id }}" method="post">
+      <form class="body__left__song-buttons__fav-button-container" action="/api/add/favourite/{{ song.id }}"
+        method="post">
         {% csrf_token %}
-        <button type="submit">{{list_entry.favourite}}</button>
+        <button class="body__left__song-buttons__fav-button-container__button"
+          type="submit">{{list_entry.favourite}}</button>
       </form>
       {% endif %}
     </div>
     {% endif %}
-    <p class="_songs-cards-name">Albums</p>
-    <div class="_songs-albums-cards">
+    <p class="body__left__title">Albums</p>
+    <div class="body__left__cards">
       {% for album in song.song_albums.all %}
-      <a href="{% url 'album' album.id %}" class="card">
-        <div class="card-text-container">
-          <span>{{ album.name }}</span>
+      <a href="{% url 'album' album.id %}" class="body__left__cards__card">
+        <div class="body__left__cards__card__name-container">
+          <span class="body__left__cards__card__name-container__name">{{ album.name }}</span>
         </div>
-        <img src="{{album.imageUrl}}" alt="">
+        <img class="body__left__cards__card__image" src="{{album.imageUrl}}" alt="{{album.name}}">
       </a>
       {% endfor %}
     </div>
   </div>
-  <div>
+  <div class="body__right">
     <audio controls src="{{song.previewUrl}}">
       Your browser does not support the
       <code>audio</code> element.
     </audio>
-    <h3 class="_songs-artist">Artistes</h3>
-    <div class="_songs-artists-cards">
+    <h3 class="body__right__title">Artistes</h3>
+    <div class="body__right__cards">
       {% for artist in song.artists.all %}
-      <div class="card">
-        <div class="card-img">
-          <img src="{{artist.imageUrl}}" alt="">
+      <div class="body__right__cards__card">
+        <div class="body__right__cards__card__image-container">
+          <img class="body__right__cards__card__image-container__image" src="{{artist.imageUrl}}" alt="">
         </div>
-        <div class="card-content">
-          <a href="{% url 'artist' artist.id %}" class="card-name">{{artist.name}}</a>
-          <p class="card-description">{{artist.description}}</p>
+        <div class="body__right__cards__card__content">
+          <a href="{% url 'artist' artist.id %}" class="body__right__cards__card__content__name">{{artist.name}}</a>
+          <p class="body__right__cards__card__content__description">{{artist.description}}</p>
         </div>
       </div>
       {% endfor %}
@@ -79,7 +81,7 @@
 
       return [minutes, seconds]
     }
-    
+
     const lengthDiv = document.getElementById('length')
 
     const [minutes, seconds] = secondsToMinutes(lengthDiv.textContent)

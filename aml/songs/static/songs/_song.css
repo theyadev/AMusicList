@@ -1,4 +1,4 @@
-._songs-grid {
+.grid {
   width: 100vw;
   overflow: hidden;
   display: grid;
@@ -6,16 +6,16 @@
   overflow: visible;
 }
 
-._songs-grid>*:nth-child(1) {
+.grid>*:nth-child(1) {
   justify-self: center;
 }
 
-._songs-image-title {
+.header {
   background-color: #f2f2f2;
   height: 16rem;
 }
 
-._songs-image-title>*:nth-child(1) {
+.header__image {
   width: 16rem;
   height: 16rem;
   object-fit: cover;
@@ -23,46 +23,81 @@
   border-radius: 0.75rem;
 }
 
-._songs-image-title>*:nth-child(2) {
+.header__content {
   margin-top: 6rem;
   display: flex;
   flex-direction: column;
 }
 
-._songs-image-title>*:nth-child(2)>h1 {
+.header__content__title {
   font-weight: bold;
   font-size: 3rem;
 }
 
-._songs-image-title>*:nth-child(2)>div {
+.header__content__infos {
   margin-top: 1rem;
 }
 
-._songs-image-title>*:nth-child(2)>div>.name {
+.header__content__infos__name {
   color: #767676;
 }
 
-._songs-image-title>*:nth-child(2)>div>.value {
+.header__content__infos__value {
   margin-top: 0.5rem;
 }
 
-._songs-albums-artists {
+.body {
   margin-top: 4rem;
 }
 
-._songs-albums-artists>div:nth-child(1) {
+.body__left {
   text-align: center;
   width: 16rem;
 }
 
-._songs-cards-name {
+.body__left__song-buttons {
+  display: flex;
+  justify-content: space-around;
+  height: 2rem;
+}
+
+.body__left__song-buttons__add-button-container {
+  display: flex;
+  width: 80%;
+}
+
+.body__left__song-buttons__add-button-container__button {
+  cursor: pointer;
+  background-color: #2185D0;
+  border-radius: 4px;
+  color: white;
+  width: 100%;
+  font-weight: bold;
+}
+
+.body__left__song-buttons__fav-button-container {
+  display: flex;
+  width: 15%;
+}
+
+.body__left__song-buttons__fav-button-container__button {
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FBBD08;
+  width: 100%;
+}
+
+.body__left__title {
   margin-top: 1rem;
   text-transform: uppercase;
   font-weight: bold;
   color: #767676;
 }
 
-._songs-albums-cards {
+.body__left__cards {
   margin-top: 1rem;
   background-color: #f2f2f2;
   width: 100%;
@@ -72,7 +107,7 @@
   align-items: center;
 }
 
-._songs-albums-cards .card {
+.body__left__cards__card {
   position: relative;
   margin: 1rem 0;
   width: 80%;
@@ -86,7 +121,7 @@
   align-items: center;
 }
 
-._songs-albums-cards .card .card-text-container {
+.body__left__cards__card__name-container {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -96,31 +131,32 @@
   border-radius: 1rem;
 }
 
-._songs-albums-cards .card .card-text-container>span {
+.body__left__cards__card__name-container__name {
   max-width: 15.5ch;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-._songs-albums-cards .card img {
+.body__left__cards__card__image {
   width: 100%;
   height: 4rem;
   object-fit: cover;
 }
 
-._songs-artists-cards {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-._songs-artist {
+.body__right__title {
   margin-top: 2rem;
   font-weight: bold;
   color: black;
 }
 
-._songs-artists-cards>.card {
+.body__right__cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.body__right__cards__card {
   margin-top: 0.5rem;
   margin-left: 1.5rem;
   width: 20rem;
@@ -131,69 +167,32 @@
   overflow: hidden;
 }
 
-._songs-artists-cards>.card>.card-img {
+.body__right__cards__card__image-container {
   width: 7rem;
   height: 100%;
 }
 
-._songs-artists-cards>.card>.card-img>img {
+.body__right__cards__card__image-container__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-._songs-artists-cards>.card>.card-content {
+.body__right__cards__card__content {
   padding: 1.5rem 1rem;
 }
 
-._songs-artists-cards>.card>.card-content .card-name {
+.body__right__cards__card__content__name {
   color: black;
   font-weight: bold;
   font-size: larger;
 }
 
-._songs-artists-cards>.card>.card-content .card-description {
+.body__right__cards__card__content__description {
   margin-top: 0.5rem;
   color: rgba(0, 0, 0, 0.8);
   max-width: 11rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-
-._songs-list-buttons {
-  display: flex;
-  justify-content: space-around;
-  height: 2rem;
-}
-
-._songs-list-buttons .add-button-form {
-  display: flex;
-  width: 80%;
-
-}
-
-._songs-list-buttons .fav-button-form {
-  display: flex;
-  width: 15%;
-}
-
-._songs-list-buttons .add-button-form>button {
-  cursor: pointer;
-  background-color: #2185D0;
-  border-radius: 4px;
-  color: white;
-  width: 100%;
-  font-weight: bold;
-}
-
-._songs-list-buttons .fav-button-form>button {
-  cursor: pointer;
-  border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #FBBD08;
-  width: 100%;
 }
