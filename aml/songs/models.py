@@ -17,6 +17,7 @@ class Song(models.Model):
     imageUrl = models.URLField(max_length=200)
     length = models.IntegerField()
     releaseDate = models.DateTimeField("date released", null=True)
+    previewUrl = models.CharField(max_length=250, null=True)
 
     artists = models.ManyToManyField(Artist, related_name="artist_songs")
 

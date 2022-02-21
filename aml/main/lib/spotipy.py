@@ -30,7 +30,6 @@ def importAlbumsFromLoved():
     for i in range(1, 21):
         results = sp.current_user_saved_tracks(limit=50, offset=50 * i - 50)
         for item in results["items"]:
-            print(item["track"]["album"]["id"])
             importTracksFromAlbum(item["track"]["album"]["id"])
 
 
@@ -104,6 +103,7 @@ def importTracksFromAlbum(album_id: str):
                 artist_dicts=track["artists"],
                 image_url=album_image,
                 release_date=album_release,
+                preview_url=track["preview_url"]
             )
 
         albumModel.songs.add(song)
@@ -123,6 +123,7 @@ def importTrack(
     artist_dicts: list[dict],
     image_url: str,
     release_date: str,
+    preview_url: str
 ):
     """
     Import a track in the database.
@@ -156,6 +157,7 @@ def importTrack(
     song.imageUrl = image_url
     song.release_date = release_date
     song.length = length
+    song.previewUrl = preview_url
 
     song.save()
 

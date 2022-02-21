@@ -16,7 +16,7 @@
     <h1>{{song.title}}</h1>
     <div>
       <p class="name">Durée</p>
-      <p class="value">{{song.length}}</p>
+      <p class="value" id="length">{{song.length}}</p>
     </div>
   </div>
 </div>
@@ -37,7 +37,7 @@
       </form>
       {% endif %}
     </div>
-    {% endif %} 
+    {% endif %}
     <p class="_songs-cards-name">Albums</p>
     <div class="_songs-albums-cards">
       {% for album in song.song_albums.all %}
@@ -51,6 +51,10 @@
     </div>
   </div>
   <div>
+    <audio controls src="{{song.previewUrl}}">
+      Your browser does not support the
+      <code>audio</code> element.
+    </audio>
     <h3 class="_songs-artist">Artistes</h3>
     <div class="_songs-artists-cards">
       {% for artist in song.artists.all %}
@@ -67,3 +71,19 @@
     </div>
   </div>
   {% endblock content %}
+  {% block javascript %}
+  <script>
+    function secondsToMinutes(number) {
+      const minutes = Math.floor(number / 60);
+      const seconds = number % 60
+
+      return [minutes, seconds]
+    }
+    
+    const lengthDiv = document.getElementById('length')
+
+    const [minutes, seconds] = secondsToMinutes(lengthDiv.textContent)
+
+    lengthDiv.textContent = minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0") + " mins"
+  </script>
+  {% endblock javascript %}
