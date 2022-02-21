@@ -62,7 +62,7 @@ class SettingsForm(forms.ModelForm):
         help_texts = {
             "username": None,
         }
-        fields = ["username", "email"]
+        fields = ["username", "email", "avatar"]
 class SettingsPasswordForm(forms.Form):
     old_password = forms.CharField(
         label="Ancien mot de passe", widget=forms.PasswordInput(), label_suffix=""
