@@ -7,17 +7,17 @@
 {% block nav %}{% endblock nav %}
 
 {% block content %}
-<div class="_connexion-grid">
-  <div>
-    <a href="{% url 'artist' artist.id %}" target="_blank" class="name">
+<div class="body">
+  <div class="body__left">
+    <a href="{% url 'artist' artist.id %}" target="_blank" class="body__left__name">
       {{artist.name}}
     </a>
-    <img src="{{ artist.imageUrl}}" alt="" />
+    <img class="body__left__image" src="{{ artist.imageUrl}}" alt="" />
   </div>
-  <div>
-    <h2>A Music List</h2>
-    <p>Création d'un compte</p>
-    <form class="_connexion-form" action="?to={{request.GET.to}}" method="post" enctype="multipart/form-data">
+  <div class="body__right">
+    <h2 class="body__right__title">A Music List</h2>
+    <p class="body__right__text">Création d'un compte</p>
+    <form class="body__right__form" action="?to={{request.GET.to}}" method="post" enctype="multipart/form-data">
       {% csrf_token %} {{ form }}
       <div class="checkbox">
         <input id="id_conditions" type="checkbox" />

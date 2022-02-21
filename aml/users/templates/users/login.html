@@ -1,17 +1,17 @@
 {% extends 'main/_base.html' %} {% block title %}Connexion{% endblock title %}
 {%block nav %}{% endblock nav %} {% load static %} {% block meta %}
 <link rel="stylesheet" href="{% static 'users/_connexion.css' %}" />{% endblock meta %} {% block content %}
-<div class="_connexion-grid">
-  <div>
-    <a href="{% url 'artist' artist.id %}" target="_blank" class="name">
+<div class="body">
+  <div class="body__left">
+    <a href="{% url 'artist' artist.id %}" target="_blank" class="body__left__name">
       {{artist.name}}
     </a>
-    <img src="{{ artist.imageUrl}}" alt="" />
+    <img class="body__left__image" src="{{ artist.imageUrl}}" alt="" />
   </div>
-  <div>
-    <h2>A Music List</h2>
-    <p>Connectez vous ou créez un compte !</p>
-    <form class="_connexion-form" action="?to={{request.GET.to}}" method="post">
+  <div class="body__right">
+    <h2 class="body__right__title">A Music List</h2>
+    <p class="body__right__text">Connectez vous ou créez un compte !</p>
+    <form class="body__right__form" action="?to={{request.GET.to}}" method="post">
       {% csrf_token %} {{ form }}
       <div class="checkbox">
         <input id="id_remember" type="checkbox" />
