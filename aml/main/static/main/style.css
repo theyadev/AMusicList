@@ -69,21 +69,40 @@ body {
 
 /* START Navbar */
 
+@media screen and (max-width: 720px) {
+  .navbar + * {
+    margin-top: 2.5rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .navbar + * {
+    margin-top: 6rem;
+  }
+}
+
 .navbar {
   padding: 0 5rem;
   padding-top: 1.5rem;
   height: 5rem;
 }
 
+/* Weird utilisation of margin-tops to only add a margin to wrapped elements
+https://stackoverflow.com/questions/30887071/margin-top-only-when-the-flex-item-is-wrapped
+  */
+  
 .navbar__items {
   display: flex;
+  flex-wrap: wrap;
   padding-bottom: 1rem;
+  margin-top: -2.5rem;
 }
 
 .navbar__items__item {
   color: rgba(0, 0, 0, 0.8);
   text-decoration: none;
   padding: 0 1rem;
+  margin-top: 2.5rem
 }
 
 .navbar__items__item--active {
