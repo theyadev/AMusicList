@@ -1,6 +1,9 @@
 from django.db import models
 
+
 class Artist(models.Model):
+    """Artist model"""
+
     id = models.AutoField(primary_key=True)
     spotifyId = models.CharField(max_length=250)
     name = models.CharField(max_length=100)
@@ -8,9 +11,13 @@ class Artist(models.Model):
     imageUrl = models.URLField(max_length=250)
 
     def __str__(self) -> str:
+        """Returns the name of the artist"""
         return self.name
 
+
 class Song(models.Model):
+    """Song model"""
+
     id = models.AutoField(primary_key=True)
     spotifyId = models.CharField(max_length=250)
     title = models.CharField(max_length=200)
@@ -22,9 +29,13 @@ class Song(models.Model):
     artists = models.ManyToManyField(Artist, related_name="artist_songs")
 
     def __str__(self) -> str:
-        return f"{self.title}"
+        """Returns the title of the song"""
+        return self.title
+
 
 class Album(models.Model):
+    """Album model"""
+
     id = models.AutoField(primary_key=True)
     spotifyId = models.CharField(max_length=250)
     name = models.CharField(max_length=150)
@@ -35,5 +46,5 @@ class Album(models.Model):
     songs = models.ManyToManyField(Song, related_name="song_albums")
 
     def __str__(self) -> str:
+        """Returns the album name"""
         return self.name
-
