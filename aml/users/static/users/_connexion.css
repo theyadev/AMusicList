@@ -7,7 +7,7 @@
 }
 
 .body__left {
-    position: relative;
+  position: relative;
   width: 100%;
   height: 100vh;
 }
@@ -20,13 +20,13 @@
 }
 
 .body__left__name {
-    font-weight: bold;
-    font-size: xx-large;
-    position: absolute;
-    bottom: 1rem;
-    left: 1rem;
-    color: white;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+  font-weight: bold;
+  font-size: xx-large;
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  color: white;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
 }
 
 .body__right {
@@ -67,14 +67,14 @@
   padding: 0.25rem 0.5rem;
 }
 
-.body__right__form > .checkbox {
+.body__right__form__checkbox {
   padding-top: 1rem;
   padding-bottom: 0.25rem;
   display: flex;
   align-items: center;
 }
 
-.body__right__form > .checkbox > label {
+.body__right__form__checkbox__label {
   padding: 0;
   margin: 0;
   margin-left: 0.25rem;
@@ -82,7 +82,7 @@
   color: rgba(0, 0, 0, 0.8);
 }
 
-.body__right__form > .forgot_password {
+.body__right__form__text {
   text-decoration: underline;
   text-underline-offset: 2px;
   padding-bottom: 1rem;
@@ -90,13 +90,20 @@
   font-size: small;
 }
 
-.body__right__form > .buttons {
+.body__right__form__buttons {
   padding-top: 1rem;
   display: flex;
+}
+
+.body__right__form__buttons--between {
   justify-content: space-between;
 }
 
-.button {
+.body__right__form__buttons--center {
+  justify-content: center;
+}
+
+.body__right__form__buttons__button {
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -109,21 +116,11 @@
   font-weight: bold;
 }
 
-.button.blue {
+.body__right__form__buttons__button.blue {
   color: white;
   background-color: #2185d0;
 }
 
-.button-container {
-  padding-top: 1rem;
-  display: flex;
-  justify-content: center;
-}
-
-.body__right__form .already {
-    margin-top: 1rem;
-    color: #2185d0;
-    font-size: smaller;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+.body__right__form__text--top {
+  margin-top: 1rem;
 }
