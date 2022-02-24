@@ -90,6 +90,14 @@
   width: 100%;
 }
 
+.body__left__song-buttons__fav-button-container__button__icon {
+  color: rgba(255, 255, 255, 0.5)
+}
+
+.body__left__song-buttons__fav-button-container__button__icon.favourite {
+  color: white;
+}
+
 .body__left__title {
   margin-top: 1rem;
   text-transform: uppercase;

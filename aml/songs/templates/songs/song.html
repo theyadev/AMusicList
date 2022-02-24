@@ -34,8 +34,10 @@
       <form class="body__left__song-buttons__fav-button-container" action="/api/add/favourite/{{ song.id }}"
         method="post">
         {% csrf_token %}
-        <button class="body__left__song-buttons__fav-button-container__button"
-          type="submit">{{list_entry.favourite}}</button>
+        <button class="body__left__song-buttons__fav-button-container__button" type="submit">
+          <i
+            class="body__left__song-buttons__fav-button-container__button__icon fas fa-star {% if list_entry.favourite %} favourite {% endif %}"></i>
+        </button>
       </form>
       {% endif %}
     </div>
