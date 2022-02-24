@@ -14,7 +14,7 @@
 
     {% if user.is_authenticated %}
     <i id="popup-btn" class="navbar__items__item fas fa-bell"></i>
-    <div id="popup" class="popup popup--hidden">
+    <div id="popup" class="popup">
       <form class="popup__archive-all" action="/api/notifications/all?to={{ request.get_full_path }}" method="post">
         {% csrf_token %}
         <button class="popup__archive-all__button">Tout archiver</button>
