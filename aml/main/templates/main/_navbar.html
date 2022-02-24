@@ -1,3 +1,5 @@
+{% load static %}
+
 <nav class="navbar">
   <div class="navbar__items">
     <a href="/" class="navbar__items__item {% if active == 'home' %}navbar__items__item--active{% endif %}">Accueil</a>
@@ -11,7 +13,36 @@
     <div class="navbar__items__right"></div>
 
     {% if user.is_authenticated %}
-
+    <i id="popup-btn" class="navbar__items__item fas fa-bell"></i>
+    <div id="popup" class="popup popup--hidden">
+      <form class="popup__archive-all" action="/api/notifications/all?to={{ request.get_full_path }}" method="post">
+        {% csrf_token %}
+        <button class="popup__archive-all__button">Tout archiver</button>
+      </form>
+      {% for notification in user.notifs.all %}
+      {% if not notification.archived %}
+      <div class="popup__card">
+        
+        <img class="popup__card__image" src="{% if notification.activity.user.avatar %}/media/{{notification.activity.user.avatar}}{% else %}{% static 'users/avatar.png' %}{% endif %}" alt="">
+        <p class="popup__card__text">
+          <a href="{% url 'user' notification.user.id %}">{{ notification.user.username }}</a>
+          {% if notification.activity.action == "ADDED" %}
+          a ajouté de sa liste :
+          {% elif notification.activity.action == "REMOVED" %}
+          a retiré de sa liste :
+          {% else %}
+          {{notification.activity.action}}
+          {% endif %}
+          <a href="{% url 'song' notification.activity.song.id %}">{{notification.activity.song.title}}</a>
+        </p>
+        <form action="/api/notifications/{{notification.id}}?to={{ request.get_full_path }}" method="post">
+          {% csrf_token %}
+          <button class="fas fa-window-close popup__card__close"></button>
+        </form>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
     <a href="{% url 'user' user.id %}"
       class="navbar__items__item {% if active == 'user' %}navbar__items__item--active{% endif %}">Profile</a>
     <a class="navbar__items__item" href="/logout?to={{ request.get_full_path }}">Deconnexion</a>

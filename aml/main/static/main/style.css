@@ -70,13 +70,13 @@ body {
 /* START Navbar */
 
 @media screen and (max-width: 720px) {
-  .navbar + * {
+  .navbar+* {
     margin-top: 2.5rem;
   }
 }
 
 @media screen and (max-width: 450px) {
-  .navbar + * {
+  .navbar+* {
     margin-top: 6rem;
   }
 }
@@ -90,7 +90,7 @@ body {
 /* Weird utilisation of margin-tops to only add a margin to wrapped elements
 https://stackoverflow.com/questions/30887071/margin-top-only-when-the-flex-item-is-wrapped
   */
-  
+
 .navbar__items {
   display: flex;
   flex-wrap: wrap;
@@ -102,6 +102,7 @@ https://stackoverflow.com/questions/30887071/margin-top-only-when-the-flex-item-
   color: rgba(0, 0, 0, 0.8);
   text-decoration: none;
   padding: 0 1rem;
+  cursor: pointer;
   margin-top: 2.5rem
 }
 
@@ -132,3 +133,65 @@ https://stackoverflow.com/questions/30887071/margin-top-only-when-the-flex-item-
 }
 
 /* END Navbar */
+
+.popup {
+  --spacing: 1rem;
+  position: absolute;
+  top: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background-color: white;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+
+  padding: 0rem 1rem;
+  padding-top: var(--spacing);
+  width: 28rem;
+
+  display: flex;
+  flex-direction: column;
+
+  transition: all ease 0.5s;
+  max-height: 30rem;
+  z-index: 10;
+  border-radius: 1rem;
+  overflow-y: auto;
+}
+
+.popup__archive-all__button {
+  cursor: pointer;
+  background-color: rgb(223, 45, 45);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.2rem;
+  margin-bottom: var(--spacing);
+}
+
+.popup--hidden {
+  opacity: 0;
+  transform: translate(-50%, -20rem);
+}
+
+.popup__card {
+  margin-bottom: var(--spacing);
+  display: grid;
+  grid-template-columns: 2fr 10fr 1fr;
+  align-items: center;
+}
+
+.popup__card__image {
+  width: 4rem;
+  height: 4rem;
+  object-fit: cover;
+}
+
+.popup__card__text {
+  margin-left: 0.5rem;
+}
+
+.popup__card__close {
+  place-self: center;
+  cursor: pointer;
+  color: black;
+  background-color: transparent;
+}

@@ -37,7 +37,7 @@ class HomeView(View):
                     text_html = f"a retiré {song_html} de ses favoris !"
 
                 avatar = (
-                    activity.user.avatar
+                    "/media/" + activity.user.avatar.url
                     if activity.user.avatar
                     else static("users/avatar.png")
                 )
@@ -48,7 +48,7 @@ class HomeView(View):
                     <div class="body__activity__cards__card__content">
                         <a class="body__activity__cards__card__content__title" href="/user/{activity.user.id}">{activity.user.username}</a>
                         <p class="body__activity__cards__card__content__text">{text_html}</p>
-                        <img class="body__activity__cards__card__content__avatar" src="/media/{avatar}" alt="{activity.user.username}">
+                        <img class="body__activity__cards__card__content__avatar" src="{avatar}" alt="{activity.user.username}">
                     </div> 
                 </div>"""
 
