@@ -1,20 +1,24 @@
-<nav>
-  <div class="items">
-    <a href="/" {% if active == "home" %}class="active"{% endif %}>Accueil</a>
-    <a href="{% url 'songs' %}" {% if active == "songs" %}class="active"{% endif %}>Musiques</a>
-    <a href="{% url 'albums' %}" {% if active == "albums" %}class="active"{% endif %}>Albums</a>
-    <a href="{% url 'artists' %}" {% if active == "artists" %}class="active"{% endif %}>Artistes</a>
+<nav class="navbar">
+  <div class="navbar__items">
+    <a href="/" class="navbar__items__item {% if active == 'home' %}navbar__items__item--active{% endif %}">Accueil</a>
+    <a href="{% url 'songs' %}"
+      class="navbar__items__item {% if active == 'songs' %}navbar__items__item--active{% endif %}">Musiques</a>
+    <a href="{% url 'albums' %}"
+      class="navbar__items__item {% if active == 'albums' %}navbar__items__item--active{% endif %}">Albums</a>
+    <a href="{% url 'artists' %}"
+      class="navbar__items__item {% if active == 'artists' %}navbar__items__item--active{% endif %}">Artistes</a>
 
-    <div class="right"></div>
+    <div class="navbar__items__right"></div>
 
     {% if user.is_authenticated %}
 
-    <a href="{% url 'user' user.id %}" {% if active == "user" %}class="active"{% endif %}>Profile</a>
-    <a href="/logout?to={{ request.get_full_path }}">Deconnexion</a>
+    <a href="{% url 'user' user.id %}"
+      class="navbar__items__item {% if active == 'user' %}navbar__items__item--active{% endif %}">Profile</a>
+    <a class="navbar__items__item" href="/logout?to={{ request.get_full_path }}">Deconnexion</a>
     {% else %}
-    <a href="/login?to={{ request.get_full_path }}">Connexion</a>
-    <a href="/signup?to={{ request.get_full_path }}">Inscription</a>
+    <a class="navbar__items__item" href="/login?to={{ request.get_full_path }}">Connexion</a>
+    <a class="navbar__items__item" href="/signup?to={{ request.get_full_path }}">Inscription</a>
     {% endif %}
   </div>
-  <div class="divider"></div>
+  <div class="navbar__divider"></div>
 </nav>

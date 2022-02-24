@@ -11,40 +11,39 @@
 {% endblock meta %}
 
 {% block content %}
-<div class="_songs-image-title _songs-grid">
-    <img src="{{album.imageUrl}}" alt="">
-    <div>
-      <h1>{{album.name}}</h1>
+<div class="header grid">
+  <img class="header__image" src="{{album.imageUrl}}" alt="">
+  <div class="header__content">
+    <h1 class="header__content__title">{{album.name}}</h1>
+  </div>
+</div>
+<div class="body grid">
+  <div class="body__left">
+    <p class="body__left__title">Artistes</p>
+    <div class="body__left__cards">
+      {% for artist in album.artists.all %}
+      <a href="{% url 'album' album.id %}" class="body__left__cards__card">
+        <div class="body__left__cards__card__name-container">
+          <span class="body__left__cards__card__name-container__name">{{ artist.name }}</span>
+        </div>
+        <img class="body__left__cards__card__image" src="{{artist.imageUrl}}" alt="{{artist.name}}">
+      </a>
+      {% endfor %}
     </div>
   </div>
-  
-  <div class="_songs-albums-artists _songs-grid">
-    <div>
-      <p class="_songs-cards-name">Artistes</p>
-      <div class="_songs-albums-cards">
-        {% for artist in album.artists.all %}
-        <a href="{% url 'artist' artist.id %}" class="card">
-          <div class="card-text-container">
-            <span>{{ artist.name }}</span>
-          </div>
-          <img src="{{artist.imageUrl}}" alt="">
-        </a>
-        {% endfor %}
-      </div>
-    </div>
-    <div>
-      <h3 class="_artist-songs">Musiques</h3>
-      <div class="_artist-songs-cards">
-        {% for song in album.songs.all %}
-        <div class="card">
-          <div class="card-img">
-            <img src="{{song.imageUrl}}" alt="">
-          </div>
-          <div class="card-content">
-            <a href="{% url 'song' song.id %}" class="card-name">{{song.title}}</a>
-          </div>
+  <div class="body__right">
+    <h3 class="body__right__title">Artistes</h3>
+    <div class="body__right__cards">
+      {% for song in album.songs.all %}
+      <div class="body__right__cards__card">
+        <div class="body__right__cards__card__image-container">
+          <img class="body__right__cards__card__image-container__image" src="{{song.imageUrl}}" alt="">
         </div>
-        {% endfor %}
+        <div class="body__right__cards__card__content">
+          <a href="{% url 'song' song.id %}" class="body__right__cards__card__content__name">{{song.title}}</a>
+        </div>
       </div>
+      {% endfor %}
     </div>
+  </div>
 {% endblock content%}

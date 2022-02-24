@@ -1,73 +1,85 @@
 @media screen and (min-width: 1024px) {
-  ._index-activity {
+  .body__activity {
     width: calc(35% - 2rem);
   }
 
-  ._index-list {
+  .body__list {
     width: calc(50% - 2rem);
   }
 
-  ._index-follows {
+  .body__follows {
     width: calc(15% - 2rem);
 
   }
 }
 
 @media screen and (max-width: 1023px) and (min-width: 716px) {
-  ._index-activity {
+  .body__activity {
     width: calc(50% - 2rem);
     overflow: hidden;
   }
 
-  ._index-list {
+  .body__list {
     width: calc(50% - 2rem);
   }
 
-  ._index-follows {
+  .body__follows {
     display: none;
   }
 }
 
 @media screen and (max-width: 715px) {
-  ._index-activity {
+  .body__activity {
     width: calc(100% - 2rem);
     overflow: hidden;
   }
 
-  ._index-list {
+  .body__list {
     width: calc(50% - 2rem);
     display: none;
   }
 
-  ._index-follows {
+  .body__follows {
     width: calc(25% - 2rem);
     display: none;
   }
 
 }
 
-._index-container {
+.body {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   padding: 0 2.5rem;
 }
 
-._index-container>div {
+/* Body Container */
+
+.body__container {
   margin-left: 2rem;
   flex-direction: column;
 }
 
-._index-container div h2 {
+.body__container__title {
   font-weight: bold;
   font-size: larger;
 }
 
-._index-activity>div {
+.body__container__title--center {
+  text-align: center;
+}
+
+.body__container__title--right {
+  text-align: right;
+}
+
+/* Body Activity */
+
+.body__activity__cards {
   margin-top: 1rem;
 }
 
-._index-activity .card {
+.body__activity__cards__card  {
   margin-top: 1rem;
   display: flex;
   padding: 0.5rem;
@@ -76,42 +88,44 @@
   background-color: #fafafb;
 }
 
-._index-activity .card>img {
+.body__activity__cards__card__image {
   height: 100%;
   width: 6.5rem;
   border-radius: 16px;
 }
 
-._index-activity .card .card-content {
+.body__activity__cards__card__content {
   padding: 0 0.5rem;
 }
 
-._index-activity .card .card-content * {
+.body__activity__cards__card__content * {
   margin-top: 0.5rem;
 }
 
-._index-activity .card .card-content a {
+.body__activity__cards__card__content__title {
   color: black;
   font-weight: bold;
   text-decoration: none;
 }
 
-._index-activity .card .card-content a:hover {
+.body__activity__cards__card__content__title:hover {
   color: rgba(0, 0, 0, 0.7);
 }
 
-._index-activity .card .card-content .card-text {
+.body__activity__cards__card__content__text {
   color: rgba(0, 0, 0, 0.8);
 }
 
-._index-activity .card .card-content .card-avatar {
+.body__activity__cards__card__content__avatar {
   width: 2rem;
   height: 2rem;
   object-fit: cover;
   border-radius: 6666rem;
 }
 
-._index-list>div {
+/* Body List */
+
+.body__list__container {
   display: flex;
   flex-direction: column;
   background-color: #f2f2f2;
@@ -120,44 +134,42 @@
   border-radius: 10px;
 }
 
-._index-list .grid {
+.body__list__container__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 
-._index-list .card {
+.body__list__container__grid__card {
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-self: center;
 }
 
-._index-list .card>img {
+.body__list__container__grid__card__image {
   width: 100%;
   height: 75%;
   object-fit: cover;
   border-radius: 16px;
 }
 
-._index-list a {
+.body__list__container__grid__card__title {
+  font-size: small;
+  color: rgba(0, 0, 0, 0.8);
   color: black;
 }
 
-._index-list a:hover {
+.body__list__container__grid__card__artist {
+  font-weight: bold;
+  font-size: larger;
+  color: black;
+}
+
+.body__list__container__grid__card__title:hover, .body__list__container__grid__card__artist:hover {
   color: rgba(0, 0, 0, 0.7);
 }
 
-._index-list .card>.title {
-  font-size: small;
-  color: rgba(0, 0, 0, 0.8);
-}
-
-._index-list .card>.artist {
-  font-weight: bold;
-  font-size: larger;
-}
-
-._index-list .btn {
+.body__list__container__button {
   margin: 0 auto;
   display: flex;
   color: white;
@@ -167,7 +179,9 @@
   width: max-content;
 }
 
-._index-follows>div {
+/* Body Follows */
+
+.body__follows__cards {
   background-color: #f2f2f2;
   align-items: center;
   margin-top: 2rem;
@@ -175,7 +189,7 @@
   border-radius: 10px;
 }
 
-.follow-card {
+.body__follows__cards__card {
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
@@ -183,22 +197,18 @@
   align-items: center;
 }
 
-.follow-card>img {
+.body__follows__cards__card__image {
   width: 100%;
   aspect-ratio: 1/1;
   border-radius: 666rem;
 }
 
-.follow-card>a:hover {
+.body__follows__cards__card__name:hover {
   color: rgba(0, 0, 0, 0.7);
 }
 
-.follow-card>a {
+.body__follows__cards__card__name {
   color: rgba(0, 0, 0);
   font-weight: bold;
   margin-top: 0.5rem;
-}
-
-.center {
-  margin: 0 auto;
 }
