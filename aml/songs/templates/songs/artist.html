@@ -21,7 +21,7 @@
 <div class="body grid">
   <div class="body__left">
     {% if user.is_authenticated %}
-    <div class=" ">
+    <div class="body__left__artist-buttons">
       <form class="body__left__artist-buttons__add-button-container" method="POST">
         {% csrf_token %}
         <button class="body__left__artist-buttons__add-button-container__button" type="submit">

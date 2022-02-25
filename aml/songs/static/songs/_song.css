@@ -1,3 +1,7 @@
+html {
+  overflow-x: hidden;
+}
+
 .grid {
   width: 100vw;
   overflow: hidden;
@@ -6,8 +10,10 @@
   overflow: visible;
 }
 
+
 .grid>*:nth-child(1) {
   justify-self: center;
+  margin: 0 1rem;
 }
 
 .header {
@@ -203,4 +209,37 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 800px) {
+  .grid {
+    grid-template-columns: 1fr
+  }
+
+  .header {
+    height: auto;
+    padding-bottom: 1.5rem;
+  }
+
+  .header__content {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .body {
+    margin-top: 2rem;
+  }
+
+  .body__right_audio {
+    margin: 0 auto;
+    margin-top: 1rem;
+  }
+
+  .body__right__title {
+    text-align: center;
+  }
+
+  .body__right__cards {
+    justify-content: center;
+  }
 }
