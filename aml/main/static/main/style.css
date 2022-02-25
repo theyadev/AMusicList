@@ -147,7 +147,7 @@ https://stackoverflow.com/questions/30887071/margin-top-only-when-the-flex-item-
   padding-top: var(--spacing);
   width: 28rem;
   opacity: 0;
-  transform: translate(-50%, -20rem);
+  transform: translate(-50%, -50rem);
   display: flex;
   flex-direction: column;
 
