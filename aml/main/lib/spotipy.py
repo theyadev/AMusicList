@@ -148,7 +148,7 @@ def importTrack(
         artists.append(artist)
 
     try:
-        song = Song.objects.get(title=title)
+        song = Song.objects.get(spotifyId=spotify_id)
     except Song.DoesNotExist:
         song = Song()
 
