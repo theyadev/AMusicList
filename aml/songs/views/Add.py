@@ -18,6 +18,12 @@ class AddView(FormView):
     template_name = "songs/add.html"
     form_class = AddForm
 
+    def get_form_kwargs(self):
+        form_kwargs = super().get_form_kwargs()
+        form_kwargs["initial"]["query"] = self.request.GET.get("query", "")
+        form_kwargs["initial"]["type"] = self.request.GET.get("type", "track")
+        return form_kwargs
+
     def handle_form(self, get):
         query = get.get("query")
         type = get.get("type")
@@ -29,20 +35,20 @@ class AddView(FormView):
         if query == "":
             return None, None, None
 
-        result = sp.search(query, type=type)
+        result = sp.search(query, type=type, limit=10)
 
         return result[type + "s"]["items"], type + "s", csrf
 
     def generate_cards(self, list, type, csrf):
-        cards = ""
+        cards = "<h2><strong>Resultats :</strong></h2>"
 
         for item in list:
-            if Song.objects.filter(spotifyId=item["id"]).exists():
-                continue
-            if Artist.objects.filter(spotifyId=item["id"]).exists():
-                continue
-            if Album.objects.filter(spotifyId=item["id"]).exists():
-                continue
+            if type == "track":
+                if Song.objects.filter(spotifyId=item["id"]).exists():
+                    continue
+            if type == "album":
+                if Album.objects.filter(spotifyId=item["id"]).exists():
+                    continue
 
             card = f"""
             <div>{item['name']}</div>
@@ -50,27 +56,20 @@ class AddView(FormView):
                 <input type="hidden" name="csrfmiddlewaretoken" value="{csrf}">
                 <input type="hidden" name="id" value="{item['id']}">
                 <input type="hidden" name="type" value="{type}">
-                <button>Ajouter</button>
+                <button>Ajouter au site !</button>
             </form>
             """
 
             cards += card
-
+ 
         return cards
 
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect("/")
 
-        if (
-            request.user.is_superuser == False
-            and not request.user.user_permissions.all()
-            .filter(name="Can add song")
-            .exists()
-        ):
-            return redirect("/")
-
         context = self.get_context_data()
+        context["active"] = "add"
 
         query_list, query_type, csrf = self.handle_form(request.GET)
 

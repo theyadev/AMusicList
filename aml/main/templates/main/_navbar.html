@@ -13,6 +13,8 @@
     <div class="navbar__items__right"></div>
 
     {% if user.is_authenticated %}
+    <a href="{% url 'add' %}"
+    class="navbar__items__item {% if active == 'add' %}navbar__items__item--active{% endif %}">Ajouts</a>
     <i id="popup-btn" class="navbar__items__item fas fa-bell"></i>
     <div id="popup" class="popup">
       <form class="popup__archive-all" action="/api/notifications/all?to={{ request.get_full_path }}" method="post">
