@@ -15,8 +15,8 @@ class BrowseView(ListView):
     name = None
     active = None
     options = """
-        <option value="name">Nom</option>
         <option value="id">id</option>
+        <option value="name">Nom</option>
     """
 
     def filter_queryset(self):
@@ -25,7 +25,7 @@ class BrowseView(ListView):
     def get_queryset(self):
         order_val = self.request.GET.get("order", "id")
 
-        queryset = self.filter_queryset().order_by(order_val).distinct(order_val)
+        queryset = self.filter_queryset().order_by(order_val)
 
         return queryset
 
