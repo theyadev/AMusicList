@@ -11,8 +11,8 @@ class SongsView(BrowseView):
     model = Song
     name = "Musiques"
     options = """
-        <option value="title">Titre</option>
         <option value="id">id</option>
+        <option value="title">Titre</option>
         <option value="artists__name">Artiste</option>
     """
     active = "songs"
