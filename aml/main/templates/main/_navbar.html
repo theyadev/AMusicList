@@ -27,7 +27,7 @@
         
         <img class="popup__card__image" src="{% if notification.activity.user.avatar %}/media/{{notification.activity.user.avatar}}{% else %}{% static 'users/avatar.png' %}{% endif %}" alt="">
         <p class="popup__card__text">
-          <a href="{% url 'user' notification.user.id %}">{{ notification.user.username }}</a>
+          <a href="{% url 'user' notification.activity.user.id %}">{{ notification.activity.user.username }}</a>
           {% if notification.activity.action == "ADDED" %}
           a ajouté de sa liste :
           {% elif notification.activity.action == "REMOVED" %}
