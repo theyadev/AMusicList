@@ -90,6 +90,10 @@ body {
 /* Weird utilisation of margin-tops to only add a margin to wrapped elements
 https://stackoverflow.com/questions/30887071/margin-top-only-when-the-flex-item-is-wrapped
   */
+body {
+  
+  background-color: var(--primary);
+}
 
 .navbar__items {
   display: flex;
@@ -194,4 +198,11 @@ https://stackoverflow.com/questions/30887071/margin-top-only-when-the-flex-item-
   cursor: pointer;
   color: black;
   background-color: transparent;
+}
+
+.navbar__item__checkbox {
+  margin-top: 2rem;
+  width: 20px;
+  height: 20px;
+  background-color: red;
 }

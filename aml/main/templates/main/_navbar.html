@@ -12,6 +12,9 @@
 
     <div class="navbar__items__right"></div>
 
+   
+    <input class="navbar__item__checkbox" type="checkbox" name="darkmode" id="darkmode">
+    
     {% if user.is_authenticated %}
     <a href="{% url 'add' %}"
     class="navbar__items__item {% if active == 'add' %}navbar__items__item--active{% endif %}">Ajouts</a>
@@ -24,7 +27,6 @@
       {% for notification in user.notifs.all %}
       {% if not notification.archived %}
       <div class="popup__card">
-        
         <img class="popup__card__image" src="{% if notification.activity.user.avatar %}/media/{{notification.activity.user.avatar}}{% else %}{% static 'users/avatar.png' %}{% endif %}" alt="">
         <p class="popup__card__text">
           <a href="{% url 'user' notification.user.id %}">{{ notification.user.username }}</a>
