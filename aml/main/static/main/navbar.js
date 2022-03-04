@@ -57,13 +57,14 @@ function addStyleToAllElements(property, value) {
   const elements = document.querySelectorAll("*");
 
   for (const element of elements) {
-    element.style.setProperty(property, value);
+      if (window.getComputedStyle(element).getPropertyValue(property) !== "all 0s ease 0s") continue
+      element.style.setProperty(property, value);
   }
 }
 
 function handleDarkTheme() {
   // On récupère l'element de type checkbox
-  const checkbox = document.getElementById("darkmode");
+  const checkbox = document.getElementById("darkmode"); 
 
   // On récupère le status du mode sombre dans le localStorage
   // Si il n'y a pas de valeur on dit que c'est égal a false
