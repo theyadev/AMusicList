@@ -9,16 +9,24 @@
       class="navbar__items__item {% if active == 'albums' %}navbar__items__item--active{% endif %}">Albums</a>
     <a href="{% url 'artists' %}"
       class="navbar__items__item {% if active == 'artists' %}navbar__items__item--active{% endif %}">Artistes</a>
-
-    <div class="navbar__items__right"></div>
-
-   
-    <input class="navbar__item__checkbox" type="checkbox" name="darkmode" id="darkmode">
-    
     {% if user.is_authenticated %}
     <a href="{% url 'add' %}"
-    class="navbar__items__item {% if active == 'add' %}navbar__items__item--active{% endif %}">Ajouts</a>
-    <i id="popup-btn" class="navbar__items__item fas fa-bell"></i>
+      class="navbar__items__item {% if active == 'add' %}navbar__items__item--active{% endif %}">Ajouts</a>
+    {% endif %}
+
+    <div class="navbar__items__right"></div>
+    <tooltip class="navbar__items__item">
+      <input class="navbar__item__checkbox" type="checkbox" name="darkmode" id="darkmode">
+      <p class="navbar__items__item__tooltip-container__tooltip">Dark Theme</p>
+    </tooltip>
+
+
+    {% if user.is_authenticated %}
+    <tooltip class="navbar__items__item">
+      <i id="popup-btn" class="fas fa-bell"></i>
+      <p class="navbar__items__item__tooltip-container__tooltip">Notifications</p>
+    </tooltip>
+
     <div id="popup" class="popup">
       <form class="popup__archive-all" action="/api/notifications/all?to={{ request.get_full_path }}" method="post">
         {% csrf_token %}
@@ -27,7 +35,9 @@
       {% for notification in user.notifs.all %}
       {% if not notification.archived %}
       <div class="popup__card">
-        <img class="popup__card__image" src="{% if notification.activity.user.avatar %}/media/{{notification.activity.user.avatar}}{% else %}{% static 'users/avatar.png' %}{% endif %}" alt="">
+        <img class="popup__card__image"
+          src="{% if notification.activity.user.avatar %}/media/{{notification.activity.user.avatar}}{% else %}{% static 'users/avatar.png' %}{% endif %}"
+          alt="">
         <p class="popup__card__text">
           <a href="{% url 'user' notification.user.id %}">{{ notification.user.username }}</a>
           {% if notification.activity.action == "ADDED" %}
