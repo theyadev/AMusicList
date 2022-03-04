@@ -29,7 +29,7 @@
   margin-left: 1.5rem;
   width: 16rem;
   height: 8rem;
-  outline: 1px solid #d4d4d5;
+  outline: 1px solid var(--gray-light);
   display: flex;
   flex-direction: column;
   border-radius: 0.5rem;
@@ -56,7 +56,7 @@
 }
 
 .body__right__cards__card__content__name {
-  color: black;
+  color: var(--secondary);
   font-weight: bold;
   font-size: larger;
   text-align: center;
