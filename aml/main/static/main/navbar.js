@@ -57,14 +57,18 @@ function addStyleToAllElements(property, value) {
   const elements = document.querySelectorAll("*");
 
   for (const element of elements) {
-      if (window.getComputedStyle(element).getPropertyValue(property) !== "all 0s ease 0s") continue
-      element.style.setProperty(property, value);
+    if (
+      window.getComputedStyle(element).getPropertyValue(property) !==
+      "all 0s ease 0s"
+    )
+      continue;
+    element.style.setProperty(property, value);
   }
 }
 
 function handleDarkTheme() {
   // On récupère l'element de type checkbox
-  const checkbox = document.getElementById("darkmode"); 
+  const checkbox = document.getElementById("darkmode");
 
   // On récupère le status du mode sombre dans le localStorage
   // Si il n'y a pas de valeur on dit que c'est égal a false
@@ -96,15 +100,28 @@ function handleDarkTheme() {
 function handleNotifications() {
   const popup_button = document.getElementById("popup-btn");
   const popup = document.getElementById("popup");
+  const cards = document.getElementsByClassName("popup__card");
 
-  if (!popup) return;
-
-  const cards = popup.getElementsByClassName("popup__card");
-
-  if (cards.length === 0) popup_button.style.display = "none";
+  if (cards.length === 0) {
+    popup_button.remove();
+    popup.remove();
+  }
 
   popup_button.onclick = () => {
     popup.classList.toggle("popup--show");
+  };
+
+  document.onclick = (event) => {
+    const element_on_cursor = document.elementFromPoint(
+      event.clientX,
+      event.clientY
+    );
+
+    if (element_on_cursor.id === "popup-btn__icon" || element_on_cursor.className.startsWith("popup")) return;
+
+    if (popup.classList.contains("popup--show")) {
+      popup.classList.remove("popup--show");
+    }
   };
 }
 
