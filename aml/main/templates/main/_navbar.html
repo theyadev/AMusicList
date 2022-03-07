@@ -17,14 +17,14 @@
     <div class="navbar__items__right"></div>
     <tooltip class="navbar__items__item">
       <input class="navbar__item__checkbox" type="checkbox" name="darkmode" id="darkmode">
-      <p class="navbar__items__item__tooltip-container__tooltip">Dark Theme</p>
+      <p>Dark Theme</p>
     </tooltip>
 
 
     {% if user.is_authenticated %}
-    <tooltip class="navbar__items__item">
-      <i id="popup-btn" class="fas fa-bell"></i>
-      <p class="navbar__items__item__tooltip-container__tooltip">Notifications</p>
+    <tooltip id="popup-btn" class="navbar__items__item">
+      <i id="popup-btn__icon" class="fas fa-bell"></i>
+      <p>Notifications</p>
     </tooltip>
 
     <div id="popup" class="popup">
