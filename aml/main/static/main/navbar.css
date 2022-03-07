@@ -1,12 +1,18 @@
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 900px) {
     .navbar+* {
         margin-top: 2.5rem;
     }
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 545px) {
     .navbar+* {
         margin-top: 6rem;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .navbar+* {
+        margin-top: 10rem;
     }
 }
 
