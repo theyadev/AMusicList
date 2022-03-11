@@ -8,6 +8,9 @@
   <script src="https://kit.fontawesome.com/6059509ea3.js" crossorigin="anonymous"></script>
   {% load static %}
   <link rel="stylesheet" href="{% static 'main/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'main/preflight.css' %}" />
+  <link rel="stylesheet" href="{% static 'main/notification.css' %}" />
+  <link rel="stylesheet" href="{% static 'main/navbar.css' %}" />
   <title>AML - {% block title%}{% endblock title %}</title>
   {% block meta %}{% endblock meta %}
 </head>
@@ -16,6 +19,6 @@
   {% block nav %}{% include 'main/_navbar.html' %}{% endblock nav %}
   {% block content%}{% endblock content %}
 </body>
-{% block javascript %}{% endblock javascript %}
 <script src="{% static 'main/navbar.js' %}"></script>
+{% block javascript %}{% endblock javascript %}
 </html>

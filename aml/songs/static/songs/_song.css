@@ -17,7 +17,7 @@ html {
 }
 
 .header {
-  background-color: #f2f2f2;
+  background-color: var(--gray-light);
   height: 16rem;
 }
 
@@ -113,7 +113,7 @@ html {
 
 .body__left__cards {
   margin-top: 1rem;
-  background-color: #f2f2f2;
+  background-color: var(--gray-light);
   width: 100%;
   min-height: 2rem;
   display: flex;
@@ -127,10 +127,10 @@ html {
   width: 80%;
   border-radius: 0.5rem;
   overflow: hidden;
-  outline: 5px solid white;
+  outline: 5px solid var(--primary);
   outline-offset: -5px;
   display: flex;
-  color: black;
+  color: var(--secondary);
   justify-content: center;
   align-items: center;
 }
@@ -140,7 +140,7 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: var(--white-transparent-dark);
   padding: 0.25rem 1rem;
   border-radius: 1rem;
 }
@@ -161,7 +161,7 @@ html {
 .body__right__title {
   margin-top: 2rem;
   font-weight: bold;
-  color: black;
+  color: var(--secondary);
 }
 
 .body__right__cards {
@@ -175,7 +175,7 @@ html {
   margin-left: 1.5rem;
   width: 20rem;
   height: 8rem;
-  outline: 1px solid #d4d4d5;
+  outline: 1px solid var(--gray-light);
   display: flex;
   border-radius: 0.5rem;
   overflow: hidden;
@@ -197,14 +197,14 @@ html {
 }
 
 .body__right__cards__card__content__name {
-  color: black;
+  color: var(--secondary);
   font-weight: bold;
   font-size: larger;
 }
 
 .body__right__cards__card__content__description {
   margin-top: 0.5rem;
-  color: rgba(0, 0, 0, 0.8);
+  color: var(--gray-transparent-dark);
   max-width: 11rem;
   overflow: hidden;
   white-space: nowrap;
