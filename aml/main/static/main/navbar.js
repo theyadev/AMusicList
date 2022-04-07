@@ -111,14 +111,18 @@ function handleNotifications() {
     popup.classList.toggle("popup--show");
   };
 
+  // Quand on clique sur la page (n'importe où)
   document.onclick = (event) => {
+    // On récupère l'élément sur lequel on a cliqué
     const element_on_cursor = document.elementFromPoint(
       event.clientX,
       event.clientY
     );
-
+    
+    // Si on a cliqué sur la popup on ne fais rien
     if (element_on_cursor.id === "popup-btn__icon" || element_on_cursor.className.startsWith("popup")) return;
-
+    
+    // Si on n'a pas cliqué sur la popup ET que la popup est active, on la cache
     if (popup.classList.contains("popup--show")) {
       popup.classList.remove("popup--show");
     }

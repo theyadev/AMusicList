@@ -43,10 +43,10 @@ class BrowseView(ListView):
         for item in self.paginate_queryset(self.get_queryset(), self.paginate_by)[2]:
             id, image_url, name = self.get_data(item)
             card = f"""
-            <div style="margin: 0 5px">
+            <div class="browse-card">
                 <a href="{reverse(self.model.__name__.lower(), args=[id])}">
                     <img style="width:10rem" src="{image_url}" alt="{name}">
-                    <p style="text-align:center;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;width:17ch">
+                    <p class="browse-card__text">
                         {name}</p>
                 </a>
             </div>
